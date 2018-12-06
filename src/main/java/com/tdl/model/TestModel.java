@@ -1,4 +1,4 @@
-package model;
+package com.tdl.model;
 
 import lombok.Getter;
 import lombok.Setter;
