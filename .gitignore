@@ -24,3 +24,10 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+### Mac OS ###
+.DS_Store
+
+### Delf's private ###
+/_delftest/
+
