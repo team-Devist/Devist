@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 public class User {
-    // TODO: 각 입력 값에 대한 길이 제한
+    // TODO: 각 입력 값에 대한 길이 제한 추가
     @Id
     @Column(name="user_id")
     private String id;
