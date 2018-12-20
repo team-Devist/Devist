@@ -1,4 +1,4 @@
-package com.tdl;
+package com.tdl.devist;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,10 +7,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DevlistApplicationTests {
+public class DevistApplicationTests {
 
+    @Test
+    public void contextLoads() {
+    }
 
-	@Test
-	public void contextLoads() {
-	}
 }
+

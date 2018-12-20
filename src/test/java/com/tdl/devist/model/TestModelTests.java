@@ -1,8 +1,6 @@
-package com.tdl;
+package com.tdl.devist.model;
 
-
-import com.tdl.model.TestModel;
-import com.tdl.repository.TestModelRepository;
+import com.tdl.devist.repository.TestModelRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,9 +23,8 @@ public class TestModelTests {
         testModel.setContent("test content");
         testModelRepository.save(testModel);
 
-        List<TestModel> testmodels = testModelRepository.findAll();
-        Assert.assertEquals(testmodels.size(), 1);
-        Assert.assertEquals(testmodels.get(0).getName(), "test");
-        Assert.assertEquals(testmodels.get(0).getContent(), "test content");
+        TestModel tm = testModelRepository.findAll().get(0);
+        Assert.assertEquals(tm.getName(), "test");
+        Assert.assertEquals(tm.getContent(), "test content");
     }
 }
