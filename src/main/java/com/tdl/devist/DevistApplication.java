@@ -1,12 +1,14 @@
-package com.tdl;
+package com.tdl.devist;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DevlistApplication {
+public class DevistApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DevlistApplication.class, args);
+        SpringApplication.run(DevistApplication.class, args);
     }
+
 }
+
