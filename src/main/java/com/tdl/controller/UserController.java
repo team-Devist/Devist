@@ -1,19 +1,25 @@
 package com.tdl.controller;
 
-import com.tdl.model.User;
-import com.tdl.repository.UserRepository;
+import com.tdl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @author delf
  */
-@RestController
+@Controller("/userList")
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
+//    private final UserService userService;
+//
+//    @Autowired
+//    public UserController(UserService userService) {
+//        this.userService = userService;
+//    }
+//
+//    @RequestMapping
+//    public String getUsersList() {
+//        System.out.printf("/users");
+//        return "form";
+//    }
 }

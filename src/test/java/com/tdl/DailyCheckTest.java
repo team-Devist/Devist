@@ -40,14 +40,12 @@ public class DailyCheckTest {
         todoRepository.save(todo);
 
         DailyCheck dc1 = new DailyCheck();
-        System.out.println("dc1 id:" + dc1.getId());
         dc1.setTodo(todo);
         Date d1 = new Date();
         dc1.setPlanedTime(d1);
         dc1.setDone(true);
 
         DailyCheck dc2 = new DailyCheck();
-        System.out.println("dc2 id:" + dc2.getId());
         dc2.setTodo(todo);
         Date d2 = new Date();
         dc2.setPlanedTime(d2);
