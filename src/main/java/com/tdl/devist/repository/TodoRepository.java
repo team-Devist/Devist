@@ -1,6 +1,6 @@
-package com.tdl.repository;
+package com.tdl.devist.repository;
 
-import com.tdl.model.Todo;
+import com.tdl.devist.model.Todo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

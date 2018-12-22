@@ -1,6 +1,6 @@
-package com.tdl.repository;
+package com.tdl.devist.repository;
 
-import com.tdl.model.User;
+import com.tdl.devist.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
