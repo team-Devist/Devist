@@ -1,6 +1,11 @@
 spring:
   profiles:
     active: dev
+
+---
+
+spring:
+  profiles: dev
   jpa:
     show-sql: true
     hibernate:
@@ -12,6 +17,10 @@ spring:
   h2:
     console:
       enabled: true
+  security:
+    user:
+      name: admin
+      password: pas1234
 
 server:
   port: 8080
