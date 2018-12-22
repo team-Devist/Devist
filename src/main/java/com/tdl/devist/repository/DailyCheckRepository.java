@@ -1,6 +1,6 @@
-package com.tdl.repository;
+package com.tdl.devist.repository;
 
-import com.tdl.model.DailyCheck;
+import com.tdl.devist.model.DailyCheck;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

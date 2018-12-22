@@ -1,4 +1,4 @@
-package com.tdl.model;
+package com.tdl.devist.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
