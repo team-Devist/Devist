@@ -5,18 +5,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
-@Entity
+@Entity(name="users")
 @Setter
 @Getter
 @NoArgsConstructor
 public class User {
-    // TODO: 각 입력 값에 대한 길이 제한 추가
     @Id
-    @Column(name="user_id")
-    private String id;
-    private String password; // DB에 varchar 길이 설정은 어떻게하지
-    private String name;
+    @Column(nullable = false, unique = true)
+    private String username;
+    @Column(nullable = false, length=200)
+    private String password;
+    private int enabled;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "username")
+    private List<Authorities> authorities;
 
+    @Column
+    private String name;
+    @Column(columnDefinition = "Decimal(10,2) default '100.00'")
     private double doneRate;
 }

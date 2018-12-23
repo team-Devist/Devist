@@ -1,3 +1,11 @@
+logging:
+  level:
+    ROOT: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.web: INFO
+    java.sql: DEBUG
+
 spring:
   profiles:
     active: dev
@@ -17,10 +25,6 @@ spring:
   h2:
     console:
       enabled: true
-  security:
-    user:
-      name: admin
-      password: pas1234
 
 server:
   port: 8080
