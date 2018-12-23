@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Setter
@@ -15,10 +15,10 @@ public class DailyCheck {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private Date planedTime;
+    private LocalDateTime planedTime;
     private boolean isDone;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.ALL) // cascade 옵션 디사보기
     @JoinColumn(name = "todo_id")
     private Todo todo;
 }
