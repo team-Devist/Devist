@@ -24,32 +24,29 @@ public class UserTest {
     @Test
     public void testUserCreate() {
         User user1 = new User();
-        user1.setId("delf");
+        user1.setUsername("delf");
         user1.setPassword("pass123");
         user1.setName("데르프");
         user1.setDoneRate(80.00);
 
         User user2 = new User();
-        user2.setId("elena");
+        user2.setUsername("elena");
         user2.setPassword("pass456");
         user2.setName("엘레나");
         user2.setDoneRate(81.00);
 
         userRepository.save(user1);
         userRepository.save(user2);
-        List<User> userList= userRepository.findAll();
 
+        User saved_user1 = userRepository.getOne("delf");
 
-        Assert.assertEquals(userList.size(), 2);
-        Assert.assertEquals(userList.get(0).getId(), "delf");
-        Assert.assertEquals(userList.get(0).getPassword(), "pass123");
-        Assert.assertEquals(userList.get(0).getName(), "데르프");
-        Assert.assertEquals(Double.compare(userList.get(0).getDoneRate(), 80.00), 0);
+        Assert.assertEquals(saved_user1.getName(), "데르프");
+        Assert.assertEquals(Double.compare(saved_user1.getDoneRate(), 80.00), 0);
 
-        Assert.assertEquals(userList.get(1).getId(), "elena");
-        Assert.assertEquals(userList.get(1).getPassword(), "pass456");
-        Assert.assertEquals(userList.get(1).getName(), "엘레나");
-        Assert.assertEquals(Double.compare(userList.get(1).getDoneRate(), 81.00), 0);
+        User saved_user2 = userRepository.getOne("elena");
+
+        Assert.assertEquals(saved_user2, "엘레나");
+        Assert.assertEquals(Double.compare(saved_user2.getDoneRate(), 81.00), 0);
 
     }
 }

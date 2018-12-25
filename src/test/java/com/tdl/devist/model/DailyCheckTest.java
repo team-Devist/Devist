@@ -32,7 +32,7 @@ public class DailyCheckTest {
     @Transactional
     public void testCreateDailyCheck() {
         User user = new User();
-        user.setId("delf");
+        user.setUsername("delf");
 
         Todo todo = new Todo();
         todo.setUser(user);
