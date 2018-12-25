@@ -5,7 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -21,10 +23,16 @@ public class Todo {
     private double doneRate;
     private byte repeatDay;
     private boolean isDone;
-    private Date createdTime; // TODO: Date 클래스 말고 다른 클래스 사용 여지 있음
+    private LocalDateTime createdTime;
 
-    // TODO: User와 Todo는 단방향? 양방향?
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @ManyToOne (cascade = CascadeType.ALL) // casecade 옵션 다시보기
+    @JoinColumn(name = "user_name")
     private User user;
+
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
+    private Set<DailyCheck> dailyChecks = new HashSet<>();
+
+    public boolean addDailyCheck(DailyCheck dailyCheck) {
+        return dailyChecks.add(dailyCheck);
+    }
 }

@@ -29,7 +29,14 @@ public class User {
     @Column(columnDefinition = "Decimal(10,2) default '100.00'")
     private double doneRate = 100.00;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Todo> todoList = new ArrayList<>();
+
     public void addAuthority(Authority authority) {
         authorities.add(authority);
+    }
+
+    public boolean addTodo(Todo todo) {
+        return todoList.add(todo);
     }
 }
