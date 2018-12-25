@@ -3,6 +3,7 @@ package com.tdl.devist.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,8 +19,9 @@ public class User {
     private String username;
     @Column(nullable = false, length=200)
     private String password;
-    @Column(columnDefinition = "int default 1")
-    private int enabled = 1;
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean enabled = true;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "username")
     private List<Authority> authorities = new ArrayList<>();

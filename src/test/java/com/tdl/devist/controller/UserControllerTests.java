@@ -66,8 +66,8 @@ public class UserControllerTests {
         // Todo: test 통과 시키기. /signup 성공 이후 생성한 User를 userRepository를 통해서 가져올 수 없음.
 
         User user = userRepository.getOne("user1");
-        Assert.assertEquals(1, user.getEnabled());
-        Assert.assertEquals(1, user.getEnabled());
+        Assert.assertTrue(user.isEnabled());
+        Assert.assertTrue(user.isEnabled());
         Assert.assertEquals(100.00, user.getDoneRate(), 00.01);
         Assert.assertEquals("name1", user.getName());
     }
