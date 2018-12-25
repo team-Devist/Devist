@@ -26,25 +26,7 @@ import java.util.Set;
 public class DailyCheckTest {
 
     @Autowired
-    private DailyCheckRepository dailyCheckRepository;
-    @Autowired
     private TodoRepository todoRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Before
-    public void test() {
-        List<User> users = userRepository.findAll();
-        if (users == null) {
-            System.out.println("Threr are no users");
-        } else {
-            System.out.println("user count " + users.size() + " and first user name is " + users.get(0).getUsername());
-            for (User user : users) {
-                System.out.println(user.getUsername());
-            }
-        }
-    }
 
     @Test
     @Transactional

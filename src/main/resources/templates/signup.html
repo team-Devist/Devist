@@ -4,9 +4,9 @@
 
 <body>
 <form th:action="@{/signup}" th:object="${user}" method="POST">
-    <p>ID: <input type="text" th:value="username" th:field="*{username}" /></p>
-    <p>Name: <input type="text" th:value="name" th:field="*{name}" /></p>
-    <p>Password: <input type="password" th:value="password" th:field="*{password}" /></p>
+    <p>ID: <input type="text" th:field="*{username}" /></p>
+    <p>Name: <input type="text" th:field="*{name}" /></p>
+    <p>Password: <input type="password" th:field="*{password}" /></p>
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
 </form>
