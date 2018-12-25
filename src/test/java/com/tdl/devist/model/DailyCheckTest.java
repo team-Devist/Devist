@@ -58,19 +58,17 @@ public class DailyCheckTest {
         List<DailyCheck> todoList = dailyCheckRepository.findAll();
         Assert.assertEquals(todoList.size(), 2);
 
-        Assert.assertEquals(todoList.get(0).getTodo().getId(), todo.getId());
+        Assert.assertEquals(todo.getId(), todoList.get(0).getTodo().getId());
         Assert.assertTrue(todoList.get(0).isDone());
-        Assert.assertEquals(todoList.get(0).getPlanedTime().toString(), d1.toString());
+        Assert.assertEquals(d1.toString(), todoList.get(0).getPlanedTime().toString());
 
-        Assert.assertEquals(todoList.get(1).getTodo().getId(), todo.getId());
+        Assert.assertEquals(todo.getId(), todoList.get(1).getTodo().getId());
         Assert.assertFalse(todoList.get(1).isDone());
-        Assert.assertEquals(todoList.get(1).getPlanedTime().toString(), d2.toString());
-
+        Assert.assertEquals(d2.toString(), todoList.get(1).getPlanedTime().toString());
 
         Todo resTodo = todoRepository.getOne(todo.getId());
         Set<DailyCheck> set = resTodo.getDailyChecks();
         Assert.assertTrue(set.contains(dc1));
         Assert.assertTrue(set.contains(dc2));
-
     }
 }

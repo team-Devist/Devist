@@ -24,7 +24,7 @@ public class TestModelTests {
         testModelRepository.save(testModel);
 
         TestModel tm = testModelRepository.findAll().get(0);
-        Assert.assertEquals(tm.getName(), "test");
-        Assert.assertEquals(tm.getContent(), "test content");
+        Assert.assertEquals("test", tm.getName());
+        Assert.assertEquals("test content", tm.getContent());
     }
 }

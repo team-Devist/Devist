@@ -41,15 +41,14 @@ public class UserTest {
 
 
         Assert.assertEquals(userList.size(), 2);
-        Assert.assertEquals(userList.get(0).getId(), "delf");
-        Assert.assertEquals(userList.get(0).getPassword(), "pass123");
-        Assert.assertEquals(userList.get(0).getName(), "데르프");
-        Assert.assertEquals(Double.compare(userList.get(0).getDoneRate(), 80.00), 0);
+        Assert.assertEquals( "delf", userList.get(0).getId());
+        Assert.assertEquals( "pass123", userList.get(0).getPassword());
+        Assert.assertEquals( "데르프", userList.get(0).getName());
+        Assert.assertEquals( 0, Double.compare(userList.get(0).getDoneRate(), 80.00));
 
-        Assert.assertEquals(userList.get(1).getId(), "elena");
-        Assert.assertEquals(userList.get(1).getPassword(), "pass456");
-        Assert.assertEquals(userList.get(1).getName(), "엘레나");
-        Assert.assertEquals(Double.compare(userList.get(1).getDoneRate(), 81.00), 0);
-
+        Assert.assertEquals( "elena", userList.get(1).getId());
+        Assert.assertEquals( "pass456", userList.get(1).getPassword());
+        Assert.assertEquals( "엘레나", userList.get(1).getName());
+        Assert.assertEquals( 0, Double.compare(userList.get(1).getDoneRate(), 81.00));
     }
 }

@@ -46,17 +46,17 @@ public class TodoTest {
         userRepository.save(user);
 
         List<Todo> todoList = todoRepository.findAll();
-        Assert.assertEquals(todoList.size(), 2);
-        Assert.assertEquals(todoList.get(0).getUser().getId(), "delf");
-        Assert.assertEquals(todoList.get(0).getTitle(), "DB 구현하기");
-        Assert.assertEquals(todoList.get(1).getTitle(), "Security 구현하기");
+        Assert.assertEquals(2, todoList.size());
+        Assert.assertEquals("delf", todoList.get(0).getUser().getId());
+        Assert.assertEquals("DB 구현하기", todoList.get(0).getTitle());
+        Assert.assertEquals("Security 구현하기", todoList.get(1).getTitle());
 
         User resUser = userRepository.getOne("delf");
         List<Todo> todoList2 = resUser.getTodoList();
-        Assert.assertEquals(todoList2.size(), 2);
-        Assert.assertEquals(todoList2.get(0).getUser().getId(), "delf");
-        Assert.assertEquals(todoList2.get(0).getTitle(), "DB 구현하기");
-        Assert.assertEquals(todoList2.get(1).getTitle(), "Security 구현하기");
+        Assert.assertEquals(2, todoList2.size());
+        Assert.assertEquals("delf", todoList2.get(0).getUser().getId());
+        Assert.assertEquals("DB 구현하기", todoList2.get(0).getTitle());
+        Assert.assertEquals("Security 구현하기", todoList2.get(1).getTitle());
 
     }
 }
