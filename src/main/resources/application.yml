@@ -27,7 +27,29 @@ spring:
       enabled: true
   mvc:
     static-path-pattern: /static/**
+  devtools:
+    livereload:
+      enabled: true
+  thymeleaf:
+    cache: false
 
 
 server:
   port: 8080
+
+---
+
+spring:
+  profiles: prod
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://
+    username: root
+    password:
+  h2:
+    console:
+      enabled: true
+  mvc:
+    static-path-pattern: /static/**
