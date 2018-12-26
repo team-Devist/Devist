@@ -1,10 +1,7 @@
 package com.tdl.devist.model;
 
-import com.tdl.devist.repository.DailyCheckRepository;
 import com.tdl.devist.repository.TodoRepository;
-import com.tdl.devist.repository.UserRepository;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
-/**
- * @author delf
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Profile("dev")

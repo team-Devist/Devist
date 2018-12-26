@@ -30,7 +30,7 @@ public class TodoTest {
 
     @Test
     @Transactional
-    public void testTodoCreate() {
+    public void testTodoCreateBySavingUser() {
         User user = new User();
         user.setUsername("delf");
         user.setPassword("1234");
@@ -63,4 +63,29 @@ public class TodoTest {
         Assert.assertEquals("Security 구현하기", todoList2.get(1).getTitle());
         Assert.assertEquals("delf", todoList2.get(0).getUser().getUsername());
     }
+
+    @Test
+        @Transactional
+    public void testTodoCreateBySavingTodo() {
+        User user = new User();
+        user.setUsername("delf");
+        user.setPassword("1234");
+
+        userRepository.saveAndFlush(user);
+
+        Todo todo1 = new Todo();
+        todo1.setTitle("DB 구현하기");
+        todo1.setUser(user);
+
+        user.addTodo(todo1);
+
+        todoRepository.save(todo1);
+
+        User resUser = userRepository.getOne("delf");
+        List<Todo> todoList2 = resUser.getTodoList();
+        Assert.assertEquals(1, todoList2.size());
+        Assert.assertEquals("DB 구현하기", todoList2.get(0).getTitle());
+
+    }
+
 }

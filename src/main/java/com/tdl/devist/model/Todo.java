@@ -3,6 +3,7 @@ package com.tdl.devist.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,11 +27,12 @@ public class Todo {
     private boolean isDone;
     private LocalDateTime createdTime;
 
-    @ManyToOne (cascade = CascadeType.ALL) // casecade 옵션 다시보기
+    @ManyToOne (cascade = CascadeType.MERGE) // casecade 옵션 다시보기
     @JoinColumn(name = "user_name")
     private User user;
 
-    @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
+    // @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.MERGE)
     private List<DailyCheck> dailyChecks = new ArrayList<>();
 
     public boolean addDailyCheck(DailyCheck dailyCheck) {

@@ -28,6 +28,3 @@ class AuthorityId implements Serializable {
     @Column
     String authority;
 }
-
-
-
