@@ -44,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                    .antMatchers("/resources/**", "/signup", "/").permitAll()
+                    .antMatchers("/resources/**", "/webjars/**", "/static/**", "/signup", "/").permitAll()
                     .antMatchers("/h2-console/**").access("hasRole('ADMIN') and hasRole('DBA')")
                     .anyRequest().authenticated()
                 .and()
