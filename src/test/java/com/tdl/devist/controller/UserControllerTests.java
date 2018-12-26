@@ -1,7 +1,6 @@
 package com.tdl.devist.controller;
 
 
-import com.tdl.devist.DevistApplication;
 import com.tdl.devist.model.User;
 import com.tdl.devist.repository.UserRepository;
 import org.junit.Assert;
@@ -24,7 +23,7 @@ import javax.transaction.Transactional;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -59,7 +58,6 @@ public class UserControllerTests {
                 .param("name", "name1")
                 .with(csrf()))
                 .andExpect(status().isOk());
-
 
         userRepository.flush();
         Assert.assertEquals(3, userRepository.findAll().size());

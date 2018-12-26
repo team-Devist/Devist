@@ -3,11 +3,13 @@ package com.tdl.devist.model;
 import com.tdl.devist.repository.TodoRepository;
 import com.tdl.devist.repository.UserRepository;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
@@ -20,6 +22,7 @@ import java.util.List;
 @SpringBootTest
 @Profile("dev")
 public class TodoTest {
+
     @Autowired
     private TodoRepository todoRepository;
     @Autowired
@@ -30,6 +33,7 @@ public class TodoTest {
     public void testTodoCreate() {
         User user = new User();
         user.setUsername("delf");
+        user.setPassword("1234");
 
         Todo todo1 = new Todo();
         todo1.setUser(user);
@@ -46,17 +50,17 @@ public class TodoTest {
         userRepository.save(user);
 
         List<Todo> todoList = todoRepository.findAll();
-        Assert.assertEquals(todoList.size(), 2);
-        Assert.assertEquals(todoList.get(0).getUser().getUsername(), "delf");
-        Assert.assertEquals(todoList.get(0).getTitle(), "DB 구현하기");
-        Assert.assertEquals(todoList.get(1).getTitle(), "Security 구현하기");
+        Assert.assertEquals(2, todoList.size());
+
+        Assert.assertEquals("DB 구현하기", todoList.get(0).getTitle());
+        Assert.assertEquals("Security 구현하기", todoList.get(1).getTitle());
+        Assert.assertEquals("delf", todoList.get(0).getUser().getUsername());
 
         User resUser = userRepository.getOne("delf");
         List<Todo> todoList2 = resUser.getTodoList();
-        Assert.assertEquals(todoList2.size(), 2);
-        Assert.assertEquals(todoList2.get(0).getUser().getUsername(), "delf");
-        Assert.assertEquals(todoList2.get(0).getTitle(), "DB 구현하기");
-        Assert.assertEquals(todoList2.get(1).getTitle(), "Security 구현하기");
-
+        Assert.assertEquals(2, todoList2.size());
+        Assert.assertEquals("DB 구현하기", todoList2.get(0).getTitle());
+        Assert.assertEquals("Security 구현하기", todoList2.get(1).getTitle());
+        Assert.assertEquals("delf", todoList2.get(0).getUser().getUsername());
     }
 }

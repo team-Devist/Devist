@@ -2,7 +2,9 @@ package com.tdl.devist.model;
 
 import com.tdl.devist.repository.DailyCheckRepository;
 import com.tdl.devist.repository.TodoRepository;
+import com.tdl.devist.repository.UserRepository;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,6 @@ import java.util.Set;
 public class DailyCheckTest {
 
     @Autowired
-    private DailyCheckRepository dailyCheckRepository;
-    @Autowired
     private TodoRepository todoRepository;
 
     @Test
@@ -33,6 +33,7 @@ public class DailyCheckTest {
     public void testCreateDailyCheck() {
         User user = new User();
         user.setUsername("delf");
+        user.setPassword("1234");
 
         Todo todo = new Todo();
         todo.setUser(user);
@@ -55,22 +56,20 @@ public class DailyCheckTest {
 
         todoRepository.save(todo);
 
-        List<DailyCheck> todoList = dailyCheckRepository.findAll();
-        Assert.assertEquals(todoList.size(), 2);
+        List<DailyCheck> dailyChecks = todoRepository.getOne(todo.getId()).getDailyChecks();
+        Assert.assertEquals(2, dailyChecks.size());
 
-        Assert.assertEquals(todoList.get(0).getTodo().getId(), todo.getId());
-        Assert.assertTrue(todoList.get(0).isDone());
-        Assert.assertEquals(todoList.get(0).getPlanedTime().toString(), d1.toString());
+        Assert.assertEquals(dc1.getId(), dailyChecks.get(0).getId());
+        Assert.assertEquals(dc1.isDone(), dailyChecks.get(0).isDone());
+        Assert.assertEquals(dc1.getPlanedTime(), dailyChecks.get(0).getPlanedTime());
 
-        Assert.assertEquals(todoList.get(1).getTodo().getId(), todo.getId());
-        Assert.assertFalse(todoList.get(1).isDone());
-        Assert.assertEquals(todoList.get(1).getPlanedTime().toString(), d2.toString());
-
+        Assert.assertEquals(dc2.getId(), dailyChecks.get(1).getId());
+        Assert.assertEquals(dc2.isDone(), dailyChecks.get(1).isDone());
+        Assert.assertEquals(dc2.getPlanedTime(), dailyChecks.get(1).getPlanedTime());
 
         Todo resTodo = todoRepository.getOne(todo.getId());
-        Set<DailyCheck> set = resTodo.getDailyChecks();
+        List<DailyCheck> set = resTodo.getDailyChecks();
         Assert.assertTrue(set.contains(dc1));
         Assert.assertTrue(set.contains(dc2));
-
     }
 }

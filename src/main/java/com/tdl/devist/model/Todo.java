@@ -6,8 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,7 +30,7 @@ public class Todo {
     private User user;
 
     @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
-    private Set<DailyCheck> dailyChecks = new HashSet<>();
+    private List<DailyCheck> dailyChecks = new ArrayList<>();
 
     public boolean addDailyCheck(DailyCheck dailyCheck) {
         return dailyChecks.add(dailyCheck);

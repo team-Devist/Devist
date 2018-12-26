@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -22,6 +23,7 @@ public class UserTest {
     private UserRepository userRepository;
 
     @Test
+    @Transactional
     public void testUserCreate() {
         User user1 = new User();
         user1.setUsername("delf");
@@ -40,13 +42,13 @@ public class UserTest {
 
         User saved_user1 = userRepository.getOne("delf");
 
-        Assert.assertEquals(saved_user1.getName(), "데르프");
-        Assert.assertEquals(Double.compare(saved_user1.getDoneRate(), 80.00), 0);
+        Assert.assertEquals("데르프", saved_user1.getName());
+        Assert.assertEquals(0, Double.compare(saved_user1.getDoneRate(), 80.00));
 
         User saved_user2 = userRepository.getOne("elena");
 
-        Assert.assertEquals(saved_user2, "엘레나");
-        Assert.assertEquals(Double.compare(saved_user2.getDoneRate(), 81.00), 0);
+        Assert.assertEquals("엘레나", saved_user2.getName());
+        Assert.assertEquals(0, Double.compare(saved_user2.getDoneRate(), 81.00));
 
     }
 }
