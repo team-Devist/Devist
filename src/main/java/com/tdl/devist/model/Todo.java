@@ -23,13 +23,13 @@ public class Todo {
     private String title;
     private String content;
     private double doneRate;
-    private byte repeatDay;
-    // private boolean[] repeatDay; // TODO: 자료형 고민
+    @Column(length = 86)
+    private String[] repeatDay = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
     private boolean isDone;
     private LocalDateTime createdTime;
 
-    @ManyToOne (cascade = CascadeType.MERGE) // casecade 옵션 다시보기
-    @JoinColumn(name = "user_name")
+    @ManyToOne(cascade = CascadeType.MERGE) // casecade 옵션 다시보기
+    @JoinColumn(name = "username")
     private User user;
 
     @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)

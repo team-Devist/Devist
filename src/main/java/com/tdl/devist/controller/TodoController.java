@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -51,7 +52,6 @@ public class TodoController {
         User user = userService.getUserByUserName(userName);
         todo.setUser(user);
         todoService.addTodo(todo);
-
         return "redirect:/todo";
     }
 
