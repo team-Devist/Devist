@@ -39,8 +39,7 @@ public class SecurityTests {
     @Test
     public void testHomeAuthority() throws Exception {
         this.mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("home"));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -54,7 +53,6 @@ public class SecurityTests {
     @WithMockUser
     public void testTestPageAuthorityWithAuthentication() throws Exception {
         this.mockMvc.perform(get("/test"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("test"));
+                .andExpect(status().isOk());
     }
 }
