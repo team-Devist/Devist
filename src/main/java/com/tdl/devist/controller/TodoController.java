@@ -46,12 +46,13 @@ public class TodoController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(Todo todo) {
+        // TODO: Todo 클래스의 repeatDay가 어떻게 매핑되는가. boolean[]으로 잡아줘야하나.
         String userName = getCurrentUserName();
         User user = userService.getUserByUserName(userName);
         todo.setUser(user);
         todoService.addTodo(todo);
 
-        return "redirect:/";
+        return "redirect:/todo";
     }
 
     private String getCurrentUserName() {

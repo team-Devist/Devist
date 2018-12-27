@@ -24,6 +24,7 @@ public class Todo {
     private String content;
     private double doneRate;
     private byte repeatDay;
+    // private boolean[] repeatDay; // TODO: 자료형 고민
     private boolean isDone;
     private LocalDateTime createdTime;
 
@@ -31,8 +32,8 @@ public class Todo {
     @JoinColumn(name = "user_name")
     private User user;
 
-    // @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
-    @OneToMany(mappedBy = "todo", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
+    // @OneToMany(mappedBy = "todo", cascade = CascadeType.MERGE)
     private List<DailyCheck> dailyChecks = new ArrayList<>();
 
     public boolean addDailyCheck(DailyCheck dailyCheck) {
