@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="common_layout">
+
+<head>
+    <title>Todo List</title>
+</head>
+
+<body>
+
+<section layout:fragment="content">
+    <div class="container">
+        <table>
+            <thead>
+            <tr>
+                <th> Title </th>
+                <th> Content </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${todolist.isEmpty()}">
+                <td colspan="2"> Add your own todo list!</td>
+            </tr>
+            <tr th:each="todo : ${todolist}">
+                <td><span th:text="${todo.title}"> Title </span></td>
+                <td><span th:text="${todo.description}"> Content </span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+</body>
+</html>

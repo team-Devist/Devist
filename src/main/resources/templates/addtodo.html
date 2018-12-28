@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="common_layout">
+
+<head>
+    <title>Add todo</title>
+</head>
+
+<body>
+
+<section layout:fragment="content">
+    <div class="container">
+        <form th:action="@{/todo/add}" th:object="${todo}" method="POST">
+            <div class="form-group row">
+                <label for="todo_title" class="col-sm-4 col-form-label">Title</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="todo_title" placeholder="Title"
+                           th:field="*{title}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="todo_description" class="col-sm-4 col-form-label">Description</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" id="todo_description" placeholder="Description"
+                              th:field="*{description}"></textarea>
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <label for="todo_repeat" class="col-sm-4  col-form-label">Repeat days</label>
+
+                <div class="col-sm-10">
+                    <tr th:each="day: ${todo.repeatDay}" id="todo_repeat">
+                        <input type="checkbox" th:field="*{repeatDay}" th:value="${day}"/>
+                        <label th:text="${day}"></label>
+                    </tr>
+                </div>
+
+            </div>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <br/>
+            <div>
+                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="submit" class="btn btn-primary" onclick="location.href='todolist'">Cancel</button>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

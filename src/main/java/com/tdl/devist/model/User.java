@@ -31,7 +31,7 @@ public class User {
     @Column(columnDefinition = "Decimal(10,2) default '100.00'")
     private double doneRate = 100.00;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Todo> todoList = new ArrayList<>();
 
     public void addAuthority(Authority authority) {
