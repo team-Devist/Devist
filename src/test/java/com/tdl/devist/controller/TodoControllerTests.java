@@ -55,10 +55,10 @@ public class TodoControllerTests {
 
     @Test
     public void testAddTodo() throws Exception {
-        // 테스트 작성중
+        // 테스트 작성중. 실패 정상
         mockMvc.perform(post("/todo/add")
                 .param("title", "test title")
-                .param("content", "test content")
+                .param("description", "test description")
                 .param("repeatDay", "1")
                 .with(csrf()))
                 .andExpect(status().isOk());

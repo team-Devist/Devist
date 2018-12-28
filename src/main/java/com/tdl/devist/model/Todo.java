@@ -21,7 +21,7 @@ public class Todo {
     @Column(name = "todo_id")
     private int id;
     private String title;
-    private String content;
+    private String description;
     private double doneRate;
     @Column(length = 86)
     private String[] repeatDay = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};

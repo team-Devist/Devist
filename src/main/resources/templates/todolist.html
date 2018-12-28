@@ -22,7 +22,7 @@
             </tr>
             <tr th:each="todo : ${todolist}">
                 <td><span th:text="${todo.title}"> Title </span></td>
-                <td><span th:text="${todo.content}"> Content </span></td>
+                <td><span th:text="${todo.description}"> Content </span></td>
             </tr>
             </tbody>
         </table>
