@@ -10,19 +10,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-/**
- * @author delf
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Profile("dev")
 public class TodoTest {
 
-    //    @Autowired
-//    private EntityManagerFactory entityManagerFactory;
     @PersistenceContext
     private EntityManager entityManager;
-
 
     private final String TEST_USER_NAME = "my_name_is_user";
     private final String TEST_TODO_TITLE = "Todo 테스트하기";
