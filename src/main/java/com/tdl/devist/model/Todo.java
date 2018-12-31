@@ -22,18 +22,18 @@ public class Todo {
     private int id;
     private String title;
     private String description;
-    private double doneRate;
     @Column(length = 86)
     private String[] repeatDay = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
     private boolean isDone;
     private LocalDateTime createdTime;
+    private double doneRate = 0.0;
 
-    @ManyToOne(cascade = CascadeType.MERGE) // casecade 옵션 다시보기
-    @JoinColumn(name = "username")
+    @ManyToOne(cascade = CascadeType.ALL) // casecade 옵션 다시보기
+    @JoinColumn(name = "user_name")
     private User user;
 
-    @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
     // @OneToMany(mappedBy = "todo", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
     private List<DailyCheck> dailyChecks = new ArrayList<>();
 
     public boolean addDailyCheck(DailyCheck dailyCheck) {

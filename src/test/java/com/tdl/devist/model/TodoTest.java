@@ -1,20 +1,14 @@
 package com.tdl.devist.model;
 
-import com.tdl.devist.repository.TodoRepository;
-import com.tdl.devist.repository.UserRepository;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  * @author delf
@@ -24,44 +18,42 @@ import java.util.List;
 @Profile("dev")
 public class TodoTest {
 
-    @Autowired
-    private TodoRepository todoRepository;
-    @Autowired
-    private UserRepository userRepository;
+    //    @Autowired
+//    private EntityManagerFactory entityManagerFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
+
+
+    private final String TEST_USER_NAME = "my_name_is_user";
+    private final String TEST_TODO_TITLE = "Todo 테스트하기";
 
     @Test
-    @Transactional
-    public void testTodoCreateBySavingUser() {
-        User user = new User();
-        user.setUsername("delf");
-        user.setPassword("1234");
+    public void EntityManager를_이용한_Todo_추가_테스트() {
+        User user = generateTestUserInstance();
 
-        Todo todo1 = new Todo();
-        todo1.setUser(user);
-        todo1.setTitle("DB 구현하기");
+        entityManager.persist(user);
 
+        Todo todo1 = generateTestTodoInstance();
         user.addTodo(todo1);
 
-        Todo todo2 = new Todo();
-        todo2.setUser(user);
-        todo2.setTitle("Security 구현하기");
+        entityManager.persist(todo1);
 
-        user.addTodo(todo2);
-
-        userRepository.save(user);
-
-        List<Todo> todoList = todoRepository.findAll();
-        Assert.assertEquals(2, todoList.size());
-
-        Assert.assertEquals("DB 구현하기", todoList.get(0).getTitle());
-        Assert.assertEquals("Security 구현하기", todoList.get(1).getTitle());
-        Assert.assertEquals("delf", todoList.get(0).getUser().getUsername());
-
-        User resUser = userRepository.getOne("delf");
-        List<Todo> todoList2 = resUser.getTodoList();
-        Assert.assertEquals(2, todoList2.size());
-        Assert.assertEquals("DB 구현하기", todoList2.get(0).getTitle());
-        Assert.assertEquals("Security 구현하기", todoList2.get(1).getTitle());
-        Assert.assertEquals("delf", todoList2.get(0).getUser().getUsername());
+        User findUser = entityManager.find(User.class, TEST_USER_NAME);
+        Assert.assertEquals(1, findUser.getTodoList().size());
+        Assert.assertEquals(TEST_TODO_TITLE, findUser.getTodoList().get(0).getTitle());
     }
+
+    private User generateTestUserInstance() {
+        User user = new User();
+        user.setUsername(TEST_USER_NAME);
+        user.setPassword("1234");
+        return user;
+    }
+
+    private Todo generateTestTodoInstance() {
+        Todo todo = new Todo();
+        todo.setTitle(TEST_TODO_TITLE);
+        return todo;
+    }
+
 }
