@@ -12,9 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
 import java.util.List;
 
-/**
- * @author delf
- */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Profile("dev")

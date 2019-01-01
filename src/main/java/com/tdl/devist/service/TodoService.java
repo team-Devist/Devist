@@ -8,9 +8,6 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
-/**
- * @author delf
- */
 @Service
 public class TodoService {
 
@@ -21,5 +18,15 @@ public class TodoService {
     public void addTodo(Todo todo) {
         todo.setCreatedTime(LocalDateTime.now());
         entityManager.persist(todo);
+    }
+
+    @Transactional
+    public Todo findTodoById(int id) {
+        return entityManager.find(Todo.class, id);
+    }
+
+    @Transactional
+    public void deleteTodo(Todo todo) {
+        entityManager.remove(todo);
     }
 }

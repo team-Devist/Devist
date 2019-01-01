@@ -4,18 +4,23 @@ package com.tdl.devist.service;
 import com.tdl.devist.model.Todo;
 import com.tdl.devist.model.User;
 import org.junit.Assert;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
+import javax.validation.constraints.AssertTrue;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Profile("dev")
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TodoServiceTests {
 
     @Autowired
@@ -24,11 +29,11 @@ public class TodoServiceTests {
     @Autowired
     private UserService userService;
 
-    private final String TEST_USER_NAME = "admin";
+    private final String TEST_USER_NAME = "dbadmin";
     private final String TEST_TODO_TITLE = "Todo 테스트하기";
 
     @Test
-    public void 서비스_레이어에서_Todo_추가_테스트() {
+    public void 순서1_서비스_레이어에서_Todo_추가_테스트() {
         User user = userService.getUserByUserName(TEST_USER_NAME);
 
         Todo todo = generateTestTodoInstance();
@@ -40,6 +45,29 @@ public class TodoServiceTests {
         List<Todo> todoList = targetUser.getTodoList();
         Assert.assertEquals(1, todoList.size());
         Assert.assertEquals(TEST_TODO_TITLE, todoList.get(0).getTitle());
+    }
+
+    @Test
+    @Transactional
+    public void 순서2_서비스_레이어에서_Todo_삭제_테스트() {
+        User user = userService.getUserByUserName(TEST_USER_NAME);
+        List<Todo> todoList = user.getTodoList();
+        Assert.assertEquals(1, todoList.size());
+
+        int todoId = todoList.get(0).getId();
+        Assert.assertEquals(1, todoId);
+        Todo todo = todoService.findTodoById(todoId);
+        todoList.remove(todo);
+
+        todoService.deleteTodo(todo);
+
+        todo = todoService.findTodoById(todoId);
+        Assert.assertNull(todo);
+
+        user = userService.getUserByUserName(TEST_USER_NAME);
+        Assert.assertNotNull(user);
+        todoList = user.getTodoList();
+        Assert.assertEquals(0, todoList.size());
     }
 
     private Todo generateTestTodoInstance() {
