@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,16 +21,20 @@ import java.util.List;
 @RequestMapping("/todo")
 public class TodoController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final TodoService todoService;
 
     @Autowired
-    private TodoService todoService;
+    public TodoController(UserService userService, TodoService todoService) {
+        this.userService = userService;
+        this.todoService = todoService;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public String getTodoList(Model model) {
         String userName = getCurrentUserName();
-        List<Todo> todoList = userService.getTodoListByUserName(userName);
+        User user = userService.getUserByUserName(userName);
+        List<Todo> todoList = user.getTodoList();
 
         model.addAttribute("todolist", todoList);
 
@@ -47,11 +50,13 @@ public class TodoController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(Todo todo) {
-        // TODO: Todo 클래스의 repeatDay가 어떻게 매핑되는가. boolean[]으로 잡아줘야하나.
         String userName = getCurrentUserName();
         User user = userService.getUserByUserName(userName);
         todo.setUser(user);
-        todoService.addTodo(todo);
+        user.addTodo(todo);
+
+        userService.updateUser(user);
+
         return "redirect:/todo";
     }
 
