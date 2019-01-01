@@ -5,23 +5,25 @@ import com.tdl.devist.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 public class UserService {
-    @PersistenceContext
-    private EntityManager entityManager;
+
+    private final UserRepository userRepository;
+
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Transactional
     public User getUserByUserName(String name) {
-        return entityManager.find(User.class, name);
+        return userRepository.getOne(name);
     }
 
     @Transactional
     public void updateUser(User user) {
-        entityManager.merge(user);
+        userRepository.save(user);
     }
 }
