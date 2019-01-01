@@ -32,30 +32,28 @@ public class TodoServiceTests {
     private final String TEST_USER_NAME = "dbadmin";
     private final String TEST_TODO_TITLE = "Todo 테스트하기";
 
-    @Test
-    public void 순서1_서비스_레이어에서_Todo_추가_테스트() {
-        User user = userService.getUserByUserName(TEST_USER_NAME);
+    private int entitySize;
 
-        Todo todo = generateTestTodoInstance();
-        todo.setUser(user);
-        user.addTodo(todo);
-        userService.updateUser(user);
+    @Test
+    @Transactional
+    public void 순서1_서비스_레이어에서_Todo_추가_테스트() {
+        generateAndSaveTestTodoInstance(TEST_USER_NAME);
 
         User targetUser = userService.getUserByUserName(TEST_USER_NAME);
         List<Todo> todoList = targetUser.getTodoList();
-        Assert.assertEquals(1, todoList.size());
+        entitySize = todoList.size();
+        Assert.assertEquals(1, entitySize);
         Assert.assertEquals(TEST_TODO_TITLE, todoList.get(0).getTitle());
     }
 
     @Test
     @Transactional
     public void 순서2_서비스_레이어에서_Todo_삭제_테스트() {
+        generateAndSaveTestTodoInstance(TEST_USER_NAME);
         User user = userService.getUserByUserName(TEST_USER_NAME);
         List<Todo> todoList = user.getTodoList();
-        Assert.assertEquals(1, todoList.size());
 
         int todoId = todoList.get(0).getId();
-        Assert.assertEquals(1, todoId);
         Todo todo = todoService.findTodoById(todoId);
         todoList.remove(todo);
 
@@ -67,9 +65,12 @@ public class TodoServiceTests {
         Assert.assertEquals(0, todoList.size());
     }
 
-    private Todo generateTestTodoInstance() {
+    private Todo generateAndSaveTestTodoInstance(String username) {
         Todo todo = new Todo();
+        User user = userService.getUserByUserName(username);
         todo.setTitle(TEST_TODO_TITLE);
+        todoService.addTodo(user, todo);
+        userService.updateUser(user);
         return todo;
     }
 }

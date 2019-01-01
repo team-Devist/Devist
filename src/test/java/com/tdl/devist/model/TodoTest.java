@@ -9,6 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Profile("dev")
@@ -20,9 +22,10 @@ public class TodoTest {
     private UserRepository userRepository;
 
     private final String TEST_USER_NAME = "my_name_is_user";
-    private final String TEST_TODO_TITLE = "Todo 테스트하기";
+    private final String TEST_TODO_TITLE = "Todo 테스트하기 in TodoTest.class";
 
     @Test
+    @Transactional
     public void EntityManager를_이용한_Todo_추가_테스트() {
         User user = generateTestUserInstance();
 
