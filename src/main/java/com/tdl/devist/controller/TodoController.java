@@ -50,9 +50,8 @@ public class TodoController {
     public String add(Todo todo) {
         String userName = getCurrentUserName();
         User user = userService.getUserByUserName(userName);
-        todo.setUser(user);
-        user.addTodo(todo);
 
+        todoService.addTodo(user, todo);
         userService.updateUser(user);
 
         return "redirect:/todo";

@@ -1,22 +1,23 @@
 package com.tdl.devist.model;
 
-import org.junit.Assert;
+import com.tdl.devist.repository.TodoRepository;
+import com.tdl.devist.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Profile("dev")
 public class TodoTest {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Autowired
+    private TodoRepository todoRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     private final String TEST_USER_NAME = "my_name_is_user";
     private final String TEST_TODO_TITLE = "Todo 테스트하기";
@@ -25,16 +26,12 @@ public class TodoTest {
     public void EntityManager를_이용한_Todo_추가_테스트() {
         User user = generateTestUserInstance();
 
-        entityManager.persist(user);
+        userRepository.save(user);
 
         Todo todo1 = generateTestTodoInstance();
         user.addTodo(todo1);
 
-        entityManager.persist(todo1);
-
-        User findUser = entityManager.find(User.class, TEST_USER_NAME);
-        Assert.assertEquals(1, findUser.getTodoList().size());
-        Assert.assertEquals(TEST_TODO_TITLE, findUser.getTodoList().get(0).getTitle());
+        todoRepository.save(todo1);
     }
 
     private User generateTestUserInstance() {
@@ -49,5 +46,4 @@ public class TodoTest {
         todo.setTitle(TEST_TODO_TITLE);
         return todo;
     }
-
 }

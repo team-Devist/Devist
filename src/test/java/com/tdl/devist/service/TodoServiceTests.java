@@ -61,9 +61,6 @@ public class TodoServiceTests {
 
         todoService.deleteTodo(todo);
 
-        todo = todoService.findTodoById(todoId);
-        Assert.assertNull(todo);
-
         user = userService.getUserByUserName(TEST_USER_NAME);
         Assert.assertNotNull(user);
         todoList = user.getTodoList();

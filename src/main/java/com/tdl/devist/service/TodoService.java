@@ -1,32 +1,35 @@
 package com.tdl.devist.service;
 
 import com.tdl.devist.model.Todo;
+import com.tdl.devist.model.User;
+import com.tdl.devist.repository.TodoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 @Service
 public class TodoService {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Autowired
+    private TodoRepository todoRepository;
 
     @Transactional
-    public void addTodo(Todo todo) {
+    public void addTodo(User user, Todo todo) {
+        todo.setUser(user);
         todo.setCreatedTime(LocalDateTime.now());
-        entityManager.persist(todo);
+        user.addTodo(todo);
+        todoRepository.save(todo);
     }
 
     @Transactional
     public Todo findTodoById(int id) {
-        return entityManager.find(Todo.class, id);
+        return todoRepository.getOne(id);
     }
 
     @Transactional
     public void deleteTodo(Todo todo) {
-        entityManager.remove(todo);
+        todoRepository.delete(todo);
     }
 }
