@@ -1,6 +1,5 @@
 package com.tdl.devist.controller;
 
-import com.tdl.devist.model.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

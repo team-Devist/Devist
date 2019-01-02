@@ -11,8 +11,6 @@ import java.util.List;
 
 @Service
 public class TodoService {
-    private TodoRepository todoRepository;
-
     private final TodoRepository todoRepository;
 
     @Autowired

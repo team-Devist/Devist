@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import javax.validation.constraints.AssertTrue;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
