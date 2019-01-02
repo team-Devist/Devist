@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    public UserController(BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userRepository = userRepository;
+    }
 
     @RequestMapping(value = { "/signup" }, method = RequestMethod.GET)
     public String signup(Model model) {
