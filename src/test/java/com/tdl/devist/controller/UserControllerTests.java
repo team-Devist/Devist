@@ -59,7 +59,6 @@ public class UserControllerTests {
                 .with(csrf()))
                 .andExpect(status().isOk());
 
-        userRepository.flush();
         Assert.assertEquals(3, userRepository.findAll().size());
         // Todo: test 통과 시키기. /signup 성공 이후 생성한 User를 userRepository를 통해서 가져올 수 없음.
 

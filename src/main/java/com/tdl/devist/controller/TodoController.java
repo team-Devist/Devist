@@ -9,14 +9,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-/**
- * @author delf
- */
 @Controller
 @RequestMapping("/todo")
 public class TodoController {
@@ -52,10 +50,22 @@ public class TodoController {
     public String add(Todo todo) {
         String userName = getCurrentUserName();
         User user = userService.getUserByUserName(userName);
-        todo.setUser(user);
-        user.addTodo(todo);
 
+        todoService.addTodo(user, todo);
         userService.updateUser(user);
+
+        return "redirect:/todo";
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    public String delete(@PathVariable int id) {
+        User user = userService.getUserByUserName(getCurrentUserName());
+        List<Todo> todoList = user.getTodoList();
+
+        Todo todo = todoService.findTodoById(id);
+        todoList.remove(todo);
+
+        todoService.deleteTodo(todo);
 
         return "redirect:/todo";
     }

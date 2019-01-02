@@ -31,11 +31,10 @@ public class Todo {
     private LocalDateTime createdTime;
     private double doneRate = 0.0;
 
-    @ManyToOne(cascade = CascadeType.ALL) // casecade 옵션 다시보기
+    @ManyToOne
     @JoinColumn(name = "username")
     private User user;
 
-    // @OneToMany(mappedBy = "todo", cascade = CascadeType.MERGE)
     @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
     private List<DailyCheck> dailyChecks = new ArrayList<>();
 
