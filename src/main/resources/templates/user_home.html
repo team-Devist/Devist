@@ -1,8 +1,7 @@
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="common_layout">
-
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="common_layout"
+    xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Todo List</title>
+    <title>Content page</title>
 </head>
 
 <body>
@@ -17,10 +16,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:if="${todolist.isEmpty()}">
+            <tr th:if="${todo_list.isEmpty()}">
                 <td colspan="2"> Add your own todo list!</td>
             </tr>
-            <tr th:each="todo : ${todolist}">
+            <tr th:each="todo : ${todo_list}">
                 <td><span th:text="${todo.title}"> Title </span></td>
                 <td><span th:text="${todo.description}"> Content </span></td>
             </tr>
@@ -28,5 +27,6 @@
         </table>
     </div>
 </section>
+
 </body>
 </html>

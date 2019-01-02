@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name="users")
+@Entity(name = "users")
 @Setter
 @Getter
 @NoArgsConstructor
