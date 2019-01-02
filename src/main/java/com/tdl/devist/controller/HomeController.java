@@ -27,7 +27,7 @@ public class HomeController {
             return "home";
         else {
             User user = userService.getUserByUserName(principal.getName());
-            List<Todo> todoList = user.getTodoList();
+            List<Todo> todoList = user.getTodayTodoList();
 
             model.addAttribute("todo_list", todoList);
 

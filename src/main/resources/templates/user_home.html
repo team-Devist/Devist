@@ -8,6 +8,7 @@
 
 <section layout:fragment="content">
     <div class="container">
+        <h1>오늘의 할 일</h1>
         <table class="table table-hover">
             <thead>
             <tr>
@@ -20,8 +21,8 @@
                 <td colspan="2"> Add your own todo list!</td>
             </tr>
             <tr th:each="todo : ${todo_list}">
-                <td><span th:text="${todo.title}"> Title </span></td>
-                <td><span th:text="${todo.description}"> Content </span></td>
+                <td th:text="${todo.title}"></td>
+                <td th:text="${todo.description}"></td>
             </tr>
             </tbody>
         </table>

@@ -23,7 +23,7 @@ public class Todo {
     private int id;
     private String title;
     private String description;
-    @Column(length = 7)
+    @Column(length = 1)
     private int repeatDay = 127;
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
     @Type(type = "org.hibernate.type.NumericBooleanType")
