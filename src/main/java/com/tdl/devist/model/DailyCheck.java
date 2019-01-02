@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "daily_checks")
 @Setter
 @Getter
 @NoArgsConstructor

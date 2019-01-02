@@ -17,10 +17,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:if="${todolist.isEmpty()}">
+            <tr th:if="${todo_list.isEmpty()}">
                 <td colspan="2"> Add your own todo list!</td>
             </tr>
-            <tr th:each="todo : ${todolist}">
+            <tr th:each="todo : ${todo_list}">
                 <td><span th:text="${todo.title}"> Title </span></td>
                 <td><span th:text="${todo.description}"> Content </span></td>
             </tr>

@@ -11,9 +11,12 @@ import java.time.LocalDateTime;
 
 @Service
 public class TodoService {
+    private TodoRepository todoRepository;
 
     @Autowired
-    private TodoRepository todoRepository;
+    public TodoService(TodoRepository todoRepository) {
+        this.todoRepository = todoRepository;
+    }
 
     @Transactional
     public void addTodo(User user, Todo todo) {

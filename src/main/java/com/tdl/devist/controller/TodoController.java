@@ -34,9 +34,9 @@ public class TodoController {
         User user = userService.getUserByUserName(userName);
         List<Todo> todoList = user.getTodoList();
 
-        model.addAttribute("todolist", todoList);
+        model.addAttribute("todo_list", todoList);
 
-        return "todolist";
+        return "todo_list";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)

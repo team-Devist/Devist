@@ -3,14 +3,14 @@ package com.tdl.devist.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name="users")
+@Entity(name = "users")
 @Setter
 @Getter
 @NoArgsConstructor
@@ -41,5 +41,17 @@ public class User {
 
     public boolean addTodo(Todo todo) {
         return todoList.add(todo);
+    }
+
+    public List<Todo> getTodayTodoList() {
+        List<Todo> todayTodoList = new ArrayList<>();
+
+        int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
+
+        for (Todo todo: todoList)
+            if ((todo.getRepeatDay() & (1 << (dayOfWeek - 1))) > 0)
+                todayTodoList.add(todo);
+
+        return todayTodoList;
     }
 }

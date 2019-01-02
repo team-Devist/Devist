@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -46,6 +47,23 @@ public class UserTest {
 
         Assert.assertEquals("엘레나", saved_user2.getName());
         Assert.assertEquals(0, Double.compare(saved_user2.getDoneRate(), 81.00));
+    }
 
+    @Test
+    @Transactional
+    public void testGetTodayTodoList() {
+        User user = userRepository.getOne("cjh5414");
+        List<Todo> todoList = user.getTodayTodoList();
+
+        int todoSize = 1;
+        switch (LocalDate.now().getDayOfWeek().getValue()) {
+            case 1:
+            case 3:
+            case 7:
+                todoSize = 2;
+                break;
+        }
+
+        Assert.assertEquals(todoSize, todoList.size());
     }
 }

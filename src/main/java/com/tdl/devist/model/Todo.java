@@ -4,13 +4,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity(name = "todos")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,13 +23,15 @@ public class Todo {
     private int id;
     private String title;
     private String description;
-    @Column(length = 86)
-    private String[] repeatDay = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
-    private boolean isDone;
+    @Column(length = 1)
+    private int repeatDay = 127;
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    private boolean isDone = false;
     private LocalDateTime createdTime;
     private double doneRate = 0.0;
 
-    @ManyToOne // casecade 옵션 다시보기
+    @ManyToOne
     @JoinColumn(name = "username")
     private User user;
 
