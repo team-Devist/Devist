@@ -49,9 +49,21 @@ public class User {
         int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
 
         for (Todo todo: todoList)
-            if ((todo.getRepeatDay() & (1 << (dayOfWeek - 1))) > 0)
+            if (!todo.isDone() && ((todo.getRepeatDay() & (1 << (dayOfWeek - 1))) > 0))
                 todayTodoList.add(todo);
 
         return todayTodoList;
+    }
+
+    public List<Todo> getUncompletedTodayTodoList() {
+        List<Todo> uncompletedTodayTodoList = new ArrayList<>();
+
+        int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
+
+        for (Todo todo: todoList)
+            if (todo.isDone() && ((todo.getRepeatDay() & (1 << (dayOfWeek - 1))) > 0))
+                uncompletedTodayTodoList.add(todo);
+
+        return uncompletedTodayTodoList;
     }
 }

@@ -24,7 +24,7 @@
             <tr th:each="todo : ${todo_list}">
                 <td th:text="${todo.title}"></td>
                 <td th:text="${todo.description}"></td>
-                <td><button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo">완료</button></td>
+                <td><button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo" th:data-id="${todo.id}">완료</button></td>
             </tr>
             </tbody>
         </table>
@@ -41,6 +41,11 @@
             </tr>
             </thead>
             <tbody>
+            <tr th:each="todo : ${uncompleted_todo_list}">
+                <td th:text="${todo.title}"></td>
+                <td th:text="${todo.description}"></td>
+                <td><button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo" th:data-id="${todo.id}">완료</button></td>
+            </tr>
             </tbody>
         </table>
     </div>

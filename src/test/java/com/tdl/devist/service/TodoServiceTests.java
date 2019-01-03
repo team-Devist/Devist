@@ -3,6 +3,7 @@ package com.tdl.devist.service;
 
 import com.tdl.devist.model.Todo;
 import com.tdl.devist.model.User;
+import com.tdl.devist.repository.TodoRepository;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -14,7 +15,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import javax.validation.constraints.AssertTrue;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -28,6 +28,9 @@ public class TodoServiceTests {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TodoRepository todoRepository;
 
     private final String TEST_USER_NAME = "dbadmin";
     private final String TEST_TODO_TITLE = "Todo 테스트하기";
@@ -71,5 +74,21 @@ public class TodoServiceTests {
         Todo todo = new Todo();
         todo.setTitle(TEST_TODO_TITLE);
         return todo;
+    }
+
+    @Test
+    @Transactional
+    public void setTodoIsDone() {
+        final int TODO_ID = 0;
+        Todo todo = todoRepository.getOne(TODO_ID);
+        Assert.assertFalse(todo.isDone());
+
+        todoService.setTodoIsDone(TODO_ID, true);
+        todo = todoRepository.getOne(TODO_ID);
+        Assert.assertTrue(todo.isDone());
+
+        todoService.setTodoIsDone(TODO_ID, false);
+        todo = todoRepository.getOne(TODO_ID);
+        Assert.assertFalse(todo.isDone());
     }
 }
