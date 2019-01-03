@@ -28,6 +28,7 @@ public class TodoController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String getTodoList(Model model) {
+
         String userName = getCurrentUserName();
         User user = userService.getUserByUserName(userName);
         List<Todo> todoList = user.getTodoList();

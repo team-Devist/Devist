@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TodoService {
-    private TodoRepository todoRepository;
+    private final TodoRepository todoRepository;
 
     @Autowired
     public TodoService(TodoRepository todoRepository) {
         this.todoRepository = todoRepository;
     }
 
-    @Transactional
     public void addTodo(User user, Todo todo) {
         todo.setUser(user);
         todo.setCreatedTime(LocalDateTime.now());
@@ -26,17 +26,22 @@ public class TodoService {
         todoRepository.save(todo);
     }
 
-    @Transactional
     public Todo findTodoById(int id) {
         return todoRepository.getOne(id);
     }
 
-    @Transactional
     public void deleteTodo(Todo todo) {
         todoRepository.delete(todo);
     }
 
-    @Transactional
+    public long count() {
+        return todoRepository.count();
+    }
+
+    public List<Todo> findAll() {
+        return todoRepository.findAll();
+    }
+
     public void setTodoIsDone(int todo_id, boolean isDone) {
         Todo todo = todoRepository.getOne(todo_id);
         todo.setDone(isDone);
