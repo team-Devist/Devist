@@ -16,8 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -61,5 +60,15 @@ public class TodoControllerTests {
                 .param("repeatDay", "1")
                 .with(csrf()))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testCheckTodoIsDone() throws Exception {
+        mockMvc.perform(post("/todo/0/do")
+                .param("isDone", "true")
+                .with(csrf())
+                .with(user("admin").password("1234").roles("ADMIN")))
+                .andExpect(status().isOk())
+                .andExpect(content().string("ok"));
     }
 }

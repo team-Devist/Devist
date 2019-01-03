@@ -66,4 +66,15 @@ public class UserTest {
 
         Assert.assertEquals(todoSize, todoList.size());
     }
+
+    @Test
+    @Transactional
+    public void testGetUncompletedTodayTodoList() {
+        User user = userRepository.getOne("cjh5414");
+        List<Todo> todoList = user.getUncompletedTodayTodoList();
+
+        Assert.assertEquals(1, todoList.size());
+        Assert.assertEquals("완료된 할 일 1", todoList.get(0).getTitle());
+    }
 }
+
