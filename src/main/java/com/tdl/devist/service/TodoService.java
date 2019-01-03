@@ -6,13 +6,12 @@ import com.tdl.devist.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class TodoService {
-    private TodoRepository todoRepository;
-
     private final TodoRepository todoRepository;
 
     @Autowired
@@ -38,8 +37,14 @@ public class TodoService {
     public long count() {
         return todoRepository.count();
     }
+
     public List<Todo> findAll() {
         return todoRepository.findAll();
     }
 
+    public void setTodoIsDone(int todo_id, boolean isDone) {
+        Todo todo = todoRepository.getOne(todo_id);
+        todo.setDone(isDone);
+        todoRepository.save(todo);
+    }
 }
