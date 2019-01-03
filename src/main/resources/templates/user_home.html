@@ -9,11 +9,12 @@
 <section layout:fragment="content">
     <div class="container">
         <h1>오늘의 할 일</h1>
-        <table class="table table-hover">
+        <table id="todo-table" class="table table-hover">
             <thead>
             <tr>
                 <th scope="col">Title</th>
                 <th scope="col">Description</th>
+                <th scope="col">Completion</th>
             </tr>
             </thead>
             <tbody>
@@ -23,7 +24,23 @@
             <tr th:each="todo : ${todo_list}">
                 <td th:text="${todo.title}"></td>
                 <td th:text="${todo.description}"></td>
+                <td><button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo">완료</button></td>
             </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container">
+        <h1>완료된 할 일</h1>
+        <table id="completed-todo-table" class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Completion</th>
+            </tr>
+            </thead>
+            <tbody>
             </tbody>
         </table>
     </div>

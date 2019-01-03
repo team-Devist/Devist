@@ -35,4 +35,11 @@ public class TodoService {
     public void deleteTodo(Todo todo) {
         todoRepository.delete(todo);
     }
+
+    @Transactional
+    public void setTodoIsDone(int todo_id, boolean isDone) {
+        Todo todo = todoRepository.getOne(todo_id);
+        todo.setDone(isDone);
+        todoRepository.save(todo);
+    }
 }
