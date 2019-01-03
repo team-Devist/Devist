@@ -18,7 +18,6 @@ public class Authority {
     private @EmbeddedId AuthorityId id;
 
     public Authority(String username, String role) {
-        System.out.println("@@ construct authority/ username is..." + username);
         id = new AuthorityId(username, role);
     }
 }

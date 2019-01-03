@@ -2,6 +2,7 @@ package com.tdl.devist.model;
 
 import com.tdl.devist.repository.TodoRepository;
 import com.tdl.devist.repository.UserRepository;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -34,7 +36,13 @@ public class TodoTest {
         Todo todo1 = generateTestTodoInstance();
         user.addTodo(todo1);
 
-        todoRepository.save(todo1);
+        userRepository.save(user);
+
+        User afterUser = userRepository.getOne(TEST_USER_NAME);
+        List<Todo> todoList = afterUser.getTodoList();
+        Assert.assertEquals(1, todoList.size());
+        Todo afterTodo = todoList.get(0);
+        Assert.assertEquals(TEST_TODO_TITLE, afterTodo.getTitle());
     }
 
     private User generateTestUserInstance() {
