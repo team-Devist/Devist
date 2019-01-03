@@ -20,6 +20,7 @@
 | 할일 추가 | POST | /todo/add |
 | 할일 상세 보기 | GET | /todo/{id} |
 | 할일 수정 페이지 | GET | /todo/{id}/edit |
+| 할일 완료 상태 변경 | POST | /todo/{id}/do |
 | 할일 수정 | POST | /todo/{id}/edit |
 | 할일 제거 | POST | /todo/{id}/delete |
 | 할일 진행률 통계 | GET | /statistics |
