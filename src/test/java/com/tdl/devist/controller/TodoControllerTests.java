@@ -1,5 +1,8 @@
 package com.tdl.devist.controller;
 
+import com.tdl.devist.model.User;
+import com.tdl.devist.repository.UserRepository;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,11 +16,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.transaction.Transactional;
+
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -25,6 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration
 @WebAppConfiguration
 public class TodoControllerTests {
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private WebApplicationContext context;
     private MockMvc mockMvc;
@@ -52,14 +61,21 @@ public class TodoControllerTests {
     }
 
     @Test
+    @Transactional
     public void testAddTodo() throws Exception {
-        // 테스트 작성중. 실패 정상
+        User user = userRepository.getOne("admin");
+        int size = user.getTodoList().size();
+        Assert.assertEquals(0, size);
+
         mockMvc.perform(post("/todo/add")
+                .with(user("admin").password("1234").roles("USER", "ADMIN"))
                 .param("title", "test title")
                 .param("description", "test description")
                 .param("repeatDay", "1")
                 .with(csrf()))
-                .andExpect(status().isOk());
+                .andExpect(status().is3xxRedirection());
+
+        Assert.assertEquals(size + 1, user.getTodoList().size());
     }
 
     @Test

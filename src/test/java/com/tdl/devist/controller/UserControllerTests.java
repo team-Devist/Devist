@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -52,15 +53,19 @@ public class UserControllerTests {
     @Test
     @Transactional
     public void testCreateUser() throws Exception {
-        mockMvc.perform(post("/signup")
+        MvcResult result = mockMvc.perform(post("/signup")
                 .param("username", "user1")
                 .param("password", "user1234")
                 .param("name", "name1")
                 .with(csrf()))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()).andReturn();
 
         Assert.assertEquals(3, userRepository.findAll().size());
         // Todo: test 통과 시키기. /signup 성공 이후 생성한 User를 userRepository를 통해서 가져올 수 없음.
+
+        // for debug
+        System.out.println(result.getResponse().getContentAsString());
+        System.out.println(result.getResponse().getRedirectedUrl());
 
         User user = userRepository.getOne("user1");
         Assert.assertTrue(user.isEnabled());

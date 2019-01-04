@@ -33,7 +33,7 @@ public class HomeController {
             model.addAttribute("todo_list", todoList);
             model.addAttribute("uncompleted_todo_list", unCompletedTodoList);
 
-            return "/user_home";
+            return "user_home";
         }
     }
 }
