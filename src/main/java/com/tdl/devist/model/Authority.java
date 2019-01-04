@@ -3,7 +3,6 @@ package com.tdl.devist.model;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,7 +18,6 @@ public class Authority {
     private @EmbeddedId AuthorityId id;
 
     public Authority(String username, String role) {
-        System.out.println("@@ construct authority/ username is..." + username);
         id = new AuthorityId(username, role);
     }
 }

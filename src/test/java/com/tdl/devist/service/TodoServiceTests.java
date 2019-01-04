@@ -46,7 +46,9 @@ public class TodoServiceTests {
         List<Todo> todoList = targetUser.getTodoList();
         entitySize = todoList.size();
         Assert.assertEquals(1, entitySize);
-        Assert.assertEquals(TEST_TODO_TITLE, todoList.get(0).getTitle());
+        Todo todo = todoList.get(0);
+        Assert.assertEquals(TEST_TODO_TITLE, todo.getTitle());
+        Assert.assertEquals(127, todo.getRepeatDay());
     }
 
     @Test
@@ -62,16 +64,17 @@ public class TodoServiceTests {
 
         todoService.deleteTodo(todo);
 
-        user = userService.getUserByUserName(TEST_USER_NAME);
-        Assert.assertNotNull(user);
-        todoList = user.getTodoList();
-        Assert.assertEquals(0, todoList.size());
+        User afterUser = userService.getUserByUserName(TEST_USER_NAME);
+        Assert.assertNotNull(afterUser);
+        List<Todo> AfterTodoList = afterUser.getTodoList();
+        Assert.assertEquals(0, AfterTodoList.size());
     }
 
     private Todo generateAndSaveTestTodoInstance(String username) {
         Todo todo = new Todo();
         User user = userService.getUserByUserName(username);
         todo.setTitle(TEST_TODO_TITLE);
+        todo.setRepeatCheckbox(new boolean[]{true, true, true, true, true, true, true});
         todoService.addTodo(user, todo);
         userService.updateUser(user);
         return todo;

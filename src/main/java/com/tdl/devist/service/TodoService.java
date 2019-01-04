@@ -20,9 +20,11 @@ public class TodoService {
     }
 
     public void addTodo(User user, Todo todo) {
+        todo.convertRepeatDayBooleanArrToByte(); // stop-gap
         todo.setUser(user);
         todo.setCreatedTime(LocalDateTime.now());
         user.addTodo(todo);
+
         todoRepository.save(todo);
     }
 
