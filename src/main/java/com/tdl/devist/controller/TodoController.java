@@ -53,7 +53,7 @@ public class TodoController {
         todoService.addTodo(user, todo);
         userService.updateUser(user);
 
-        return "redirect:/todo";
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
@@ -61,7 +61,7 @@ public class TodoController {
         User user = userService.getUserByUserName(getCurrentUserName());
         todoService.deleteTodo(user, id);
 
-        return "redirect:/todo";
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/{id}/do", method = RequestMethod.POST)
