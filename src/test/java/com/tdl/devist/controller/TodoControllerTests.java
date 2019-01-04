@@ -1,5 +1,6 @@
 package com.tdl.devist.controller;
 
+import com.tdl.devist.model.Todo;
 import com.tdl.devist.model.User;
 import com.tdl.devist.repository.UserRepository;
 import org.junit.Assert;
@@ -17,6 +18,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.transaction.Transactional;
+
+import java.util.List;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -75,7 +78,26 @@ public class TodoControllerTests {
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection());
 
-        Assert.assertEquals(size + 1, user.getTodoList().size());
+        User afterUser = userRepository.getOne("admin");
+        Assert.assertEquals(size + 1, afterUser.getTodoList().size());
+    }
+
+    @Test
+    @Transactional
+    public void testDeleteTodo() throws Exception {
+        User user = userRepository.getOne("cjh5414");
+        List<Todo> todoList = user.getTodoList();
+        int size = todoList.size();
+        Assert.assertNotEquals(0, size);
+        int todoId = todoList.get(0).getId();
+
+        mockMvc.perform(post("/todo/" + todoId + "/delete")
+                .with(user("cjh5414").password("1234").roles("USER"))
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection());
+
+        User afterUSer = userRepository.getOne("cjh5414");
+        Assert.assertEquals(size - 1, afterUSer.getTodoList().size());
     }
 
     @Test
