@@ -56,13 +56,12 @@ public class TodoServiceTests {
     public void 순서2_서비스_레이어에서_Todo_삭제_테스트() {
         generateAndSaveTestTodoInstance(TEST_USER_NAME);
         User user = userService.getUserByUserName(TEST_USER_NAME);
+
         List<Todo> todoList = user.getTodoList();
-
+        Assert.assertEquals(1, todoList.size());
         int todoId = todoList.get(0).getId();
-        Todo todo = todoService.findTodoById(todoId);
-        todoList.remove(todo);
 
-        todoService.deleteTodo(todo);
+        todoService.deleteTodo(user, todoId);
 
         User afterUser = userService.getUserByUserName(TEST_USER_NAME);
         Assert.assertNotNull(afterUser);

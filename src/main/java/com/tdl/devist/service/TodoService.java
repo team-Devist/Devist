@@ -6,7 +6,6 @@ import com.tdl.devist.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,6 +33,12 @@ public class TodoService {
 
     public void deleteTodo(Todo todo) {
         todoRepository.delete(todo);
+    }
+
+    public void deleteTodo(User user, int todoId) {
+        Todo todo = todoRepository.getOne(todoId);
+        user.getTodoList().remove(todo);
+        deleteTodo(todo);
     }
 
     public long count() {

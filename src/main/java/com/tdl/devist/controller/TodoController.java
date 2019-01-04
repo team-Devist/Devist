@@ -56,21 +56,17 @@ public class TodoController {
         return "redirect:/todo";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
     public String delete(@PathVariable int id) {
         User user = userService.getUserByUserName(getCurrentUserName());
-        List<Todo> todoList = user.getTodoList();
-
-        Todo todo = todoService.findTodoById(id);
-        todoList.remove(todo);
-
-        todoService.deleteTodo(todo);
+        todoService.deleteTodo(user, id);
 
         return "redirect:/todo";
     }
 
     @RequestMapping(value = "/{id}/do", method = RequestMethod.POST)
-    public @ResponseBody String doTodo(@PathVariable int id, @RequestParam boolean isDone) {
+    public @ResponseBody
+    String doTodo(@PathVariable int id, @RequestParam boolean isDone) {
         todoService.setTodoIsDone(id, isDone);
         return "ok";
     }

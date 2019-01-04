@@ -58,5 +58,4 @@ public class Todo {
         }
         repeatDay = Byte.parseByte(res.toString(), 2);
     }
-
 }
