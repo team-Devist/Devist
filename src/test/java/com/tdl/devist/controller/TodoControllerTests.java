@@ -80,6 +80,7 @@ public class TodoControllerTests {
 
         User afterUser = userRepository.getOne("admin");
         Assert.assertEquals(size + 1, afterUser.getTodoList().size());
+        Assert.assertEquals("test title", afterUser.getTodoList().get(0).getTitle());
     }
 
     @Test
@@ -98,6 +99,26 @@ public class TodoControllerTests {
 
         User afterUSer = userRepository.getOne("cjh5414");
         Assert.assertEquals(size - 1, afterUSer.getTodoList().size());
+    }
+
+    @Test
+    @Transactional
+    public void testEditTodo() throws Exception {
+        User user = userRepository.getOne("cjh5414");
+        List<Todo> todoList = user.getTodoList();
+        Assert.assertNotEquals("TodoList가 비어있음.", 0, todoList.size());
+        int todoId = todoList.get(0).getId();
+
+        String editedTitle = "바뀐 타이틀";
+        // mockMvc.perform(post("/todo/" + todoId + "/edit")
+        mockMvc.perform(post("/todo/" + todoId + "/edit")
+                .with(user("cjh5414").password("1234").roles("USER"))
+                .param("title", editedTitle)
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection());
+
+        User afterUSer = userRepository.getOne("cjh5414");
+        Assert.assertEquals(editedTitle, afterUSer.getTodoList().get(0).getTitle());
     }
 
     @Test

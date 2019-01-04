@@ -40,6 +40,7 @@ public class User {
     }
 
     public boolean addTodo(Todo todo) {
+        todo.convertRepeatDayBooleanArrToByte(); // 임시방편
         return todoList.add(todo);
     }
 
@@ -65,5 +66,14 @@ public class User {
                 uncompletedTodayTodoList.add(todo);
 
         return uncompletedTodayTodoList;
+    }
+
+    public void editTodo(Todo beforeTodo, Todo afterTodo) {
+        afterTodo.convertRepeatDayBooleanArrToByte(); // 임시방편
+        todoList.set(indexOf(beforeTodo), afterTodo);
+    }
+
+    private int indexOf(Todo todo) {
+        return todoList.indexOf(todo);
     }
 }

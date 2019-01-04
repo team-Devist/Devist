@@ -64,6 +64,24 @@ public class TodoController {
         return "redirect:/";
     }
 
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+    public String editForm(Model model, @PathVariable int id) {
+        Todo todo = todoService.findTodoById(id);
+        model.addAttribute("todo", todo);
+
+        return "edittodo";
+    }
+
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST) // id 변수 필요성에 대한 의문
+    public String edit(Todo todo, @PathVariable int id) {
+        User user = userService.getUserByUserName(getCurrentUserName());
+        todo.setUser(user);
+        todoService.editTodo(id, todo);
+        userService.updateUser(user);
+
+        return "redirect:/";
+    }
+
     @RequestMapping(value = "/{id}/do", method = RequestMethod.POST)
     public @ResponseBody
     String doTodo(@PathVariable int id, @RequestParam boolean isDone) {

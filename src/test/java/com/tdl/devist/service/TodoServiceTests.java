@@ -39,7 +39,7 @@ public class TodoServiceTests {
 
     @Test
     @Transactional
-    public void 순서1_서비스_레이어에서_Todo_추가_테스트() {
+    public void 서비스_레이어에서_Todo_추가_테스트() {
         generateAndSaveTestTodoInstance(TEST_USER_NAME);
 
         User targetUser = userService.getUserByUserName(TEST_USER_NAME);
@@ -53,20 +53,42 @@ public class TodoServiceTests {
 
     @Test
     @Transactional
-    public void 순서2_서비스_레이어에서_Todo_삭제_테스트() {
+    public void 서비스_레이어에서_Todo_삭제_테스트() {
         generateAndSaveTestTodoInstance(TEST_USER_NAME);
         User user = userService.getUserByUserName(TEST_USER_NAME);
 
         List<Todo> todoList = user.getTodoList();
-        Assert.assertEquals(1, todoList.size());
+        Assert.assertEquals("TodoList가 비어있음.", 1, todoList.size());
         int todoId = todoList.get(0).getId();
 
         todoService.deleteTodo(user, todoId);
 
         User afterUser = userService.getUserByUserName(TEST_USER_NAME);
-        Assert.assertNotNull(afterUser);
+        Assert.assertNotNull("사용자 [" + TEST_USER_NAME + "]을/를 찾을 수 없음.", afterUser);
         List<Todo> AfterTodoList = afterUser.getTodoList();
         Assert.assertEquals(0, AfterTodoList.size());
+    }
+
+    @Test
+    @Transactional
+    public void 서비스_레이어에서_Todo_수정_테스트() {
+        Todo todo = generateAndSaveTestTodoInstance(TEST_USER_NAME);
+        User user = userService.getUserByUserName(TEST_USER_NAME);
+        Assert.assertEquals(1, user.getTodoList().size());
+        int todoId = user.getTodoList().get(0).getId();
+
+        String editedTitle = "변경된 타이틀";
+        todo.setTitle(editedTitle);
+        todo.setRepeatCheckbox(new boolean[]{true, false, false, false, false, false, false});
+
+        todoService.editTodo(todoId, todo);
+
+        User afterUser = userService.getUserByUserName(TEST_USER_NAME);
+        List<Todo> todoList = afterUser.getTodoList();
+
+        Todo afterTodo = todoList.get(0);
+        Assert.assertEquals(editedTitle, afterTodo.getTitle());
+        Assert.assertEquals(64, afterTodo.getRepeatDay());
     }
 
     private Todo generateAndSaveTestTodoInstance(String username) {
