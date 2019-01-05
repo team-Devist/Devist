@@ -39,11 +39,10 @@ public class TodoService {
         deleteTodo(todo);
     }
 
-    public void editTodo(int todoId, Todo editedTodo) {
-        User user = editedTodo.getUser();
-        Todo beforeTodo = todoRepository.getOne(todoId);
-        user.editTodo(beforeTodo, editedTodo);
-        todoRepository.save(beforeTodo);
+    public void editTodo(int id, Todo editedTodo) {
+        Todo originTodo = todoRepository.getOne(id);
+        User user = originTodo.getUser();
+        user.editTodo(originTodo, editedTodo);
     }
 
     public long count() {

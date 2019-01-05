@@ -50,6 +50,7 @@ public class Todo {
      * @author delf
      * <p>
      * view에서 받아 저장된 {@link #repeatCheckbox}을 byte로 변환하여 {@link #repeatDay}에 저장합니다.
+     * 이슈 #17을 참고할 것.
      */
     public void convertRepeatDayBooleanArrToByte() {
         StringBuilder res = new StringBuilder();

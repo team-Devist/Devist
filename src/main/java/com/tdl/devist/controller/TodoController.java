@@ -49,9 +49,9 @@ public class TodoController {
     public String add(Todo todo) {
         String userName = getCurrentUserName();
         User user = userService.getUserByUserName(userName);
-
+        todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
         todoService.addTodo(user, todo);
-        userService.updateUser(user);
+        // userService.updateUser(user);
 
         return "redirect:/";
     }
@@ -72,10 +72,11 @@ public class TodoController {
         return "edittodo";
     }
 
-    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST) // id 변수 필요성에 대한 의문
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
     public String edit(Todo todo, @PathVariable int id) {
+        todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
         User user = userService.getUserByUserName(getCurrentUserName());
-        todo.setUser(user);
+
         todoService.editTodo(id, todo);
         userService.updateUser(user);
 
