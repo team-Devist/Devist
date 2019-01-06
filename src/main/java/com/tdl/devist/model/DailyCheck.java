@@ -18,7 +18,7 @@ public class DailyCheck {
     private LocalDate planedDate;
     private boolean isDone;
 
-    @ManyToOne(cascade = CascadeType.ALL) // cascade 옵션 디사보기
+    @ManyToOne
     @JoinColumn(name = "todo_id")
     private Todo todo;
 }

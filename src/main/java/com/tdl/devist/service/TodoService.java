@@ -6,7 +6,6 @@ import com.tdl.devist.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -54,9 +53,12 @@ public class TodoService {
 
     public void checkAndUpdateTodos() {
         for (Todo todo: todoRepository.findAll()) {
+            // Todo: 같은 날에 두번 실행되지 않도록 하는 예외처리 추가하기.
             if (todo.isTodaysTodo()) {
+                todo.updateDoneRate();
                 dailyCheckService.createDailyCheckByTodo(todo);
                 todo.setDone(false);
+                todoRepository.save(todo);
             }
         }
     }

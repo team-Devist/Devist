@@ -53,13 +53,13 @@ public class User {
         return todayTodoList;
     }
 
-    public List<Todo> getUncompletedTodayTodoList() {
-        List<Todo> uncompletedTodayTodoList = new ArrayList<>();
+    public List<Todo> getCompletedTodayTodoList() {
+        List<Todo> completedTodayTodoList = new ArrayList<>();
 
         for (Todo todo: todoList)
             if (todo.isDone() && todo.isTodaysTodo())
-                uncompletedTodayTodoList.add(todo);
+                completedTodayTodoList.add(todo);
 
-        return uncompletedTodayTodoList;
+        return completedTodayTodoList;
     }
 }

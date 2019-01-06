@@ -64,4 +64,12 @@ public class Todo {
         int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
         return (repeatDay & (1 << (dayOfWeek - 1))) > 0;
     }
+
+    public void updateDoneRate() {
+        int totalCount = dailyChecks.size();
+        double doneCount = totalCount * doneRate / 100;
+        if (isDone) doneCount++;
+
+        doneRate = doneCount / (totalCount + 1) * 100;
+    }
 }
