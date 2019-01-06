@@ -1,8 +1,10 @@
 package com.tdl.devist.service;
 
 
+import com.tdl.devist.model.DailyCheck;
 import com.tdl.devist.model.Todo;
 import com.tdl.devist.model.User;
+import com.tdl.devist.repository.DailyCheckRepository;
 import com.tdl.devist.repository.TodoRepository;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
@@ -15,6 +17,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -31,6 +34,9 @@ public class TodoServiceTests {
 
     @Autowired
     private TodoRepository todoRepository;
+
+    @Autowired
+    private DailyCheckRepository dailyCheckRepository;
 
     private final String TEST_USER_NAME = "dbadmin";
     private final String TEST_TODO_TITLE = "Todo 테스트하기";
@@ -82,7 +88,7 @@ public class TodoServiceTests {
 
     @Test
     @Transactional
-    public void setTodoIsDone() {
+    public void testSetTodoIsDone() {
         final int TODO_ID = 0;
         Todo todo = todoRepository.getOne(TODO_ID);
         Assert.assertFalse(todo.isDone());
@@ -94,5 +100,29 @@ public class TodoServiceTests {
         todoService.setTodoIsDone(TODO_ID, false);
         todo = todoRepository.getOne(TODO_ID);
         Assert.assertFalse(todo.isDone());
+    }
+
+    @Test
+    @Transactional
+    public void testCheckTodosAfterPlanedTime() {
+        Todo doneTodo = todoRepository.getOne(3);
+        Assert.assertTrue(doneTodo.isDone());
+        Assert.assertEquals(0, dailyCheckRepository.findAll().size());
+
+        todoService.checkAndUpdateTodos();
+
+        doneTodo = todoRepository.getOne(3);
+        Assert.assertFalse(doneTodo.isDone());
+
+        int todayTodoCount = 0;
+        int dayOfWeek = 1 << (LocalDate.now().getDayOfWeek().getValue() - 1);
+        for (Todo todo: todoRepository.findAll()) {
+            if ((todo.getRepeatDay() & dayOfWeek) > 0)
+                todayTodoCount++;
+        }
+
+        LocalDate planedDate = LocalDate.now();
+        List<DailyCheck> todayDailyCheckList = dailyCheckRepository.findByPlanedDate(planedDate);
+        Assert.assertEquals(todayTodoCount, todayDailyCheckList.size());
     }
 }

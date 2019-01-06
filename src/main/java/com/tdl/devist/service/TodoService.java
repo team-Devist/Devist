@@ -6,17 +6,19 @@ import com.tdl.devist.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class TodoService {
     private final TodoRepository todoRepository;
+    private final DailyCheckService dailyCheckService;
 
     @Autowired
-    public TodoService(TodoRepository todoRepository) {
+    public TodoService(TodoRepository todoRepository, DailyCheckService dailyCheckService) {
         this.todoRepository = todoRepository;
+        this.dailyCheckService = dailyCheckService;
     }
 
     public void addTodo(User user, Todo todo) {
@@ -48,5 +50,15 @@ public class TodoService {
         Todo todo = todoRepository.getOne(todo_id);
         todo.setDone(isDone);
         todoRepository.save(todo);
+    }
+
+    void checkAndUpdateTodos() {
+        int dayOfWeek = 1 << (LocalDate.now().getDayOfWeek().getValue() - 1);
+        for (Todo todo: todoRepository.findAll()) {
+            if ((todo.getRepeatDay() & dayOfWeek) > 0) {
+                dailyCheckService.createDailyCheckByTodo(todo);
+                todo.setDone(false);
+            }
+        }
     }
 }
