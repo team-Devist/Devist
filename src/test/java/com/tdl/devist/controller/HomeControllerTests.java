@@ -41,7 +41,7 @@ public class HomeControllerTests {
                 .andExpect(view().name("home"));
 
         mockMvc.perform(get("/")
-                .with(user("delf").password("1234").roles("USER")))
+                .with(user("nesoy").password("1234").roles("USER")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user_home"))
                 .andExpect(content().string(is(not(containsString("알고리즘 문제 풀기")))))

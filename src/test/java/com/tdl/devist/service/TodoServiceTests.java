@@ -104,22 +104,22 @@ public class TodoServiceTests {
 
     @Test
     @Transactional
-    public void testCheckTodosAfterPlanedTime() {
+    public void testCheckTodosAfterPlanedDate() {
         Todo doneTodo = todoRepository.getOne(3);
         Assert.assertTrue(doneTodo.isDone());
         Assert.assertEquals(0, dailyCheckRepository.findAll().size());
-
-        todoService.checkAndUpdateTodos();
-
-        doneTodo = todoRepository.getOne(3);
-        Assert.assertFalse(doneTodo.isDone());
 
         int todayTodoCount = 0;
         for (Todo todo: todoRepository.findAll())
             if (todo.isTodaysTodo())
                 todayTodoCount++;
 
-        LocalDate planedDate = LocalDate.now();
+        todoService.checkAndUpdateTodos();
+
+        doneTodo = todoRepository.getOne(3);
+        Assert.assertFalse(doneTodo.isDone());
+
+        LocalDate planedDate = LocalDate.now().minusDays(1);
         List<DailyCheck> todayDailyCheckList = dailyCheckRepository.findByPlanedDate(planedDate);
         Assert.assertEquals(todayTodoCount, todayDailyCheckList.size());
     }
