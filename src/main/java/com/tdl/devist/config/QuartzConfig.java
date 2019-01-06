@@ -35,7 +35,7 @@ public class QuartzConfig {
         JobDetailFactoryBean jobDetailFactoryBean = new JobDetailFactoryBean();
         jobDetailFactoryBean.setJobClass(QuartzJobLauncher.class);
         Map<String, Object> map = new HashMap<>();
-        map.put("jobName", "simpleJob");
+        map.put("jobName", "creatingDailyChecksJob");
         map.put("jobLauncher", jobLauncher);
         map.put("jobLocator", jobLocator);
 
@@ -48,8 +48,7 @@ public class QuartzConfig {
     public CronTriggerFactoryBean cronTriggerFactoryBean() {
         CronTriggerFactoryBean cronTriggerFactoryBean = new CronTriggerFactoryBean();
         cronTriggerFactoryBean.setJobDetail(jobDetailFactoryBean().getObject());
-        // run every 10seconds
-        cronTriggerFactoryBean.setCronExpression("*/10 * * * * ? *");
+        cronTriggerFactoryBean.setCronExpression("0 0 0 * * ? *");
 
         return cronTriggerFactoryBean;
     }

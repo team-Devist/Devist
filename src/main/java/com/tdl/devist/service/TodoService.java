@@ -52,7 +52,7 @@ public class TodoService {
         todoRepository.save(todo);
     }
 
-    void checkAndUpdateTodos() {
+    public void checkAndUpdateTodos() {
         int dayOfWeek = 1 << (LocalDate.now().getDayOfWeek().getValue() - 1);
         for (Todo todo: todoRepository.findAll()) {
             if ((todo.getRepeatDay() & dayOfWeek) > 0) {

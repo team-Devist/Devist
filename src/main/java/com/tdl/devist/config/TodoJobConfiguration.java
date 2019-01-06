@@ -1,7 +1,7 @@
 package com.tdl.devist.config;
 
 import com.tdl.devist.model.Todo;
-import com.tdl.devist.repository.TodoRepository;
+import com.tdl.devist.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
-
 
 @RequiredArgsConstructor
 @Configuration
@@ -22,23 +20,20 @@ public class TodoJobConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
 
     @Autowired
-    private TodoRepository todoRepository;
+    private TodoService todoService;
 
     @Bean
-    public Job simpleJob() {
-        return jobBuilderFactory.get("simpleJob")
-                .start(simpleStep1())
+    public Job creatingDailyChecksJob() {
+        return jobBuilderFactory.get("creatingDailyChecksJob")
+                .start(creatingDailyChecksStep())
                 .build();
     }
 
     @Bean
-    public Step simpleStep1() {
-        return stepBuilderFactory.get("simpleStep1")
+    public Step creatingDailyChecksStep() {
+        return stepBuilderFactory.get("creatingDailyChecksStep")
                 .tasklet((contribution, chunkContext) -> {
-                    List<Todo> todoList = todoRepository.findAll();
-                    for (Todo todo: todoList) {
-                        System.out.println(todo);
-                    }
+                    todoService.checkAndUpdateTodos();
 
                     return RepeatStatus.FINISHED;
                 })
