@@ -53,9 +53,8 @@ public class TodoService {
     }
 
     public void checkAndUpdateTodos() {
-        int dayOfWeek = 1 << (LocalDate.now().getDayOfWeek().getValue() - 1);
         for (Todo todo: todoRepository.findAll()) {
-            if ((todo.getRepeatDay() & dayOfWeek) > 0) {
+            if (todo.isTodaysTodo()) {
                 dailyCheckService.createDailyCheckByTodo(todo);
                 todo.setDone(false);
             }

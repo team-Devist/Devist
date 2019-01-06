@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -59,4 +60,8 @@ public class Todo {
         repeatDay = Byte.parseByte(res.toString(), 2);
     }
 
+    public boolean isTodaysTodo() {
+        int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
+        return (repeatDay & (1 << (dayOfWeek - 1))) > 0;
+    }
 }

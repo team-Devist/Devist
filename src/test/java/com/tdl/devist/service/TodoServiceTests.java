@@ -115,11 +115,9 @@ public class TodoServiceTests {
         Assert.assertFalse(doneTodo.isDone());
 
         int todayTodoCount = 0;
-        int dayOfWeek = 1 << (LocalDate.now().getDayOfWeek().getValue() - 1);
-        for (Todo todo: todoRepository.findAll()) {
-            if ((todo.getRepeatDay() & dayOfWeek) > 0)
+        for (Todo todo: todoRepository.findAll())
+            if (todo.isTodaysTodo())
                 todayTodoCount++;
-        }
 
         LocalDate planedDate = LocalDate.now();
         List<DailyCheck> todayDailyCheckList = dailyCheckRepository.findByPlanedDate(planedDate);
