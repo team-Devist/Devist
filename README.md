@@ -3,7 +3,12 @@
 
 ## Stack
 - Spring Boot
+- Spring MVC
+- Spring Batch
+- Spring Security
+- Hibernate
 - MySQL
+- Thymeleaf
 
 
 ## URL Convention

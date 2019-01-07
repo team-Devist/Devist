@@ -32,7 +32,9 @@ spring:
       enabled: true
   thymeleaf:
     cache: false
-
+  batch:
+    job:
+      enabled: false
 
 server:
   port: 8080
