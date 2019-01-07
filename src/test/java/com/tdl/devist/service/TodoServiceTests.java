@@ -88,7 +88,7 @@ public class TodoServiceTests {
 
     @Test
     @Transactional
-    public void testSetTodoIsDone() {
+    public void testSetTodoIsDoneWhenUserDo() {
         final int TODO_ID = 0;
         Todo todo = todoRepository.getOne(TODO_ID);
         Assert.assertFalse(todo.isDone());
@@ -126,13 +126,21 @@ public class TodoServiceTests {
 
     @Test
     @Transactional
-    public void updateDoneRateAfterPlanedDate() {
+    public void testUpdateDoneRateWhenUserDo() {
         Todo todo = todoRepository.getOne(4);
         Assert.assertEquals(50.00, todo.getDoneRate(), 00.01);
 
-        todoService.checkAndUpdateTodos();
+        todoService.setTodoIsDone(4, false);
+        todoService.updateDoneRate(4);
 
         todo = todoRepository.getOne(4);
-        Assert.assertEquals(60.00, todo.getDoneRate(), 00.01);
+        Assert.assertEquals(40.00, todo.getDoneRate(), 00.01);
+
+        todoService.setTodoIsDone(4, true);
+        todoService.updateDoneRate(4);
+
+        todo = todoRepository.getOne(4);
+        Assert.assertEquals(50.00, todo.getDoneRate(), 00.01);
+
     }
 }

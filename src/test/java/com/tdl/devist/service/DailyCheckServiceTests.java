@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

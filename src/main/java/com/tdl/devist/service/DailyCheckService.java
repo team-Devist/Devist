@@ -25,4 +25,12 @@ public class DailyCheckService {
         dailyCheck.setPlanedDate(LocalDate.now().minusDays(1));
         dailyCheckRepository.save(dailyCheck);
     }
+
+    int getTotalCountByTodo(Todo todo) {
+        return dailyCheckRepository.findByTodo(todo).size();
+    }
+
+    int getDoneCountByTodo(Todo todo) {
+        return dailyCheckRepository.findByTodoAndIsDone(todo, true).size();
+    }
 }

@@ -72,6 +72,7 @@ public class TodoController {
     @RequestMapping(value = "/{id}/do", method = RequestMethod.POST)
     public @ResponseBody String doTodo(@PathVariable int id, @RequestParam boolean isDone) {
         todoService.setTodoIsDone(id, isDone);
+        todoService.updateDoneRate(id);
         return "ok";
     }
 
