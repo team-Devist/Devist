@@ -61,6 +61,18 @@ public class Todo {
         repeatDay = Byte.parseByte(res.toString(), 2);
     }
 
+    public void convertRepeatDayByteToBooleanArr() {
+
+        String binary = Integer.toBinaryString(repeatDay);
+        for (int i = binary.length() - 1; i > 0; i--) {
+            try {
+                repeatCheckbox[i] = binary.charAt(i) == '1';
+            } catch (StringIndexOutOfBoundsException e) {
+                repeatCheckbox[i] = false;
+            }
+        }
+    }
+
 
     public boolean isTodaysTodo() {
         int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();

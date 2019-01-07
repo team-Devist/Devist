@@ -4,17 +4,13 @@ import com.tdl.devist.repository.TodoRepository;
 import com.tdl.devist.repository.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
 @Profile("dev")
 public class TodoTest {
 
@@ -43,6 +39,19 @@ public class TodoTest {
         Assert.assertEquals(1, todoList.size());
         Todo afterTodo = todoList.get(0);
         Assert.assertEquals(TEST_TODO_TITLE, afterTodo.getTitle());
+    }
+
+    @Test
+    public void 변환_테스트_Byte에서_boolean_Array로() {
+        Todo todo1 = generateTestTodoInstance();
+        todo1.setRepeatDay((byte) 127);
+        Assert.assertEquals(Arrays.toString(new boolean[]{true, true, true, true, true, true, true}), Arrays.toString(todo1.getRepeatCheckbox()));
+
+        System.out.println(Arrays.toString(todo1.getRepeatCheckbox()));
+
+        Todo todo2 = generateTestTodoInstance();
+        todo2.setRepeatDay((byte) 65);
+        Assert.assertEquals(Arrays.toString(new boolean[]{true, false, false, false, false, false, true}), Arrays.toString(todo2.getRepeatCheckbox()));
     }
 
     private User generateTestUserInstance() {

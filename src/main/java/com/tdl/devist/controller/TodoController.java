@@ -67,6 +67,7 @@ public class TodoController {
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String editForm(Model model, @PathVariable int id) {
         Todo todo = todoService.findTodoById(id);
+        todo.convertRepeatDayByteToBooleanArr();
         model.addAttribute("todo", todo);
 
         return "edittodo";
@@ -74,6 +75,7 @@ public class TodoController {
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
     public String edit(Todo todo, @PathVariable int id) {
+        System.out.println("@@ todo: " + todo);
         todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
         Todo editedTodo = todoService.editTodo(id, todo);
         todoService.updateTodo(editedTodo);

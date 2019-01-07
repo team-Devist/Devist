@@ -29,7 +29,6 @@ public class HomeController {
             User user = userService.getUserByUserName(principal.getName());
             List<Todo> todoList = user.getTodayTodoList();
             List<Todo> completedTodoList = user.getCompletedTodayTodoList();
-
             model.addAttribute("todo_list", todoList);
             model.addAttribute("completed_todo_list", completedTodoList);
 
