@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class DailyCheck {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private LocalDate planedDate;
     private boolean isDone;

@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface DailyCheckRepository extends JpaRepository<DailyCheck, Integer> {
     List<DailyCheck> findByPlanedDate(LocalDate planedDate);
+    List<DailyCheck> findByTodoAndPlanedDate(Todo todo, LocalDate planedDate);
     List<DailyCheck> findByTodo(Todo todo);
     List<DailyCheck> findByTodoAndIsDone(Todo todo, boolean isDone);
 }

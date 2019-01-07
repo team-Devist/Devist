@@ -45,7 +45,7 @@ public class TodoService {
         return todoRepository.findAll();
     }
 
-    public void checkAndUpdateTodos() {
+    public void renewTodos() {
         for (Todo todo: todoRepository.findAll()) {
             // Todo: 같은 날에 두번 실행되지 않도록 하는 예외처리 추가하기.
             if (todo.isTodaysTodo()) {
@@ -58,7 +58,9 @@ public class TodoService {
 
     public void setTodoIsDone(int todoId, boolean isDone) {
         Todo todo = todoRepository.getOne(todoId);
+        if (!todo.isTodaysTodo()) return; // Todo: Error 처리
         todo.setDone(isDone);
+        dailyCheckService.setTodayCheckDone(todo, isDone);
         todoRepository.save(todo);
     }
 
@@ -68,7 +70,6 @@ public class TodoService {
         int doneCount = dailyCheckService.getDoneCountByTodo(todo);
 
         todo.setDoneRate((double)doneCount / totalCount * 100.00);
-        System.out.println(todo.getDoneRate());
         todoRepository.save(todo);
     }
 }
