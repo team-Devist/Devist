@@ -69,12 +69,12 @@ public class UserTest {
 
     @Test
     @Transactional
-    public void testGetUncompletedTodayTodoList() {
+    public void testGetCompletedTodayTodoList() {
         User user = userRepository.getOne("cjh5414");
         List<Todo> todoList = user.getCompletedTodayTodoList();
 
         Assert.assertEquals(2, todoList.size());
-        Assert.assertEquals("완료된 할 일 1", todoList.get(0).getTitle());
+        Assert.assertEquals("완료된 할 일", todoList.get(0).getTitle());
     }
 }
 

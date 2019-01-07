@@ -26,4 +26,11 @@ public class UtilsForTests {
         dailyCheck.setPlanedDate(LocalDate.now());
         dailyCheckRepository.save(dailyCheck);
     }
+
+    @Transactional
+    public void updatePlanedDateToToday(Todo todo) {
+        DailyCheck dailyCheck = dailyCheckRepository.findByTodoAndPlanedDate(todo, LocalDate.of(2019, 1, 1)).get(0);
+        dailyCheck.setPlanedDate(LocalDate.now());
+        dailyCheckRepository.save(dailyCheck);
+    }
 }
