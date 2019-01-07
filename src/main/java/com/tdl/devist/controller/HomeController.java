@@ -28,10 +28,10 @@ public class HomeController {
         else {
             User user = userService.getUserByUserName(principal.getName());
             List<Todo> todoList = user.getTodayTodoList();
-            List<Todo> unCompletedTodoList = user.getUncompletedTodayTodoList();
+            List<Todo> completedTodoList = user.getCompletedTodayTodoList();
 
             model.addAttribute("todo_list", todoList);
-            model.addAttribute("uncompleted_todo_list", unCompletedTodoList);
+            model.addAttribute("completed_todo_list", completedTodoList);
 
             return "user_home";
         }
