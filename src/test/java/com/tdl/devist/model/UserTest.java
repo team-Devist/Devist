@@ -57,7 +57,7 @@ public class UserTest {
 
         int todoSize = 1;
         switch (LocalDate.now().getDayOfWeek().getValue()) {
-            case 1:
+            case 2:
             case 3:
             case 7:
                 todoSize = 2;

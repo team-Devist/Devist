@@ -33,7 +33,7 @@ public class TodoJobConfiguration {
     public Step creatingDailyChecksStep() {
         return stepBuilderFactory.get("creatingDailyChecksStep")
                 .tasklet((contribution, chunkContext) -> {
-                    todoService.checkAndUpdateTodos();
+                    todoService.renewTodos();
 
                     return RepeatStatus.FINISHED;
                 })

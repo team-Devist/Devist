@@ -1,5 +1,6 @@
 package com.tdl.devist.controller;
 
+import com.tdl.devist.testutils.UtilsForTests;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +29,9 @@ public class TodoControllerTests {
     @Autowired
     private WebApplicationContext context;
     private MockMvc mockMvc;
+
+    @Autowired
+    private UtilsForTests utils;
 
     @Before
     public void setup() {
@@ -64,10 +68,11 @@ public class TodoControllerTests {
 
     @Test
     public void testCheckTodoIsDone() throws Exception {
+        utils.updatePlanedDateToToday(0);
         mockMvc.perform(post("/todo/0/do")
                 .param("isDone", "true")
                 .with(csrf())
-                .with(user("admin").password("1234").roles("ADMIN")))
+                .with(user("cjh5414").password("1234").roles("USER")))
                 .andExpect(status().isOk())
                 .andExpect(content().string("ok"));
     }
