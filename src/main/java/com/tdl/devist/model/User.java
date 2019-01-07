@@ -67,13 +67,14 @@ public class User {
         return uncompletedTodayTodoList;
     }
 
-    public void editTodo(Todo originTodo, Todo editedTodo) {
+    public Todo editTodo(Todo originTodo, Todo editedTodo) {
         int index = indexOf(originTodo);
         originTodo.setTitle(editedTodo.getTitle());
         originTodo.setDescription(editedTodo.getDescription());
         originTodo.setRepeatDay(editedTodo.getRepeatDay());
-        todoList.set(index, originTodo);
+        return todoList.set(index, originTodo);
     }
+
 
     private int indexOf(Todo todo) {
         return todoList.indexOf(todo);

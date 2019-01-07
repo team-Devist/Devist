@@ -39,10 +39,10 @@ public class TodoService {
         deleteTodo(todo);
     }
 
-    public void editTodo(int id, Todo editedTodo) {
+    public Todo editTodo(int id, Todo editedTodo) {
         Todo originTodo = todoRepository.getOne(id);
         User user = originTodo.getUser();
-        user.editTodo(originTodo, editedTodo);
+        return user.editTodo(originTodo, editedTodo);
     }
 
     public long count() {
@@ -56,6 +56,10 @@ public class TodoService {
     public void setTodoIsDone(int todo_id, boolean isDone) {
         Todo todo = todoRepository.getOne(todo_id);
         todo.setDone(isDone);
+        todoRepository.save(todo);
+    }
+
+    public void updateTodo(Todo todo) {
         todoRepository.save(todo);
     }
 }

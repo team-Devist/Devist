@@ -75,10 +75,8 @@ public class TodoController {
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
     public String edit(Todo todo, @PathVariable int id) {
         todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
-        User user = userService.getUserByUserName(getCurrentUserName());
-
-        todoService.editTodo(id, todo);
-        userService.updateUser(user);
+        Todo editedTodo = todoService.editTodo(id, todo);
+        todoService.updateTodo(editedTodo);
 
         return "redirect:/";
     }
