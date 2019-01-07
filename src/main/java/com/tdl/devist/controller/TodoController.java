@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -70,9 +71,10 @@ public class TodoController {
     }
 
     @RequestMapping(value = "/{id}/do", method = RequestMethod.POST)
-    public @ResponseBody String doTodo(@PathVariable int id, @RequestParam boolean isDone) {
+    public @ResponseBody String doTodo(@PathVariable int id, @RequestParam boolean isDone, final Principal principal) {
         todoService.setTodoIsDone(id, isDone);
         todoService.updateDoneRate(id);
+        userService.updateDoneRate(principal.getName());
         return "ok";
     }
 
