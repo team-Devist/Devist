@@ -1,5 +1,7 @@
 package com.tdl.devist.controller;
 
+import com.tdl.devist.model.Todo;
+import com.tdl.devist.repository.TodoRepository;
 import com.tdl.devist.testutils.UtilsForTests;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +15,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import javax.transaction.Transactional;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -29,6 +33,9 @@ public class TodoControllerTests {
     @Autowired
     private WebApplicationContext context;
     private MockMvc mockMvc;
+
+    @Autowired
+    private TodoRepository todoRepository;
 
     @Autowired
     private UtilsForTests utils;
@@ -67,9 +74,11 @@ public class TodoControllerTests {
     }
 
     @Test
+    @Transactional
     public void testCheckTodoIsDone() throws Exception {
-        utils.updatePlanedDateToToday(0);
-        mockMvc.perform(post("/todo/0/do")
+        Todo todo = todoRepository.findByTitle("매일 하는 일").get(0);
+        utils.updatePlanedDateToToday(todo);
+        mockMvc.perform(post("/todo/" + todo.getId() + "/do")
                 .param("isDone", "true")
                 .with(csrf())
                 .with(user("cjh5414").password("1234").roles("USER")))

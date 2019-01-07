@@ -94,18 +94,17 @@ public class TodoServiceTests {
     @Test
     @Transactional
     public void testSetTodoIsDoneWhenUserDo() {
-        utils.updatePlanedDateToToday(0);
-
-        final int TODO_ID = 0;
-        Todo todo = todoRepository.getOne(TODO_ID);
+        final String TODO_TITLE = "매일 하는 일";
+        Todo todo = todoRepository.findByTitle(TODO_TITLE).get(0);
+        utils.updatePlanedDateToToday(todo);
         Assert.assertFalse(todo.isDone());
 
-        todoService.setTodoIsDone(TODO_ID, true);
-        todo = todoRepository.getOne(TODO_ID);
+        todoService.setTodoIsDone(todo.getId(), true);
+        todo = todoRepository.findByTitle(TODO_TITLE).get(0);
         Assert.assertTrue(todo.isDone());
 
-        todoService.setTodoIsDone(TODO_ID, false);
-        todo = todoRepository.getOne(TODO_ID);
+        todoService.setTodoIsDone(todo.getId(), false);
+        todo = todoRepository.findByTitle(TODO_TITLE).get(0);
         Assert.assertFalse(todo.isDone());
     }
 
@@ -123,12 +122,13 @@ public class TodoServiceTests {
     @Test
     @Transactional
     public void testCreateDailyCheckAfterRenewing() {
-        Todo doneTodo = todoRepository.getOne(3);
+        final String TODO_TITLE = "완료된 할 일";
+        Todo doneTodo = todoRepository.findByTitle(TODO_TITLE).get(0);
         int beforeDailyCheckCount = dailyCheckRepository.findByTodo(doneTodo).size();
 
         todoService.renewTodos();
 
-        doneTodo = todoRepository.getOne(3);
+        doneTodo = todoRepository.getOne(doneTodo.getId());
 
         Assert.assertEquals(beforeDailyCheckCount + 1, dailyCheckRepository.findByTodo(doneTodo).size());
 
@@ -155,21 +155,22 @@ public class TodoServiceTests {
     @Test
     @Transactional
     public void testUpdateDoneRateWhenUserDo() {
-        utils.updatePlanedDateToToday(4);
+        final String TODO_TITLE = "Daily check 많이 가지고 있는 할 일";
+        Todo todo = todoRepository.findByTitle(TODO_TITLE).get(0);
+        utils.updatePlanedDateToToday(todo);
 
-        Todo todo = todoRepository.getOne(4);
         Assert.assertEquals(40.00, todo.getDoneRate(), 00.01);
 
-        todoService.setTodoIsDone(4, true);
-        todoService.updateDoneRate(4);
+        todoService.setTodoIsDone(todo.getId(), true);
+        todoService.updateDoneRate(todo.getId());
 
-        todo = todoRepository.getOne(4);
+        todo = todoRepository.findByTitle(TODO_TITLE).get(0);
         Assert.assertEquals(60.00, todo.getDoneRate(), 00.01);
 
-        todoService.setTodoIsDone(4, false);
-        todoService.updateDoneRate(4);
+        todoService.setTodoIsDone(todo.getId(), false);
+        todoService.updateDoneRate(todo.getId());
 
-        todo = todoRepository.getOne(4);
+        todo = todoRepository.findByTitle(TODO_TITLE).get(0);
         Assert.assertEquals(40.00, todo.getDoneRate(), 00.01);
 
     }
