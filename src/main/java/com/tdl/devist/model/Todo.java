@@ -51,6 +51,7 @@ public class Todo {
      * @author delf
      * <p>
      * view에서 받아 저장된 {@link #repeatCheckbox}을 byte로 변환하여 {@link #repeatDay}에 저장합니다.
+     * 이슈 #17을 참고할 것.
      */
     public void convertRepeatDayBooleanArrToByte() {
         StringBuilder res = new StringBuilder();
@@ -59,6 +60,18 @@ public class Todo {
         }
         repeatDay = Byte.parseByte(res.toString(), 2);
     }
+
+    public void convertRepeatDayByteToBooleanArr() {
+        String binary = Integer.toBinaryString(repeatDay);
+        for (int i = repeatCheckbox.length - 1; i > 0; i--) {
+            try {
+                repeatCheckbox[i] = binary.charAt(i) == '1';
+            } catch (StringIndexOutOfBoundsException e) {
+                repeatCheckbox[i] = false;
+            }
+        }
+    }
+
 
     public boolean isTodaysTodo() {
         int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();

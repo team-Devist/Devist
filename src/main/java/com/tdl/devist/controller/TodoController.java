@@ -49,28 +49,41 @@ public class TodoController {
     public String add(Todo todo) {
         String userName = getCurrentUserName();
         User user = userService.getUserByUserName(userName);
-
+        todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
         todoService.addTodo(user, todo);
-        userService.updateUser(user);
+        // userService.updateUser(user);
 
-        return "redirect:/todo";
+        return "redirect:/";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
     public String delete(@PathVariable int id) {
         User user = userService.getUserByUserName(getCurrentUserName());
-        List<Todo> todoList = user.getTodoList();
+        todoService.deleteTodo(user, id);
 
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+    public String editForm(Model model, @PathVariable int id) {
         Todo todo = todoService.findTodoById(id);
-        todoList.remove(todo);
+        todo.convertRepeatDayByteToBooleanArr();
+        model.addAttribute("todo", todo);
 
-        todoService.deleteTodo(todo);
+        return "edittodo";
+    }
 
-        return "redirect:/todo";
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+    public String edit(Todo todo, @PathVariable int id) {
+        todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
+        todoService.updateTodo(id, todo);
+
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/{id}/do", method = RequestMethod.POST)
-    public @ResponseBody String doTodo(@PathVariable int id, @RequestParam boolean isDone) {
+    public @ResponseBody
+    String doTodo(@PathVariable int id, @RequestParam boolean isDone) {
         todoService.setTodoIsDone(id, isDone);
         todoService.updateDoneRate(id);
         return "ok";
