@@ -15,13 +15,19 @@ public class TodoTest {
     private final String TEST_TODO_TITLE = "Todo 테스트하기 in TodoTest.class";
 
     @Test
-    @Transactional
-    public void 변환테스트() {
+    public void 변환테스트_byte에서_booleanArr() {
         Todo todo = generateTestTodoInstance();
         todo.setRepeatDay((byte) 1);
         todo.convertRepeatDayByteToBooleanArr();
         Assert.assertEquals(Arrays.toString(new boolean[]{false, false, false, false, false, false, true}), Arrays.toString(todo.getRepeatCheckbox()));
+    }
 
+    @Test
+    public void 변환테스트_booleanArr에서_byte() {
+        Todo todo = generateTestTodoInstance();
+        todo.setRepeatCheckbox(new boolean[]{false, false, false, false, false, false, true});
+        todo.convertRepeatDayBooleanArrToByte();
+        Assert.assertEquals(1, todo.getRepeatDay());
     }
 
     private User generateTestUserInstance() {
