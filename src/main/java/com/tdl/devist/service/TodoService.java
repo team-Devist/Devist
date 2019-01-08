@@ -41,10 +41,13 @@ public class TodoService {
         deleteTodo(todo);
     }
 
-    public Todo editTodo(int id, Todo editedTodo) {
+    public void updateTodo(int id, Todo editedTodo) {
         Todo originTodo = todoRepository.getOne(id);
-        User user = originTodo.getUser();
-        return user.editTodo(originTodo, editedTodo);
+
+        originTodo.setTitle(editedTodo.getTitle());
+        originTodo.setDescription(editedTodo.getDescription());
+        originTodo.setRepeatDay(editedTodo.getRepeatDay());
+        todoRepository.save(originTodo);
     }
 
     public long count() {
@@ -55,25 +58,31 @@ public class TodoService {
         return todoRepository.findAll();
     }
 
-    public void setTodoIsDone(int todo_id, boolean isDone) {
-        Todo todo = todoRepository.getOne(todo_id);
-        todo.setDone(isDone);
-        todoRepository.save(todo);
-    }
-
-    public void updateTodo(Todo todo) {
-        todoRepository.save(todo);
-    }
-
-    public void checkAndUpdateTodos() {
+    public void renewTodos() {
         for (Todo todo: todoRepository.findAll()) {
             // Todo: 같은 날에 두번 실행되지 않도록 하는 예외처리 추가하기.
             if (todo.isTodaysTodo()) {
-                todo.updateDoneRate();
                 dailyCheckService.createDailyCheckByTodo(todo);
                 todo.setDone(false);
                 todoRepository.save(todo);
             }
         }
+    }
+
+    public void setTodoIsDone(int todoId, boolean isDone) {
+        Todo todo = todoRepository.getOne(todoId);
+        if (!todo.isTodaysTodo()) return; // Todo: Error 처리
+        todo.setDone(isDone);
+        dailyCheckService.setTodayCheckDone(todo, isDone);
+        todoRepository.save(todo);
+    }
+
+    public void updateDoneRate(int todoId) {
+        Todo todo = todoRepository.getOne(todoId);
+        int totalCount = dailyCheckService.getTotalCountByTodo(todo);
+        int doneCount = dailyCheckService.getDoneCountByTodo(todo);
+
+        todo.setDoneRate((double)doneCount / totalCount * 100.00);
+        todoRepository.save(todo);
     }
 }

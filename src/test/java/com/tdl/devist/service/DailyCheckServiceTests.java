@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -32,18 +31,9 @@ public class DailyCheckServiceTests {
     @Test
     @Transactional
     public void TestCreateDailyCheckByTodo() {
-        Todo notDoneTodo = todoRepository.getOne(0);
-
-        dailyCheckService.createDailyCheckByTodo(notDoneTodo);
-        DailyCheck dailyCheck = dailyCheckRepository.findByTodo(notDoneTodo).get(0);
+        Todo todo = todoRepository.getOne(4);
+        dailyCheckService.createDailyCheckByTodo(todo);
+        DailyCheck dailyCheck = dailyCheckRepository.findByTodoAndPlanedDate(todo, LocalDate.now()).get(0);
         Assert.assertFalse(dailyCheck.isDone());
-        Assert.assertEquals(LocalDate.now().minusDays(1), dailyCheck.getPlanedDate());
-
-        Todo doneTodo = todoRepository.getOne(3);
-
-        dailyCheckService.createDailyCheckByTodo(doneTodo);
-        dailyCheck = dailyCheckRepository.findByTodo(doneTodo).get(0);
-        Assert.assertTrue(dailyCheck.isDone());
-        Assert.assertEquals(LocalDate.now().minusDays(1), dailyCheck.getPlanedDate());
     }
 }

@@ -62,9 +62,8 @@ public class Todo {
     }
 
     public void convertRepeatDayByteToBooleanArr() {
-
         String binary = Integer.toBinaryString(repeatDay);
-        for (int i = binary.length() - 1; i > 0; i--) {
+        for (int i = repeatCheckbox.length - 1; i > 0; i--) {
             try {
                 repeatCheckbox[i] = binary.charAt(i) == '1';
             } catch (StringIndexOutOfBoundsException e) {
@@ -77,13 +76,5 @@ public class Todo {
     public boolean isTodaysTodo() {
         int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
         return (repeatDay & (1 << (dayOfWeek - 1))) > 0;
-    }
-
-    public void updateDoneRate() {
-        int totalCount = dailyChecks.size();
-        double doneCount = totalCount * doneRate / 100;
-        if (isDone) doneCount++;
-
-        doneRate = doneCount / (totalCount + 1) * 100;
     }
 }

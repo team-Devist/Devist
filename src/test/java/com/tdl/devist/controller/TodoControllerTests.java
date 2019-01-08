@@ -4,6 +4,8 @@ import com.tdl.devist.model.Todo;
 import com.tdl.devist.model.User;
 import com.tdl.devist.repository.UserRepository;
 import org.junit.Assert;
+import com.tdl.devist.repository.TodoRepository;
+import com.tdl.devist.testutils.UtilsForTests;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,6 +42,12 @@ public class TodoControllerTests {
     @Autowired
     private WebApplicationContext context;
     private MockMvc mockMvc;
+
+    @Autowired
+    private TodoRepository todoRepository;
+
+    @Autowired
+    private UtilsForTests utils;
 
     @Before
     public void setup() {
@@ -110,7 +118,6 @@ public class TodoControllerTests {
         int todoId = todoList.get(0).getId();
 
         String editedTitle = "바뀐 타이틀";
-        // mockMvc.perform(post("/todo/" + todoId + "/edit")
         mockMvc.perform(post("/todo/" + todoId + "/edit")
                 .with(user("cjh5414").password("1234").roles("USER"))
                 .param("title", editedTitle)
@@ -122,11 +129,14 @@ public class TodoControllerTests {
     }
 
     @Test
+    @Transactional
     public void testCheckTodoIsDone() throws Exception {
-        mockMvc.perform(post("/todo/0/do")
+        Todo todo = todoRepository.findByTitle("매일 하는 일").get(0);
+        utils.updatePlanedDateToToday(todo);
+        mockMvc.perform(post("/todo/" + todo.getId() + "/do")
                 .param("isDone", "true")
                 .with(csrf())
-                .with(user("admin").password("1234").roles("ADMIN")))
+                .with(user("cjh5414").password("1234").roles("USER")))
                 .andExpect(status().isOk())
                 .andExpect(content().string("ok"));
     }

@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +39,6 @@ public class User {
     }
 
     public boolean addTodo(Todo todo) {
-        System.out.printf("@ add todo(%d): %s\n", todo.getId(), todo);
         return todoList.add(todo);
     }
 
@@ -65,7 +63,6 @@ public class User {
     }
 
     public Todo editTodo(Todo originTodo, Todo editedTodo) {
-        System.out.printf("@ edit todo(%d): %s\n", editedTodo.getId(), editedTodo);
         int index = indexOf(originTodo);
         originTodo.setTitle(editedTodo.getTitle());
         originTodo.setDescription(editedTodo.getDescription());
