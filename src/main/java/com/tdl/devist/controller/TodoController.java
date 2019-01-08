@@ -87,6 +87,7 @@ public class TodoController {
     public @ResponseBody
     String doTodo(@PathVariable int id, @RequestParam boolean isDone) {
         todoService.setTodoIsDone(id, isDone);
+        todoService.updateDoneRate(id);
         return "ok";
     }
 

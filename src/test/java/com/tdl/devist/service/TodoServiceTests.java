@@ -6,6 +6,7 @@ import com.tdl.devist.model.Todo;
 import com.tdl.devist.model.User;
 import com.tdl.devist.repository.DailyCheckRepository;
 import com.tdl.devist.repository.TodoRepository;
+import com.tdl.devist.testutils.UtilsForTests;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -37,6 +39,9 @@ public class TodoServiceTests {
 
     @Autowired
     private DailyCheckRepository dailyCheckRepository;
+
+    @Autowired
+    private UtilsForTests utils;
 
     private final String TEST_USER_NAME = "dbadmin";
     private final String TEST_TODO_TITLE = "Todo 테스트하기";
@@ -109,51 +114,85 @@ public class TodoServiceTests {
 
     @Test
     @Transactional
-    public void testSetTodoIsDone() {
-        final int TODO_ID = 0;
-        Todo todo = todoRepository.getOne(TODO_ID);
+    public void testSetTodoIsDoneWhenUserDo() {
+        final String TODO_TITLE = "매일 하는 일";
+        Todo todo = todoRepository.findByTitle(TODO_TITLE).get(0);
+        utils.updatePlanedDateToToday(todo);
         Assert.assertFalse(todo.isDone());
 
-        todoService.setTodoIsDone(TODO_ID, true);
-        todo = todoRepository.getOne(TODO_ID);
+        todoService.setTodoIsDone(todo.getId(), true);
+        todo = todoRepository.findByTitle(TODO_TITLE).get(0);
         Assert.assertTrue(todo.isDone());
 
-        todoService.setTodoIsDone(TODO_ID, false);
-        todo = todoRepository.getOne(TODO_ID);
+        todoService.setTodoIsDone(todo.getId(), false);
+        todo = todoRepository.findByTitle(TODO_TITLE).get(0);
         Assert.assertFalse(todo.isDone());
     }
 
     @Test
     @Transactional
-    public void testCheckTodosAfterPlanedDate() {
-        Todo doneTodo = todoRepository.getOne(3);
-        Assert.assertTrue(doneTodo.isDone());
-        Assert.assertEquals(0, dailyCheckRepository.findByTodo(doneTodo).size());
+    public void testUpdateTodoIsDoneAfterRenewing() {
+        todoService.renewTodos();
 
-        int todayTodoCount = 0;
-        for (Todo todo: todoRepository.findAll())
+        List<Todo> todoList = todoRepository.findAll();
+        for (Todo todo : todoList)
             if (todo.isTodaysTodo())
-                todayTodoCount++;
-
-        todoService.checkAndUpdateTodos();
-
-        doneTodo = todoRepository.getOne(3);
-        Assert.assertFalse(doneTodo.isDone());
-
-        LocalDate planedDate = LocalDate.now().minusDays(1);
-        List<DailyCheck> todayDailyCheckList = dailyCheckRepository.findByPlanedDate(planedDate);
-        Assert.assertEquals(todayTodoCount, todayDailyCheckList.size());
+                Assert.assertFalse(todo.isDone());
     }
 
     @Test
     @Transactional
-    public void updateDoneRateAfterPlanedDate() {
-        Todo todo = todoRepository.getOne(4);
-        Assert.assertEquals(50.00, todo.getDoneRate(), 00.01);
+    public void testCreateDailyCheckAfterRenewing() {
+        final String TODO_TITLE = "완료된 할 일";
+        Todo doneTodo = todoRepository.findByTitle(TODO_TITLE).get(0);
+        int beforeDailyCheckCount = dailyCheckRepository.findByTodo(doneTodo).size();
 
-        todoService.checkAndUpdateTodos();
+        todoService.renewTodos();
 
-        todo = todoRepository.getOne(4);
+        doneTodo = todoRepository.getOne(doneTodo.getId());
+
+        Assert.assertEquals(beforeDailyCheckCount + 1, dailyCheckRepository.findByTodo(doneTodo).size());
+
+        List<DailyCheck> newDailyCheckList = dailyCheckRepository.findByTodoAndPlanedDate(doneTodo, LocalDate.now());
+        Assert.assertEquals(1, newDailyCheckList.size());
+    }
+
+    @Test
+    @Transactional
+    public void TestCreatedDailyCheckCountWhenTodosRreRenewed() {
+        List<Todo> todoList = todoRepository.findAll();
+        int createdDailyChecksCount = 0;
+
+        for (Todo todo : todoList)
+            if (todo.isTodaysTodo())
+                createdDailyChecksCount++;
+
+        todoService.renewTodos();
+
+        List<DailyCheck> dailyChecklist = dailyCheckRepository.findByPlanedDate(LocalDate.now());
+        Assert.assertEquals(createdDailyChecksCount, dailyChecklist.size());
+    }
+
+    @Test
+    @Transactional
+    public void testUpdateDoneRateWhenUserDo() {
+        final String TODO_TITLE = "Daily check 많이 가지고 있는 할 일";
+        Todo todo = todoRepository.findByTitle(TODO_TITLE).get(0);
+        utils.updatePlanedDateToToday(todo);
+
+        Assert.assertEquals(40.00, todo.getDoneRate(), 00.01);
+
+        todoService.setTodoIsDone(todo.getId(), true);
+        todoService.updateDoneRate(todo.getId());
+
+        todo = todoRepository.findByTitle(TODO_TITLE).get(0);
         Assert.assertEquals(60.00, todo.getDoneRate(), 00.01);
+
+        todoService.setTodoIsDone(todo.getId(), false);
+        todoService.updateDoneRate(todo.getId());
+
+        todo = todoRepository.findByTitle(TODO_TITLE).get(0);
+        Assert.assertEquals(40.00, todo.getDoneRate(), 00.01);
+
     }
 }
