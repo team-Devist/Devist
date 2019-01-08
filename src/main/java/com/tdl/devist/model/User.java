@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,5 +60,18 @@ public class User {
                 completedTodayTodoList.add(todo);
 
         return completedTodayTodoList;
+    }
+
+    public Todo editTodo(Todo originTodo, Todo editedTodo) {
+        int index = indexOf(originTodo);
+        originTodo.setTitle(editedTodo.getTitle());
+        originTodo.setDescription(editedTodo.getDescription());
+        originTodo.setRepeatDay(editedTodo.getRepeatDay());
+        return todoList.set(index, originTodo);
+    }
+
+
+    private int indexOf(Todo todo) {
+        return todoList.indexOf(todo);
     }
 }

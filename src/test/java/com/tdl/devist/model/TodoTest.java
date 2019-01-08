@@ -1,48 +1,27 @@
 package com.tdl.devist.model;
 
-import com.tdl.devist.repository.TodoRepository;
-import com.tdl.devist.repository.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.Arrays;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+
 @Profile("dev")
 public class TodoTest {
-
-    @Autowired
-    private TodoRepository todoRepository;
-    @Autowired
-    private UserRepository userRepository;
 
     private final String TEST_USER_NAME = "my_name_is_user";
     private final String TEST_TODO_TITLE = "Todo 테스트하기 in TodoTest.class";
 
     @Test
     @Transactional
-    public void EntityManager를_이용한_Todo_추가_테스트() {
-        User user = generateTestUserInstance();
+    public void 변환테스트() {
+        Todo todo = generateTestTodoInstance();
+        todo.setRepeatDay((byte) 1);
+        todo.convertRepeatDayByteToBooleanArr();
+        Assert.assertEquals(Arrays.toString(new boolean[]{false, false, false, false, false, false, true}), Arrays.toString(todo.getRepeatCheckbox()));
 
-        userRepository.save(user);
-
-        Todo todo1 = generateTestTodoInstance();
-        user.addTodo(todo1);
-
-        userRepository.save(user);
-
-        User afterUser = userRepository.getOne(TEST_USER_NAME);
-        List<Todo> todoList = afterUser.getTodoList();
-        Assert.assertEquals(1, todoList.size());
-        Todo afterTodo = todoList.get(0);
-        Assert.assertEquals(TEST_TODO_TITLE, afterTodo.getTitle());
     }
 
     private User generateTestUserInstance() {

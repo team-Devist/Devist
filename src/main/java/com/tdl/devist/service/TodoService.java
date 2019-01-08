@@ -21,11 +21,9 @@ public class TodoService {
     }
 
     public void addTodo(User user, Todo todo) {
-        todo.convertRepeatDayBooleanArrToByte(); // stop-gap
         todo.setUser(user);
         todo.setCreatedTime(LocalDateTime.now());
         user.addTodo(todo);
-
         todoRepository.save(todo);
     }
 
@@ -35,6 +33,21 @@ public class TodoService {
 
     public void deleteTodo(Todo todo) {
         todoRepository.delete(todo);
+    }
+
+    public void deleteTodo(User user, int todoId) {
+        Todo todo = todoRepository.getOne(todoId);
+        user.getTodoList().remove(todo);
+        deleteTodo(todo);
+    }
+
+    public void updateTodo(int id, Todo editedTodo) {
+        Todo originTodo = todoRepository.getOne(id);
+
+        originTodo.setTitle(editedTodo.getTitle());
+        originTodo.setDescription(editedTodo.getDescription());
+        originTodo.setRepeatDay(editedTodo.getRepeatDay());
+        todoRepository.save(originTodo);
     }
 
     public long count() {
