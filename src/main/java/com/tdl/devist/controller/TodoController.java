@@ -5,8 +5,6 @@ import com.tdl.devist.model.User;
 import com.tdl.devist.service.TodoService;
 import com.tdl.devist.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +26,8 @@ public class TodoController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getTodoList(Model model) {
-
-        String userName = getCurrentUserName();
-        User user = userService.getUserByUserName(userName);
+    public String getTodoList(Principal principal, Model model) {
+        User user = userService.getUserByUserName(principal.getName());
         List<Todo> todoList = user.getTodoList();
 
         model.addAttribute("todo_list", todoList);
@@ -47,19 +43,17 @@ public class TodoController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(Todo todo) {
-        String userName = getCurrentUserName();
-        User user = userService.getUserByUserName(userName);
+    public String add(final Principal principal, Todo todo) {
+        User user = userService.getUserByUserName(principal.getName());
         todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
         todoService.addTodo(user, todo);
-        // userService.updateUser(user);
 
         return "redirect:/";
     }
 
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
-    public String delete(@PathVariable int id) {
-        User user = userService.getUserByUserName(getCurrentUserName());
+    public String delete(@PathVariable int id, final Principal principal) {
+        User user = userService.getUserByUserName(principal.getName());
         todoService.deleteTodo(user, id);
 
         return "redirect:/";
@@ -88,10 +82,5 @@ public class TodoController {
         todoService.updateDoneRate(id);
         userService.updateDoneRate(principal.getName());
         return "ok";
-    }
-
-    private String getCurrentUserName() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getName();
     }
 }
