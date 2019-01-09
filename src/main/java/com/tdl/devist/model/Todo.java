@@ -54,21 +54,15 @@ public class Todo {
      * 이슈 #17을 참고할 것.
      */
     public void convertRepeatDayBooleanArrToByte() {
-        StringBuilder res = new StringBuilder();
-        for (boolean b : repeatCheckbox) {
-            res.append(b ? 1 : 0);
+        repeatDay = 0;
+        for (int i = repeatCheckbox.length - 1; i >= 0; i--) {
+            repeatDay |= repeatCheckbox[i] ? (byte) (1 << (repeatCheckbox.length - 1) - i) : 0;
         }
-        repeatDay = Byte.parseByte(res.toString(), 2);
     }
 
     public void convertRepeatDayByteToBooleanArr() {
-        String binary = Integer.toBinaryString(repeatDay);
-        for (int i = repeatCheckbox.length - 1; i > 0; i--) {
-            try {
-                repeatCheckbox[i] = binary.charAt(i) == '1';
-            } catch (StringIndexOutOfBoundsException e) {
-                repeatCheckbox[i] = false;
-            }
+        for (int i = 0; i < repeatCheckbox.length; i++) {
+            repeatCheckbox[repeatCheckbox.length - 1 - i] = ((repeatDay << i) & 1) == 1;
         }
     }
 
