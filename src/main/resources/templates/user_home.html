@@ -21,6 +21,7 @@
             <tr>
                 <th scope="col">Title</th>
                 <th scope="col">Description</th>
+                <th scope="col">Done Rate</th>
                 <th scope="col">Completion</th>
             </tr>
             </thead>
@@ -31,6 +32,7 @@
             <tr th:each="todo : ${todo_list}">
                 <td th:text="${todo.title}"></td>
                 <td th:text="${todo.description}"></td>
+                <td><span th:text="${todo.doneRate}"></span>%</td>
                 <td><button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo" th:data-id="${todo.id}">완료</button></td>
             </tr>
             </tbody>
@@ -44,6 +46,7 @@
             <tr>
                 <th scope="col">Title</th>
                 <th scope="col">Description</th>
+                <th scope="col">Done Rate</th>
                 <th scope="col">Completion</th>
             </tr>
             </thead>
@@ -51,6 +54,7 @@
             <tr th:each="todo : ${completed_todo_list}">
                 <td th:text="${todo.title}"></td>
                 <td th:text="${todo.description}"></td>
+                <td><span th:text="${todo.doneRate}"></span>%</td>
                 <td><button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo" th:data-id="${todo.id}">완료</button></td>
             </tr>
             </tbody>
