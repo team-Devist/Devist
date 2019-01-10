@@ -38,4 +38,9 @@ public class UserService {
 
         userRepository.save(user);
     }
+
+    public boolean hasAuthorization(String userName, Todo todo) {
+        return !todo.getUser().getUsername().equals(userName);
+    }
+
 }
