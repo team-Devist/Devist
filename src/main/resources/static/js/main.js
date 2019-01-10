@@ -8,16 +8,16 @@ $(function() {
 
 $(document).ready(function(){
     $(document).on("click", ".btn-complete-todo", function () {
-        var table_id = $(this).closest("table").attr('id');
-        var tr = $(this).closest('tr').remove();
+        var div_id = $(this).closest("div").attr('id');
+        var a = $(this).closest("a").remove();
         var is_done;
 
-        if (table_id === "todo-table") {
-            $("#completed-todo-table tbody").append(tr);
+        if (div_id === "todo-list") {
+            $("#completed-todo-list").append(a);
             is_done = "true";
         }
         else {
-            $("#todo-table tbody").append(tr);
+            $("#todo-list").append(a);
             is_done = "false";
         }
 
@@ -26,8 +26,7 @@ $(document).ready(function(){
             url: "/todo/" + $(this).data("id") + "/do",
             data: {
                 'isDone': is_done
-            },
-            async: false
+           }
         });
     });
 });
