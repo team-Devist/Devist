@@ -34,7 +34,7 @@ spring:
     cache: false
   batch:
     job:
-      enabled: false
+      enabled: true
 
 server:
   port: 8080
