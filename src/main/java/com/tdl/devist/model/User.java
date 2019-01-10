@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,24 +45,33 @@ public class User {
     public List<Todo> getTodayTodoList() {
         List<Todo> todayTodoList = new ArrayList<>();
 
-        int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
-
         for (Todo todo: todoList)
-            if (!todo.isDone() && ((todo.getRepeatDay() & (1 << (dayOfWeek - 1))) > 0))
+            if (!todo.isDone() && todo.isTodaysTodo())
                 todayTodoList.add(todo);
 
         return todayTodoList;
     }
 
-    public List<Todo> getUncompletedTodayTodoList() {
-        List<Todo> uncompletedTodayTodoList = new ArrayList<>();
-
-        int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
+    public List<Todo> getCompletedTodayTodoList() {
+        List<Todo> completedTodayTodoList = new ArrayList<>();
 
         for (Todo todo: todoList)
-            if (todo.isDone() && ((todo.getRepeatDay() & (1 << (dayOfWeek - 1))) > 0))
-                uncompletedTodayTodoList.add(todo);
+            if (todo.isDone() && todo.isTodaysTodo())
+                completedTodayTodoList.add(todo);
 
-        return uncompletedTodayTodoList;
+        return completedTodayTodoList;
+    }
+
+    public Todo editTodo(Todo originTodo, Todo editedTodo) {
+        int index = indexOf(originTodo);
+        originTodo.setTitle(editedTodo.getTitle());
+        originTodo.setDescription(editedTodo.getDescription());
+        originTodo.setRepeatDay(editedTodo.getRepeatDay());
+        return todoList.set(index, originTodo);
+    }
+
+
+    private int indexOf(Todo todo) {
+        return todoList.indexOf(todo);
     }
 }

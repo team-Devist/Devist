@@ -41,18 +41,18 @@ public class HomeControllerTests {
                 .andExpect(view().name("home"));
 
         mockMvc.perform(get("/")
-                .with(user("delf").password("1234").roles("USER")))
+                .with(user("nesoy").password("1234").roles("USER")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user_home"))
-                .andExpect(content().string(is(not(containsString("알고리즘 문제 풀기")))))
-                .andExpect(content().string(is(not(containsString("spring 동영상 강의 보기")))));
+                .andExpect(content().string(is(not(containsString("매일 하는 일")))))
+                .andExpect(content().string(is(not(containsString("매일 하는 일인데 테스트 할라고 완료 시킴")))));
 
         mockMvc.perform(get("/")
                 .with(user("cjh5414").password("1234").roles("USER")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user_home"))
-                .andExpect(content().string(containsString("알고리즘 문제 풀기")))
-                .andExpect(content().string(containsString("spring 동영상 강의 보기")));
+                .andExpect(content().string(containsString("매일 하는 일")))
+                .andExpect(content().string(containsString("매일 하는 일인데 테스트 할라고 완료 시킴")));
     }
 }
 

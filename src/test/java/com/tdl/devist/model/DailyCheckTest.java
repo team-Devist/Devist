@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -33,16 +33,16 @@ public class DailyCheckTest {
 
         DailyCheck dc1 = new DailyCheck();
         dc1.setTodo(todo);
-        LocalDateTime d1 = LocalDateTime.now();
-        dc1.setPlanedTime(d1);
+        LocalDate d1 = LocalDate.now();
+        dc1.setPlanedDate(d1);
         dc1.setDone(true);
 
         todo.addDailyCheck(dc1);
 
         DailyCheck dc2 = new DailyCheck();
         dc2.setTodo(todo);
-        LocalDateTime d2 = LocalDateTime.now();
-        dc2.setPlanedTime(d2);
+        LocalDate d2 = LocalDate.now();
+        dc2.setPlanedDate(d2);
         dc2.setDone(false);
 
         todo.addDailyCheck(dc2);
@@ -54,11 +54,11 @@ public class DailyCheckTest {
 
         Assert.assertEquals(dc1.getId(), dailyChecks.get(0).getId());
         Assert.assertEquals(dc1.isDone(), dailyChecks.get(0).isDone());
-        Assert.assertEquals(dc1.getPlanedTime(), dailyChecks.get(0).getPlanedTime());
+        Assert.assertEquals(dc1.getPlanedDate(), dailyChecks.get(0).getPlanedDate());
 
         Assert.assertEquals(dc2.getId(), dailyChecks.get(1).getId());
         Assert.assertEquals(dc2.isDone(), dailyChecks.get(1).isDone());
-        Assert.assertEquals(dc2.getPlanedTime(), dailyChecks.get(1).getPlanedTime());
+        Assert.assertEquals(dc2.getPlanedDate(), dailyChecks.get(1).getPlanedDate());
 
         Todo resTodo = todoRepository.getOne(todo.getId());
         List<DailyCheck> set = resTodo.getDailyChecks();

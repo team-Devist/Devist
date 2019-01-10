@@ -7,6 +7,13 @@
 <body>
 
 <section layout:fragment="content">
+    <div class="container text-center">
+        <h2>달성률</h2>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped" role="progressbar" th:style="'width: '+(${user.doneRate})+'%'" th:aria-valuenow="${user.doneRate}" aria-valuemin="0" aria-valuemax="100" th:text="${user.doneRate}+'%'"></div>
+        </div>
+    </div>
+
     <div class="container">
         <h1>오늘의 할 일</h1>
         <table id="todo-table" class="table table-hover">
@@ -44,7 +51,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="todo : ${uncompleted_todo_list}">
+            <tr th:each="todo : ${completed_todo_list}">
                 <td th:text="${todo.title}"></td>
                 <td th:text="${todo.description}"></td>
                 <td><span th:text="${todo.doneRate}"></span>%</td>

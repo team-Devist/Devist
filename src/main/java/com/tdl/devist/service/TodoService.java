@@ -6,25 +6,24 @@ import com.tdl.devist.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class TodoService {
     private final TodoRepository todoRepository;
+    private final DailyCheckService dailyCheckService;
 
     @Autowired
-    public TodoService(TodoRepository todoRepository) {
+    public TodoService(TodoRepository todoRepository, DailyCheckService dailyCheckService) {
         this.todoRepository = todoRepository;
+        this.dailyCheckService = dailyCheckService;
     }
 
     public void addTodo(User user, Todo todo) {
-        todo.convertRepeatDayBooleanArrToByte(); // stop-gap
         todo.setUser(user);
         todo.setCreatedTime(LocalDateTime.now());
         user.addTodo(todo);
-
         todoRepository.save(todo);
     }
 
@@ -36,6 +35,21 @@ public class TodoService {
         todoRepository.delete(todo);
     }
 
+    public void deleteTodo(User user, int todoId) {
+        Todo todo = todoRepository.getOne(todoId);
+        user.getTodoList().remove(todo);
+        deleteTodo(todo);
+    }
+
+    public void updateTodo(int id, Todo editedTodo) {
+        Todo originTodo = todoRepository.getOne(id);
+
+        originTodo.setTitle(editedTodo.getTitle());
+        originTodo.setDescription(editedTodo.getDescription());
+        originTodo.setRepeatDay(editedTodo.getRepeatDay());
+        todoRepository.save(originTodo);
+    }
+
     public long count() {
         return todoRepository.count();
     }
@@ -44,9 +58,31 @@ public class TodoService {
         return todoRepository.findAll();
     }
 
-    public void setTodoIsDone(int todo_id, boolean isDone) {
-        Todo todo = todoRepository.getOne(todo_id);
+    public void renewTodos() {
+        for (Todo todo: todoRepository.findAll()) {
+            // Todo: 같은 날에 두번 실행되지 않도록 하는 예외처리 추가하기.
+            if (todo.isTodaysTodo()) {
+                dailyCheckService.createDailyCheckByTodo(todo);
+                todo.setDone(false);
+                todoRepository.save(todo);
+            }
+        }
+    }
+
+    public void setTodoIsDone(int todoId, boolean isDone) {
+        Todo todo = todoRepository.getOne(todoId);
+        if (!todo.isTodaysTodo()) return; // Todo: Error 처리
         todo.setDone(isDone);
+        dailyCheckService.setTodayCheckDone(todo, isDone);
+        todoRepository.save(todo);
+    }
+
+    public void updateDoneRate(int todoId) {
+        Todo todo = todoRepository.getOne(todoId);
+        int totalCount = dailyCheckService.getTotalCountByTodo(todo);
+        int doneCount = dailyCheckService.getDoneCountByTodo(todo);
+
+        todo.setDoneRate((double)doneCount / totalCount * 100.00);
         todoRepository.save(todo);
     }
 }

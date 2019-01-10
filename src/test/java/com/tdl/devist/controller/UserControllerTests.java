@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -35,7 +34,7 @@ public class UserControllerTests {
     private WebApplicationContext context;
     private MockMvc mockMvc;
 
-    @MockBean
+    @Autowired
     UserController userController;
 
     @Autowired
@@ -52,15 +51,18 @@ public class UserControllerTests {
     @Test
     @Transactional
     public void testCreateUser() throws Exception {
+
+        int size = userRepository.findAll().size();
+
         mockMvc.perform(post("/signup")
                 .param("username", "user1")
                 .param("password", "user1234")
                 .param("name", "name1")
                 .with(csrf()))
-                .andExpect(status().isOk());
+                // .andDo(print()) for debug
+                .andExpect(status().is3xxRedirection());
 
-        Assert.assertEquals(3, userRepository.findAll().size());
-        // Todo: test 통과 시키기. /signup 성공 이후 생성한 User를 userRepository를 통해서 가져올 수 없음.
+        Assert.assertEquals(size + 1, userRepository.findAll().size());
 
         User user = userRepository.getOne("user1");
         Assert.assertTrue(user.isEnabled());

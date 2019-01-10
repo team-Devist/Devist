@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -50,13 +51,24 @@ public class Todo {
      * @author delf
      * <p>
      * view에서 받아 저장된 {@link #repeatCheckbox}을 byte로 변환하여 {@link #repeatDay}에 저장합니다.
+     * 이슈 #17을 참고할 것.
      */
     public void convertRepeatDayBooleanArrToByte() {
-        StringBuilder res = new StringBuilder();
-        for (boolean b : repeatCheckbox) {
-            res.append(b ? 1 : 0);
+        repeatDay = 0;
+        for (int i = repeatCheckbox.length - 1; i >= 0; i--) {
+            repeatDay |= repeatCheckbox[i] ? (byte) (1 << (repeatCheckbox.length - 1) - i) : 0;
         }
-        repeatDay = Byte.parseByte(res.toString(), 2);
     }
 
+    public void convertRepeatDayByteToBooleanArr() {
+        for (int i = 0; i < repeatCheckbox.length; i++) {
+            repeatCheckbox[repeatCheckbox.length - 1 - i] = ((repeatDay << i) & 1) == 1;
+        }
+    }
+
+
+    public boolean isTodaysTodo() {
+        int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
+        return (repeatDay & (1 << (dayOfWeek - 1))) > 0;
+    }
 }

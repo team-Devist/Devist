@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity(name = "daily_checks")
 @Setter
@@ -13,12 +13,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class DailyCheck {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private LocalDateTime planedTime;
+    private LocalDate planedDate;
     private boolean isDone;
 
-    @ManyToOne(cascade = CascadeType.ALL) // cascade 옵션 디사보기
+    @ManyToOne
     @JoinColumn(name = "todo_id")
     private Todo todo;
 }

@@ -5,12 +5,11 @@ import com.tdl.devist.model.User;
 import com.tdl.devist.service.TodoService;
 import com.tdl.devist.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -27,10 +26,8 @@ public class TodoController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String getTodoList(Model model) {
-
-        String userName = getCurrentUserName();
-        User user = userService.getUserByUserName(userName);
+    public String getTodoList(Principal principal, Model model) {
+        User user = userService.getUserByUserName(principal.getName());
         List<Todo> todoList = user.getTodoList();
 
         model.addAttribute("todo_list", todoList);
@@ -46,37 +43,44 @@ public class TodoController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(Todo todo) {
-        String userName = getCurrentUserName();
-        User user = userService.getUserByUserName(userName);
-
+    public String add(final Principal principal, Todo todo) {
+        User user = userService.getUserByUserName(principal.getName());
+        todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
         todoService.addTodo(user, todo);
-        userService.updateUser(user);
 
-        return "redirect:/todo";
+        return "redirect:/";
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public String delete(@PathVariable int id) {
-        User user = userService.getUserByUserName(getCurrentUserName());
-        List<Todo> todoList = user.getTodoList();
+    @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
+    public String delete(@PathVariable int id, final Principal principal) {
+        User user = userService.getUserByUserName(principal.getName());
+        todoService.deleteTodo(user, id);
 
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+    public String editForm(Model model, @PathVariable int id) {
         Todo todo = todoService.findTodoById(id);
-        todoList.remove(todo);
+        todo.convertRepeatDayByteToBooleanArr();
+        model.addAttribute("todo", todo);
 
-        todoService.deleteTodo(todo);
+        return "edittodo";
+    }
 
-        return "redirect:/todo";
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+    public String edit(Todo todo, @PathVariable int id) {
+        todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
+        todoService.updateTodo(id, todo);
+
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/{id}/do", method = RequestMethod.POST)
-    public @ResponseBody String doTodo(@PathVariable int id, @RequestParam boolean isDone) {
+    public @ResponseBody String doTodo(@PathVariable int id, @RequestParam boolean isDone, final Principal principal) {
         todoService.setTodoIsDone(id, isDone);
+        todoService.updateDoneRate(id);
+        userService.updateDoneRate(principal.getName());
         return "ok";
-    }
-
-    private String getCurrentUserName() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getName();
     }
 }
