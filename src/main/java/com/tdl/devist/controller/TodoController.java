@@ -25,7 +25,7 @@ public class TodoController {
         this.todoService = todoService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public String getTodoList(Principal principal, Model model) {
         User user = userService.getUserByUserName(principal.getName());
         List<Todo> todoList = user.getTodoList();
@@ -35,14 +35,14 @@ public class TodoController {
         return "todo_list";
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("todo", new Todo());
 
         return "addtodo";
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @PostMapping("/add")
     public String add(final Principal principal, Todo todo) {
         User user = userService.getUserByUserName(principal.getName());
         todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
@@ -51,7 +51,7 @@ public class TodoController {
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
+    @PostMapping("/{id}/delete")
     public String delete(@PathVariable int id, final Principal principal) {
         User user = userService.getUserByUserName(principal.getName());
         todoService.deleteTodo(user, id);
@@ -59,7 +59,7 @@ public class TodoController {
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+    @GetMapping("/{id}/edit")
     public String editForm(Model model, @PathVariable int id, final Principal principal) {
         Todo todo = todoService.findTodoById(id);
         if(userService.hasAuthorization(principal.getName(), todo )) {
@@ -71,7 +71,7 @@ public class TodoController {
         return "edittodo";
     }
 
-    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+    @PostMapping("/{id}/edit")
     public String edit(Todo todo, @PathVariable int id) {
         todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
         todoService.updateTodo(id, todo);
@@ -79,7 +79,7 @@ public class TodoController {
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/{id}/do", method = RequestMethod.POST)
+    @PostMapping("/{id}/do")
     public @ResponseBody String doTodo(@PathVariable int id, @RequestParam boolean isDone, final Principal principal) {
         todoService.setTodoIsDone(id, isDone);
         todoService.updateDoneRate(id);
