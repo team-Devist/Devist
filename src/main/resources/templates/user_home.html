@@ -9,56 +9,50 @@
 <section layout:fragment="content">
     <div class="container text-center">
         <h2>달성률</h2>
-        <div class="progress">
-            <div class="progress-bar progress-bar-striped" role="progressbar" th:style="'width: '+(${user.doneRate})+'%'" th:aria-valuenow="${user.doneRate}" aria-valuemin="0" aria-valuemax="100" th:text="${user.doneRate}+'%'"></div>
+        <div style="width: 70%; margin: auto;">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped" role="progressbar" th:style="'width: '+(${user.doneRate})+'%'" th:aria-valuenow="${user.doneRate}" aria-valuemin="0" aria-valuemax="100" th:text="${user.doneRate}+'%'"></div>
+            </div>
         </div>
     </div>
 
-    <div class="container">
-        <h1>오늘의 할 일</h1>
-        <table id="todo-table" class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Description</th>
-                <th scope="col">Done Rate</th>
-                <th scope="col">Completion</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:if="${todo_list.isEmpty()}">
-                <td colspan="2"> Add your own todo list!</td>
-            </tr>
-            <tr th:each="todo : ${todo_list}">
-                <td th:text="${todo.title}"></td>
-                <td th:text="${todo.description}"></td>
-                <td><span th:text="${todo.doneRate}"></span>%</td>
-                <td><button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo" th:data-id="${todo.id}">완료</button></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <br/>
 
     <div class="container">
-        <h1>완료된 할 일</h1>
-        <table id="completed-todo-table" class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Description</th>
-                <th scope="col">Done Rate</th>
-                <th scope="col">Completion</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="todo : ${completed_todo_list}">
-                <td th:text="${todo.title}"></td>
-                <td th:text="${todo.description}"></td>
-                <td><span th:text="${todo.doneRate}"></span>%</td>
-                <td><button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo" th:data-id="${todo.id}">완료</button></td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="text-center">
+            <h3>Today's Todo List</h3>
+        </div>
+
+        <div id="todo-list" class="list-group list-group-flush">
+            <h3 th:if="${todo_list.isEmpty()}">
+                Add your own todo list!
+            </h3>
+            <a th:each="todo : ${todo_list}" class="list-group-item list-group-item-action" th:href="'#des-'+${todo.id}" data-toggle="collapse" aria-expanded="false" th:aria-controls="'#des-'+${todo.id}">
+                <button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo" th:data-id="${todo.id}"></button>
+                <span th:text="${todo.title}"></span>
+                <div style="float: right">
+                    <span th:text="${todo.doneRate}+'%'"></span>
+                </div>
+                <div class="collapse" th:id="'des-'+${todo.id}">
+                    <p th:text="${todo.description}"></p>
+                </div>
+            </a>
+        </div>
+
+        <br/>
+
+        <div id="completed-todo-list" class="list-group list-group-flush">
+            <a th:each="todo : ${completed_todo_list}" class="list-group-item list-group-item-action" data-toggle="collapse" th:href="'#des-'+${todo.id}" aria-expanded="false" th:aria-controls="'#des-'+${todo.id}">
+                <button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo" th:data-id="${todo.id}"></button>
+                <span th:text="${todo.title}" ></span>
+                <div style="float: right">
+                    <span th:text="${todo.doneRate}+'%'"></span>
+                </div>
+                <div class="collapse" th:id="'des-'+${todo.id}">
+                    <p th:text="${todo.description}"></p>
+                </div>
+            </a>
+        </div>
     </div>
 </section>
 
