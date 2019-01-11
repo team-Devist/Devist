@@ -22,15 +22,25 @@
         <tr th:each="todo: ${todo_list}">
             <td><span th:text="${todo.title}"></span></td>
             <td><span th:text="${todo.description}"></span></td>
-            <td><span th:each="dw, index : ${todo.repeatCheckbox}">
-                <!--<a th:if="${dw}" th:text="${todo.WEEK_DAY[index.index]}"></a>-->
+            <td><span th:each="dw, index : ${todo.repeatCheckbox}" style="width: 100px;overflow:hidden;" wrap="hard">
                 <a th:if="${dw}" th:with="wstr=${todo.WEEK_DAY[index.index]}">
                     <a th:if="${wstr=='토'}" style="color: blue" th:text="${wstr}"></a>
                     <a th:if="${wstr=='일'}" style="color: red" th:text="${wstr}"></a>
                     <a th:if="${wstr!='토' && wstr!='일'}" th:text="${wstr}"></a>
                 </a>
             </span></td>
-            <td><span th:text="${todo.doneRate}"></span></td>
+            <td>
+                <div class="progress">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" th:style="'width: '+(${todo.doneRate})+'%'"
+                             th:aria-valuenow="${todo.doneRate}" th:text="${todo.doneRate}+'%'"
+                             aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <!--<td><span th:text="${todo.doneRate}"></span> %</td>-->
+
         </tr>
 
         </tbody>
