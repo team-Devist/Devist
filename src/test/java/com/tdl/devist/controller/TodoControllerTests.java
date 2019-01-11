@@ -16,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -126,6 +127,36 @@ public class TodoControllerTests {
 
         User afterUSer = userRepository.getOne("cjh5414");
         Assert.assertEquals(editedTitle, afterUSer.getTodoList().get(0).getTitle());
+    }
+
+    @Test
+    @Transactional
+    public void 권한_없는_사용자가_수정페이지를_요청하면_404페이지를_반환한다() throws Exception {
+        final String username = "cjh5414";
+        User user = userRepository.getOne(username);
+        List<Todo> todoList = user.getTodoList();
+        int todoId = todoList.get(0).getId();
+
+        MvcResult result = mockMvc.perform(get("/todo/" + todoId + "/edit")
+                .with(user("nesoy").password("1234").roles("USER"))
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection()).andReturn();
+
+        Assert.assertEquals("/denied", result.getResponse().getRedirectedUrl());
+    }
+
+    @Test
+    @Transactional
+    public void 권한_있는_사용자가_수정페이지를_요청하면_정상_반환한다() throws Exception {
+        final String username = "cjh5414";
+        User user = userRepository.getOne(username);
+        List<Todo> todoList = user.getTodoList();
+        int todoId = todoList.get(0).getId();
+
+        mockMvc.perform(get("/todo/" + todoId + "/edit")
+                .with(user(username).password("1234").roles("USER"))
+                .with(csrf()))
+                .andExpect(status().isOk());
     }
 
     @Test

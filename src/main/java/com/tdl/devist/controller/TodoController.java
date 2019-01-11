@@ -60,8 +60,11 @@ public class TodoController {
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-    public String editForm(Model model, @PathVariable int id) {
+    public String editForm(Model model, @PathVariable int id, final Principal principal) {
         Todo todo = todoService.findTodoById(id);
+        if(userService.hasAuthorization(principal.getName(), todo )) {
+            return "redirect:/denied";
+        }
         todo.convertRepeatDayByteToBooleanArr();
         model.addAttribute("todo", todo);
 

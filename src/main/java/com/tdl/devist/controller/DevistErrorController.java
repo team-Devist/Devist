@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class DevistErrorController implements ErrorController {
-    @RequestMapping("/error")
+    @RequestMapping(value = {"/error", "/denied"})
     public String handleError() {
         //do something like logging
         return "error";
