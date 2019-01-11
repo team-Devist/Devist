@@ -62,7 +62,7 @@ public class Todo {
 
     public void convertRepeatDayByteToBooleanArr() {
         for (int i = 0; i < repeatCheckbox.length; i++) {
-            repeatCheckbox[repeatCheckbox.length - 1 - i] = ((repeatDay << i) & 1) == 1;
+            repeatCheckbox[repeatCheckbox.length - 1 - i] = ((repeatDay >> i) & 1) == 1;
         }
     }
 
