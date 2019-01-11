@@ -34,7 +34,7 @@ public class Todo {
     @Transient
     private boolean[] repeatCheckbox = {true, true, true, true, true, true, true};
     @Transient
-    private final static String[] WEEK_DAY = {"SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"};
+    private final String[] WEEK_DAY = {"일", "월", "화", "수", "목", "금", "토"};
 
     @ManyToOne
     @JoinColumn(name = "username")
