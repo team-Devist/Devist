@@ -25,11 +25,11 @@ public class Todo {
     private String description;
     @Column(length = 1)
     private byte repeatDay = 127;
-    @Column(nullable = false, columnDefinition = "TINYINT(1)")
-    @Type(type = "org.hibernate.type.NumericBooleanType")
-    private boolean isDone = false;
     private LocalDateTime createdTime;
     private double doneRate = 0.0;
+    @OneToOne
+    @JoinColumn(name = "daily_check_id")
+    private DailyCheck latestDailyCheck;
 
     @Transient
     private boolean[] repeatCheckbox = {true, true, true, true, true, true, true};
@@ -45,6 +45,14 @@ public class Todo {
 
     public boolean addDailyCheck(DailyCheck dailyCheck) {
         return dailyChecks.add(dailyCheck);
+    }
+
+    public boolean isDone() {
+        if (latestDailyCheck == null) {
+            // Todo: latestDaliyCheck 가 없다는 로그 출력
+            return false;
+        }
+        return latestDailyCheck.isDone();
     }
 
     /**
@@ -65,7 +73,6 @@ public class Todo {
             repeatCheckbox[repeatCheckbox.length - 1 - i] = ((repeatDay << i) & 1) == 1;
         }
     }
-
 
     public boolean isTodaysTodo() {
         int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();

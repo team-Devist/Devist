@@ -1,22 +1,30 @@
 package com.tdl.devist.service;
 
+import com.tdl.devist.model.DailyCheck;
 import com.tdl.devist.model.Todo;
 import com.tdl.devist.model.User;
+import com.tdl.devist.repository.DailyCheckRepository;
 import com.tdl.devist.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class TodoService {
     private final TodoRepository todoRepository;
+    private final DailyCheckRepository dailyCheckRepository;
+    private final UserService userService;
     private final DailyCheckService dailyCheckService;
 
     @Autowired
-    public TodoService(TodoRepository todoRepository, DailyCheckService dailyCheckService) {
+    public TodoService(TodoRepository todoRepository, DailyCheckRepository dailyCheckRepository, UserService userservice, DailyCheckService dailyCheckService) {
         this.todoRepository = todoRepository;
+        this.dailyCheckRepository = dailyCheckRepository;
+        this.userService = userservice;
         this.dailyCheckService = dailyCheckService;
     }
 
@@ -59,22 +67,28 @@ public class TodoService {
     }
 
     public void renewTodos() {
+        Set<User> userSet = new HashSet<>();
         for (Todo todo: todoRepository.findAll()) {
             // Todo: 같은 날에 두번 실행되지 않도록 하는 예외처리 추가하기.
             if (todo.isTodaysTodo()) {
-                dailyCheckService.createDailyCheckByTodo(todo);
-                todo.setDone(false);
+                DailyCheck dailyCheck = dailyCheckService.createDailyCheckByTodo(todo);
+                todo.setLatestDailyCheck(dailyCheck);
                 todoRepository.save(todo);
+                updateDoneRate(todo.getId());
+                userSet.add(todo.getUser());
             }
         }
+
+        for (User user: userSet)
+            userService.updateDoneRate(user);
     }
 
     public void setTodoIsDone(int todoId, boolean isDone) {
         Todo todo = todoRepository.getOne(todoId);
         if (!todo.isTodaysTodo()) return; // Todo: Error 처리
-        todo.setDone(isDone);
-        dailyCheckService.setTodayCheckDone(todo, isDone);
-        todoRepository.save(todo);
+        DailyCheck latestDailyCheck = todo.getLatestDailyCheck();
+        latestDailyCheck.setDone(isDone);
+        dailyCheckRepository.save(latestDailyCheck);
     }
 
     public void updateDoneRate(int todoId) {

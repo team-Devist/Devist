@@ -22,15 +22,23 @@ public class UserServiceTests {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TodoService todoService;
+
     @Test
     @Transactional
     public void TestUpdateDoneRate() {
         User user = userRepository.getOne("cjh5414");
-        Assert.assertEquals(100.00, user.getDoneRate(), 00.01);
 
+        Assert.assertEquals(25, user.getDoneRate(), 00.01);
+
+        todoService.setTodoIsDone(3, true);
+        todoService.setTodoIsDone(4, true);
+        todoService.updateDoneRate(3);
+        todoService.updateDoneRate(4);
         userService.updateDoneRate("cjh5414");
 
         user = userRepository.getOne("cjh5414");
-        Assert.assertEquals(66.66, user.getDoneRate(), 00.01);
+        Assert.assertEquals(50, user.getDoneRate(), 00.01);
     }
 }

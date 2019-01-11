@@ -1,6 +1,8 @@
 package com.tdl.devist.model;
 
+import com.tdl.devist.repository.TodoRepository;
 import com.tdl.devist.repository.UserRepository;
+import com.tdl.devist.service.TodoService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +21,12 @@ import java.util.List;
 public class UserTest {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TodoRepository todoRepository;
+
+    @Autowired
+    private TodoService todoService;
 
     @Test
     @Transactional
@@ -55,12 +63,12 @@ public class UserTest {
         User user = userRepository.getOne("cjh5414");
         List<Todo> todoList = user.getTodayTodoList();
 
-        int todoSize = 1;
+        int todoSize = 3;
         switch (LocalDate.now().getDayOfWeek().getValue()) {
             case 2:
             case 3:
             case 7:
-                todoSize = 2;
+                todoSize = 4;
                 break;
         }
 
@@ -73,7 +81,15 @@ public class UserTest {
         User user = userRepository.getOne("cjh5414");
         List<Todo> todoList = user.getCompletedTodayTodoList();
 
-        Assert.assertEquals(2, todoList.size());
+        Assert.assertEquals(0, todoList.size());
+
+        Todo todo = todoRepository.findByTitle("완료된 할 일").get(0);
+        todoService.setTodoIsDone(todo.getId(), true);
+
+        user = userRepository.getOne("cjh5414");
+        todoList = user.getCompletedTodayTodoList();
+
+        Assert.assertEquals(1, todoList.size());
         Assert.assertEquals("완료된 할 일", todoList.get(0).getTitle());
     }
 }

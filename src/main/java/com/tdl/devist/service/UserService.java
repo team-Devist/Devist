@@ -26,6 +26,10 @@ public class UserService {
 
     public void updateDoneRate(String username) {
         User user = userRepository.getOne(username);
+        updateDoneRate(user);
+    }
+
+    public void updateDoneRate(User user) {
         int doneCount = 0;
         int totalCount = 0;
         for (Todo todo : user.getTodoList()) {

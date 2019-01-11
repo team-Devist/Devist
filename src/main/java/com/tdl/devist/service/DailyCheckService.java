@@ -17,12 +17,12 @@ public class DailyCheckService {
         this.dailyCheckRepository = dailyCheckRepository;
     }
 
-    void createDailyCheckByTodo(Todo todo) {
+    DailyCheck createDailyCheckByTodo(Todo todo) {
         DailyCheck dailyCheck = new DailyCheck();
         dailyCheck.setTodo(todo);
         dailyCheck.setDone(false);
         dailyCheck.setPlanedDate(LocalDate.now());
-        dailyCheckRepository.save(dailyCheck);
+        return dailyCheckRepository.save(dailyCheck);
     }
 
     int getTotalCountByTodo(Todo todo) {
@@ -31,11 +31,5 @@ public class DailyCheckService {
 
     int getDoneCountByTodo(Todo todo) {
         return dailyCheckRepository.findByTodoAndIsDone(todo, true).size();
-    }
-
-    void setTodayCheckDone(Todo todo, boolean isDone) {
-        DailyCheck dailyCheck = dailyCheckRepository.findByTodoAndPlanedDate(todo, LocalDate.now()).get(0);
-        dailyCheck.setDone(isDone);
-        dailyCheckRepository.save(dailyCheck);
     }
 }

@@ -6,7 +6,6 @@ import com.tdl.devist.model.Todo;
 import com.tdl.devist.model.User;
 import com.tdl.devist.repository.DailyCheckRepository;
 import com.tdl.devist.repository.TodoRepository;
-import com.tdl.devist.testutils.UtilsForTests;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -39,9 +38,6 @@ public class TodoServiceTests {
 
     @Autowired
     private DailyCheckRepository dailyCheckRepository;
-
-    @Autowired
-    private UtilsForTests utils;
 
     private final String TEST_USER_NAME = "dbadmin";
     private final String TEST_TODO_TITLE = "Todo 테스트하기";
@@ -118,7 +114,6 @@ public class TodoServiceTests {
     public void testSetTodoIsDoneWhenUserDo() {
         final String TODO_TITLE = "매일 하는 일";
         Todo todo = todoRepository.findByTitle(TODO_TITLE).get(0);
-        utils.updatePlanedDateToToday(todo);
         Assert.assertFalse(todo.isDone());
 
         todoService.setTodoIsDone(todo.getId(), true);
@@ -179,21 +174,20 @@ public class TodoServiceTests {
     public void testUpdateDoneRateWhenUserDo() {
         final String TODO_TITLE = "Daily check 많이 가지고 있는 할 일";
         Todo todo = todoRepository.findByTitle(TODO_TITLE).get(0);
-        utils.updatePlanedDateToToday(todo);
 
-        Assert.assertEquals(40.00, todo.getDoneRate(), 00.01);
+        Assert.assertEquals(25.00, todo.getDoneRate(), 00.01);
 
         todoService.setTodoIsDone(todo.getId(), true);
         todoService.updateDoneRate(todo.getId());
 
         todo = todoRepository.findByTitle(TODO_TITLE).get(0);
-        Assert.assertEquals(60.00, todo.getDoneRate(), 00.01);
+        Assert.assertEquals(40.00, todo.getDoneRate(), 00.01);
 
         todoService.setTodoIsDone(todo.getId(), false);
         todoService.updateDoneRate(todo.getId());
 
         todo = todoRepository.findByTitle(TODO_TITLE).get(0);
-        Assert.assertEquals(40.00, todo.getDoneRate(), 00.01);
+        Assert.assertEquals(20.00, todo.getDoneRate(), 00.01);
 
     }
 }
