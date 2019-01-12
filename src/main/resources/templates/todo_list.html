@@ -25,9 +25,11 @@
             <td><span th:text="${todo.description}"></span></td>
             <td><span th:each="dw, index : ${todo.repeatCheckbox}">
                 <a th:if="${dw}" th:with="wstr=${todo.WEEK_DAY[index.index]}">
-                    <a th:if="${wstr=='토'}" style="color: blue" th:text="${wstr}"></a>
-                    <a th:if="${wstr=='일'}" style="color: red" th:text="${wstr}"></a>
-                    <a th:if="${wstr!='토' && wstr!='일'}" th:text="${wstr}"></a>
+                    <a th:switch="${wstr}">
+                        <a th:case="'토'" style="color: blue" th:text="${wstr}"></a>
+                        <a th:case="'일'" style="color: red;" th:text="${wstr}"></a>
+                        <a th:case="*" th:text="${wstr}"></a>
+                    </a>
                 </a>
             </span></td>
             <td>
@@ -42,9 +44,14 @@
                 <a th:href="@{/todo/{id}/edit(id=${todo.id})}" style="text-decoration:none;">
                     <span class="glyphicon glyphicon-pencil" style="color: black"></span>
                 </a>
-                <a th:href="@{/todo/{id}/delete(id=${todo.id})}">
-                    <span class="glyphicon glyphicon-remove" style="color: red"></span>
-                </a>
+                <form th:action="@{/todo/{id}/delete(id=${todo.id})}" method='post'>
+                    <input class=hidden>
+                    <button class="glyphicon glyphicon-remove" type='submit' style="color: red">
+                    </button>
+                </form>
+                <!--<a th:href="@{/todo/{id}/delete(id=${todo.id})}" th:method="POST">-->
+                    <!--<span class="glyphicon glyphicon-remove" style="color: red"></span>-->
+                <!--</a>-->
             </td>
         </tr>
         </tbody>
@@ -53,3 +60,4 @@
 </section>
 </body>
 </html>
+
