@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,13 +24,13 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @RequestMapping(value = { "/signup" }, method = RequestMethod.GET)
+    @GetMapping("/signup")
     public String signup(Model model) {
         model.addAttribute("user", new User());
         return "signup";
     }
 
-    @RequestMapping(value = { "/signup" }, method = RequestMethod.POST)
+    @PostMapping("/signup")
     public String createUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Authority authority = new Authority(user.getUsername(), Authority.ROLE_USER);
@@ -38,7 +40,7 @@ public class UserController {
         return "redirect:/";
     }
 
-    @RequestMapping(value = { "/login" }, method = RequestMethod.GET)
+    @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("user", new User());
 
