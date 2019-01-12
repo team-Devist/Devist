@@ -51,7 +51,7 @@ public class TodoController {
         return "redirect:/";
     }
 
-    @PostMapping("/{id}/delete")
+    @GetMapping("/{id}/delete")
     public String delete(@PathVariable int id, final Principal principal) {
         User user = userService.getUserByUserName(principal.getName());
         todoService.deleteTodo(user, id);
