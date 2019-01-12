@@ -20,11 +20,10 @@
         </thead>
 
         <tbody>
-
         <tr th:each="todo: ${todo_list}">
             <td><span th:text="${todo.title}"></span></td>
             <td><span th:text="${todo.description}"></span></td>
-            <td><span th:each="dw, index : ${todo.repeatCheckbox}" style="width: 100px;overflow:hidden;" wrap="hard">
+            <td><span th:each="dw, index : ${todo.repeatCheckbox}">
                 <a th:if="${dw}" th:with="wstr=${todo.WEEK_DAY[index.index]}">
                     <a th:if="${wstr=='토'}" style="color: blue" th:text="${wstr}"></a>
                     <a th:if="${wstr=='일'}" style="color: red" th:text="${wstr}"></a>
@@ -40,21 +39,14 @@
                 </div>
             </td>
             <td>
-                <!--<button type="button" class="btn btn-secondary" th:href="@{/todo/{id}/edit(id=${todo.id})}">수정</button>-->
-                <!--<button type="button" class="btn btn-secondary" th:href="@{/todo/{id}/remove(id=${todo.id})}">삭제</button>-->
                 <a th:href="@{/todo/{id}/edit(id=${todo.id})}" style="text-decoration:none;">
                     <span class="glyphicon glyphicon-pencil" style="color: black"></span>
                 </a>
-
                 <a th:href="@{/todo/{id}/delete(id=${todo.id})}">
                     <span class="glyphicon glyphicon-remove" style="color: red"></span>
                 </a>
-                <!--<form th:action="@{/todo/{id}/delete(id=${todo.id})}" method="POST">-->
-                <!--<button class="glyphicon glyphicon-remove" type="submit"></button>-->
-                <!--</form>-->
             </td>
         </tr>
-
         </tbody>
     </table>
 
