@@ -1,2 +1,6 @@
 .todo-donerate {
 }
+
+.edit-button:before {
+    content:"\270f";
+}

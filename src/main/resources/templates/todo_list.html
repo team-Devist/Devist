@@ -1,8 +1,9 @@
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="common_layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorator="common_layout">
 
 <head>
     <title>Todo List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -14,6 +15,7 @@
             <th scope="col">Description</th>
             <th scope="col">Repeat days</th>
             <th scope="col">Done rate</th>
+            <th scope="col"></th>
         </tr>
         </thead>
 
@@ -31,16 +33,26 @@
             </span></td>
             <td>
                 <div class="progress">
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" th:style="'width: '+(${todo.doneRate})+'%'"
-                             th:aria-valuenow="${todo.doneRate}" th:text="${todo.doneRate}+'%'"
-                             aria-valuemin="0" aria-valuemax="100">
-                        </div>
+                    <div class="progress-bar" role="progressbar" th:style="'width: '+(${todo.doneRate})+'%'"
+                         th:aria-valuenow="${todo.doneRate}" th:text="${todo.doneRate}+'%'"
+                         aria-valuemin="0" aria-valuemax="100">
                     </div>
                 </div>
             </td>
-            <!--<td><span th:text="${todo.doneRate}"></span> %</td>-->
+            <td>
+                <!--<button type="button" class="btn btn-secondary" th:href="@{/todo/{id}/edit(id=${todo.id})}">수정</button>-->
+                <!--<button type="button" class="btn btn-secondary" th:href="@{/todo/{id}/remove(id=${todo.id})}">삭제</button>-->
+                <a th:href="@{/todo/{id}/edit(id=${todo.id})}" style="text-decoration:none;">
+                    <span class="glyphicon glyphicon-pencil" style="color: black"></span>
+                </a>
 
+                <a th:href="@{/todo/{id}/delete(id=${todo.id})}">
+                    <span class="glyphicon glyphicon-remove" style="color: red"></span>
+                </a>
+                <!--<form th:action="@{/todo/{id}/delete(id=${todo.id})}" method="POST">-->
+                <!--<button class="glyphicon glyphicon-remove" type="submit"></button>-->
+                <!--</form>-->
+            </td>
         </tr>
 
         </tbody>
