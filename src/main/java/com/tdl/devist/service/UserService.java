@@ -26,6 +26,12 @@ public class UserService {
 
     public void updateDoneRate(String username) {
         User user = userRepository.getOne(username);
+        updateDoneRate(user);
+    }
+
+    // Must be called after TodoService.updateDoneRate()
+    // Todo: updateDoneRate 이 수행되기 전에 호출돼서 todo의 doneRate 이 업데이트 된 상태가 아니라면 예외처리 해주는 코드 작성.
+    public void updateDoneRate(User user) {
         int doneCount = 0;
         int totalCount = 0;
         for (Todo todo : user.getTodoList()) {
