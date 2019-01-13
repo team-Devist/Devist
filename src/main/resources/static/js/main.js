@@ -9,8 +9,8 @@ $(function() {
 $(document).ready(function(){
     $(document).on("click", ".btn-complete-todo", function () {
         var div_id = $(this).closest("div").attr('id');
-        var a = $(this).closest("a").remove();
         var is_done;
+        var a = $(this).closest("a").remove();
 
         if (div_id === "todo-list") {
             $("#completed-todo-list").append(a);
