@@ -40,11 +40,12 @@
         </div>
 
         <br/>
+        <button type="button" id="btn-showing-completed-todo-list" class="btn btn-sm btn-outline-secondary">완료된 할 일</button>
 
         <div id="completed-todo-list" class="list-group list-group-flush">
             <a th:each="todo : ${completed_todo_list}" class="list-group-item list-group-item-action" data-toggle="collapse" th:href="'#des-'+${todo.id}" aria-expanded="false" th:aria-controls="'#des-'+${todo.id}">
                 <button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo" th:data-id="${todo.id}"></button>
-                <span th:text="${todo.title}" ></span>
+                <span th:text="${todo.title}"></span>
                 <div style="float: right">
                     <span th:text="${todo.doneRate}+'%'"></span>
                 </div>

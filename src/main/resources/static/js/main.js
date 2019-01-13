@@ -30,3 +30,11 @@ $(document).ready(function(){
         });
     });
 });
+
+$("#btn-showing-completed-todo-list").click(function () {
+    var completed_todo_list = $("#completed-todo-list");
+    if (completed_todo_list.is(":visible"))
+        completed_todo_list.hide();
+    else
+        completed_todo_list.show();
+});
