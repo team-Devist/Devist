@@ -6,27 +6,48 @@
 </head>
 
 <body>
-
 <section layout:fragment="content">
-    <div class="container">
-        <table>
-            <thead>
-            <tr>
-                <th> Title </th>
-                <th> Content </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:if="${todo_list.isEmpty()}">
-                <td colspan="2"> Add your own todo list!</td>
-            </tr>
-            <tr th:each="todo : ${todo_list}">
-                <td><span th:text="${todo.title}"> Title </span></td>
-                <td><span th:text="${todo.description}"> Content </span></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <table class="table container">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Repeat days</th>
+            <th scope="col">Done rate</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="todo: ${todo_list}">
+            <td><span th:text="${todo.title}"></span></td>
+            <td><span th:text="${todo.description}"></span></td>
+            <td><span th:each="dw, index : ${todo.repeatCheckbox}">
+                <a th:if="${dw}" th:with="wstr=${todo.WEEK_DAY[index.index]}" th:switch="${wstr}">
+                    <a th:case="'토'" style="color: blue" th:text="${wstr}"></a>
+                    <a th:case="'일'" style="color: red;" th:text="${wstr}"></a>
+                    <a th:case="*" th:text="${wstr}"></a>
+                </a>
+            </span></td>
+            <td>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" th:style="'width: '+(${todo.doneRate})+'%'"
+                         th:aria-valuenow="${todo.doneRate}" th:text="${todo.doneRate}+'%'"
+                         aria-valuemin="0" aria-valuemax="100">
+                    </div>
+                </div>
+            </td>
+            <td>
+                <a class="btn btn-dark btn-sm active" th:href="@{/todo/{id}/edit(id=${todo.id})}">수정</a>
+                <form th:action="@{/todo/{id}/delete(id=${todo.id})}" method="POST">
+                    <input type="submit" class="btn btn-danger btn-sm active" value="삭제">
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
 </section>
 </body>
 </html>
+
