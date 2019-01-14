@@ -9,8 +9,8 @@ $(function() {
 $(document).ready(function(){
     $(document).on("click", ".btn-complete-todo", function () {
         var div_id = $(this).closest("div").attr('id');
-        var a = $(this).closest("a").remove();
         var is_done;
+        var a = $(this).closest("a").remove();
 
         if (div_id === "todo-list") {
             $("#completed-todo-list").append(a);
@@ -29,4 +29,12 @@ $(document).ready(function(){
            }
         });
     });
+});
+
+$("#btn-showing-completed-todo-list").click(function () {
+    var completed_todo_list = $("#completed-todo-list");
+    if (completed_todo_list.is(":visible"))
+        completed_todo_list.hide();
+    else
+        completed_todo_list.show();
 });
