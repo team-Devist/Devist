@@ -24,8 +24,11 @@
         </div>
 
         <div id="todo-list" class="list-group list-group-flush">
-            <h3 th:if="${todo_list.isEmpty()}">
-                Add your own todo list!
+            <h3 th:if="${todo_list.isEmpty() and completed_todo_list.isEmpty()}">
+                할 일을 추가하세요!
+            </h3>
+            <h3 th:if="${todo_list.isEmpty() and !completed_todo_list.isEmpty()}">
+                오늘의 할 일 완료!
             </h3>
             <a th:each="todo : ${todo_list}" class="list-group-item list-group-item-action" th:href="'#des-'+${todo.id}" data-toggle="collapse" aria-expanded="false" th:aria-controls="'#des-'+${todo.id}">
                 <button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo" th:data-id="${todo.id}"></button>
