@@ -154,16 +154,4 @@ public class TodoControllerTests {
                 .with(csrf()))
                 .andExpect(status().isOk());
     }
-
-    @Test
-    @Transactional
-    public void testCheckTodoIsDone() throws Exception {
-        Todo todo = todoRepository.findByTitle("매일 하는 일").get(0);
-        mockMvc.perform(post("/todo/" + todo.getId() + "/do")
-                .param("isDone", "true")
-                .with(csrf())
-                .with(user("cjh5414").password("1234").roles("USER")))
-                .andExpect(status().isOk())
-                .andExpect(content().string("ok"));
-    }
 }
