@@ -5,6 +5,8 @@ import com.tdl.devist.model.Todo;
 import com.tdl.devist.model.User;
 import com.tdl.devist.repository.DailyCheckRepository;
 import com.tdl.devist.repository.TodoRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import java.util.Set;
 
 @Service
 public class TodoService {
+    private static final Logger logger = LoggerFactory.getLogger(TodoService.class);
     private final TodoRepository todoRepository;
     private final DailyCheckRepository dailyCheckRepository;
     private final UserService userService;
@@ -67,6 +70,7 @@ public class TodoService {
     }
 
     public void renewTodos() {
+        logger.info("Renew Todos");
         Set<User> userSet = new HashSet<>();
         for (Todo todo: todoRepository.findAll()) {
             // Todo: 같은 날에 두번 실행되지 않도록 하는 예외처리 추가하기.
