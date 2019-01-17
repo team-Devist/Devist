@@ -2,13 +2,12 @@ package com.tdl.devist.apicontroller;
 
 import com.tdl.devist.apicontroller.json_pojo.UserHomeData;
 import com.tdl.devist.model.User;
+import com.tdl.devist.service.TodoService;
 import com.tdl.devist.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -19,6 +18,9 @@ public class TodoAPIController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TodoService todoService;
 
     @GetMapping("/user-home-data")
     public UserHomeData getTodoList(final Principal principal) {
@@ -34,5 +36,14 @@ public class TodoAPIController {
             return new UserHomeData(todoSize, completedTodoSize, userDoneRate);
         }
         return null;
+    }
+
+    @PostMapping("/todos/{id}/do")
+    public @ResponseBody
+    String doTodo(@PathVariable int id, @RequestParam boolean isDone, final Principal principal) {
+        todoService.setTodoIsDone(id, isDone);
+        todoService.updateDoneRate(id);
+        userService.updateDoneRate(principal.getName());
+        return "ok";
     }
 }

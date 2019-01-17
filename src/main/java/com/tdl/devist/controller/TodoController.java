@@ -81,12 +81,4 @@ public class TodoController {
 
         return "redirect:/";
     }
-
-    @PostMapping("/{id}/do")
-    public @ResponseBody String doTodo(@PathVariable int id, @RequestParam boolean isDone, final Principal principal) {
-        todoService.setTodoIsDone(id, isDone);
-        todoService.updateDoneRate(id);
-        userService.updateDoneRate(principal.getName());
-        return "ok";
-    }
 }

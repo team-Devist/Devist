@@ -23,7 +23,7 @@ $(document).ready(function(){
 
         $.ajax({
             type: "POST",
-            url: "/todo/" + $(this).data("id") + "/do",
+            url: "/api/todos/" + $(this).data("id") + "/do",
             async: false,
             data: {
                 'isDone': is_done
