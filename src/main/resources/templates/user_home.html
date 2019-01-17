@@ -11,7 +11,7 @@
         <h2>달성률</h2>
         <div style="width: 70%; margin: auto;">
             <div class="progress">
-                <div class="progress-bar progress-bar-striped" role="progressbar" th:style="'width: '+(${user.doneRate})+'%'" th:aria-valuenow="${user.doneRate}" aria-valuemin="0" aria-valuemax="100" th:text="${user.doneRate}+'%'"></div>
+                <div id="user-done-rate" class="progress-bar progress-bar-striped" role="progressbar" th:style="'width: '+(${user.doneRate})+'%'" th:aria-valuenow="${user.doneRate}" aria-valuemin="0" aria-valuemax="100" th:text="${user.doneRate}+'%'"></div>
             </div>
         </div>
     </div>
@@ -19,14 +19,18 @@
     <br/>
 
     <div class="container">
-        <div class="text-center">
+        <div id="todo-list-header" class="text-center">
             <h3>Today's Todo List</h3>
+            <div id="todo-list-status">
+                <h3 th:if="${todo_list.isEmpty() and completed_todo_list.isEmpty()}">
+                    할 일을 추가하세요!
+                </h3>
+                <h3 th:if="${todo_list.isEmpty() and !completed_todo_list.isEmpty()}">
+                    오늘의 할 일 완료!
+                </h3>
+            </div>
         </div>
-
         <div id="todo-list" class="list-group list-group-flush">
-            <h3 th:if="${todo_list.isEmpty()}">
-                Add your own todo list!
-            </h3>
             <a th:each="todo : ${todo_list}" class="list-group-item list-group-item-action" th:href="'#des-'+${todo.id}" data-toggle="collapse" aria-expanded="false" th:aria-controls="'#des-'+${todo.id}">
                 <button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo" th:data-id="${todo.id}"></button>
                 <span th:text="${todo.title}"></span>

@@ -4,6 +4,8 @@ import com.tdl.devist.model.Todo;
 import com.tdl.devist.model.User;
 import com.tdl.devist.service.TodoService;
 import com.tdl.devist.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/todo")
 public class TodoController {
+    private final static Logger logger = LoggerFactory.getLogger(TodoController.class);
 
     private final UserService userService;
     private final TodoService todoService;
@@ -77,13 +80,5 @@ public class TodoController {
         todoService.updateTodo(id, todo);
 
         return "redirect:/";
-    }
-
-    @PostMapping("/{id}/do")
-    public @ResponseBody String doTodo(@PathVariable int id, @RequestParam boolean isDone, final Principal principal) {
-        todoService.setTodoIsDone(id, isDone);
-        todoService.updateDoneRate(id);
-        userService.updateDoneRate(principal.getName());
-        return "ok";
     }
 }
