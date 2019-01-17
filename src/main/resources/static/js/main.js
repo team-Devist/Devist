@@ -7,7 +7,9 @@ $(function() {
 });
 
 $(document).ready(function(){
-    $(document).on("click", ".btn-complete-todo", function () {
+    $(document).on("click", ".btn-complete-todo", function (event) {
+        event.stopPropagation();
+
         var div_id = $(this).closest("div").attr('id');
         var is_done;
         var a = $(this).closest("a").remove();
@@ -64,7 +66,7 @@ function renewUserHomeData(){
             var userDoneRateDiv = $("#user-done-rate");
             userDoneRateDiv.css("width", userDoneRate + "%");
             userDoneRateDiv.text(userDoneRate + "%");
-            userDoneRateDiv.attr(aria-valuenow, userDoneRate);
+            userDoneRateDiv.attr("aria-valuenow", userDoneRate);
         },
         error: function (request, error) {
             console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
