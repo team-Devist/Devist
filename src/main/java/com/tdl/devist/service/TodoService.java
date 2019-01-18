@@ -36,6 +36,11 @@ public class TodoService {
         todo.setCreatedTime(LocalDateTime.now());
         user.addTodo(todo);
         todoRepository.save(todo);
+        if (todo.isTodaysTodo()) {
+            DailyCheck dailyCheck = dailyCheckService.createDailyCheckByTodo(todo);
+            todo.setLatestDailyCheck(dailyCheck);
+            todoRepository.save(todo);
+        }
     }
 
     public Todo findTodoById(int id) {

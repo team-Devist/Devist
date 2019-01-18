@@ -111,6 +111,23 @@ public class TodoServiceTests {
 
     @Test
     @Transactional
+    public void testCreateDailyCheckAfterAddingTodo() throws Exception {
+        final String TODO_TITLE = "New Todo for creating daily check test";
+
+        int dailyCheckCount = dailyCheckRepository.findAll().size();
+
+        Todo todo = new Todo();
+        todo.setTitle(TODO_TITLE);
+        User user = userService.getUserByUserName("cjh5414");
+        todoService.addTodo(user, todo);
+
+        int newDailyCheckCount = dailyCheckRepository.findAll().size();
+
+        Assert.assertEquals(dailyCheckCount + 1, newDailyCheckCount);
+    }
+
+    @Test
+    @Transactional
     public void testSetTodoIsDoneWhenUserDo() {
         final String TODO_TITLE = "매일 하는 일";
         Todo todo = todoRepository.findByTitle(TODO_TITLE).get(0);
