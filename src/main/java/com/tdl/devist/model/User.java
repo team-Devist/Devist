@@ -55,10 +55,9 @@ public class User {
     public List<Todo> getCompletedTodayTodoList() {
         List<Todo> completedTodayTodoList = new ArrayList<>();
 
-        for (Todo todo: todoList) {
+        for (Todo todo: todoList)
             if (todo.isTodaysTodo() && todo.isDone())
                 completedTodayTodoList.add(todo);
-        }
 
         return completedTodayTodoList;
     }

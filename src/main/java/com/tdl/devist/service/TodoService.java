@@ -31,15 +31,19 @@ public class TodoService {
         this.dailyCheckService = dailyCheckService;
     }
 
-    public void addTodo(User user, Todo todo) {
+    public void addTodo(String username, Todo todo) {
+        User user = userService.getUserByUserName(username);
         todo.setUser(user);
         todo.setCreatedTime(LocalDateTime.now());
-        user.addTodo(todo);
         todoRepository.save(todo);
         if (todo.isTodaysTodo()) {
             DailyCheck dailyCheck = dailyCheckService.createDailyCheckByTodo(todo);
             todo.setLatestDailyCheck(dailyCheck);
+            todo.addDailyCheck(dailyCheck);
             todoRepository.save(todo);
+
+            updateDoneRate(todo);
+            userService.updateDoneRate(username);
         }
     }
 
@@ -102,10 +106,15 @@ public class TodoService {
 
     public void updateDoneRate(int todoId) {
         Todo todo = todoRepository.getOne(todoId);
+        updateDoneRate(todo);
+    }
+
+    public void updateDoneRate(Todo todo) {
         int totalCount = dailyCheckService.getTotalCountByTodo(todo);
         int doneCount = dailyCheckService.getDoneCountByTodo(todo);
 
         todo.setDoneRate((double)doneCount / totalCount * 100.00);
         todoRepository.save(todo);
+
     }
 }

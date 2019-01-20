@@ -6,6 +6,7 @@ import com.tdl.devist.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class UserService {
 
@@ -39,9 +40,7 @@ public class UserService {
             totalCount += dailyCheckCount;
             doneCount += todo.getDoneRate() * dailyCheckCount / 100;
         }
-
         user.setDoneRate((double)doneCount / totalCount * 100.00);
-
         userRepository.save(user);
     }
 

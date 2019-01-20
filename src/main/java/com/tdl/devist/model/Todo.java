@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -28,7 +27,7 @@ public class Todo {
     private LocalDateTime createdTime;
     private double doneRate = 0.0;
     @OneToOne
-    @JoinColumn(name = "daily_check_id")
+    @JoinColumn(name = "latest_daily_check_id")
     private DailyCheck latestDailyCheck;
 
     @Transient
