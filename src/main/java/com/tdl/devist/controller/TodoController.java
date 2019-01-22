@@ -47,9 +47,8 @@ public class TodoController {
 
     @PostMapping("/add")
     public String add(final Principal principal, Todo todo) {
-        User user = userService.getUserByUserName(principal.getName());
         todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
-        todoService.addTodo(user, todo);
+        todoService.addTodo(principal.getName(), todo);
 
         return "redirect:/";
     }

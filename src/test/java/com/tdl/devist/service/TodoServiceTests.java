@@ -104,9 +104,26 @@ public class TodoServiceTests {
         User user = userService.getUserByUserName(username);
         todo.setTitle(TEST_TODO_TITLE);
         todo.setRepeatCheckbox(new boolean[]{true, true, true, true, true, true, true});
-        todoService.addTodo(user, todo);
+        todoService.addTodo(user.getUsername(), todo);
         userService.updateUser(user);
         return todo;
+    }
+
+    @Test
+    @Transactional
+    public void testCreateDailyCheckAfterAddingTodo() throws Exception {
+        final String TODO_TITLE = "New Todo for creating daily check test";
+
+        int dailyCheckCount = dailyCheckRepository.findAll().size();
+
+        Todo todo = new Todo();
+        todo.setTitle(TODO_TITLE);
+        User user = userService.getUserByUserName("cjh5414");
+        todoService.addTodo(user.getUsername(), todo);
+
+        int newDailyCheckCount = dailyCheckRepository.findAll().size();
+
+        Assert.assertEquals(dailyCheckCount + 1, newDailyCheckCount);
     }
 
     @Test
