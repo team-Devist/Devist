@@ -22,13 +22,18 @@
 | 회원가입 | POST | /signup |
 | 프로필 | GET | /mypage |
 | 할일 추가 페이지 | GET | /todo/add |
-| 할일 추가 | POST | /todo/add |
-| 할일 상세 보기 | GET | /todo/{id} |
-| 할일 수정 페이지 | GET | /todo/{id}/edit |
-| 할일 완료 상태 변경 | POST | /todo/{id}/do |
-| 할일 수정 | POST | /todo/{id}/edit |
-| 할일 제거 | POST | /todo/{id}/delete |
+| 할일 추가 | POST | /todos/add |
+| 할일 상세 보기 | GET | /todos/{id} |
+| 할일 수정 페이지 | GET | /todos/{id}/edit |
+| 할일 수정 | POST | /todos/{id}/edit |
+| 할일 제거 | POST | /todos/{id}/delete |
 | 할일 진행률 통계 | GET | /statistics |
+
+### API
+| 역할 | Method | URL |
+|:--------|:--------:|:--------|
+| 사용자 메인 페이지 정보 얻기 | GET | /api/user_home_data |
+| 할일 완료 상태 변경 | POST | /api/todos/{id}/do |
 
 
 ## Todo 의 RepeatDay
