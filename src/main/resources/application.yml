@@ -36,6 +36,7 @@ spring:
     job:
       enabled: true
 
+
 server:
   port: 8080
 
