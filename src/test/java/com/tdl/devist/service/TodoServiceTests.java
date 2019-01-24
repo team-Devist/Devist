@@ -162,28 +162,24 @@ public class TodoServiceTests {
 
         todoService.renewTodos();
 
-        doneTodo = todoRepository.getOne(doneTodo.getId());
-
         Assert.assertEquals(beforeDailyCheckCount + 1, dailyCheckRepository.findByTodo(doneTodo).size());
-
-        List<DailyCheck> newDailyCheckList = dailyCheckRepository.findByTodoAndPlanedDate(doneTodo, LocalDate.now());
-        Assert.assertEquals(1, newDailyCheckList.size());
     }
 
     @Test
     @Transactional
     public void TestCreatedDailyCheckCountWhenTodosRreRenewed() {
         List<Todo> todoList = todoRepository.findAll();
-        int createdDailyChecksCount = 0;
+        int originDailyCheckCount = dailyCheckRepository.findByPlanedDate(LocalDate.now()).size();
+        int createdDailyCheckCount = 0;
 
         for (Todo todo : todoList)
             if (todo.isTodaysTodo())
-                createdDailyChecksCount++;
+                createdDailyCheckCount++;
 
         todoService.renewTodos();
 
         List<DailyCheck> dailyChecklist = dailyCheckRepository.findByPlanedDate(LocalDate.now());
-        Assert.assertEquals(createdDailyChecksCount, dailyChecklist.size());
+        Assert.assertEquals(originDailyCheckCount + createdDailyCheckCount, dailyChecklist.size());
     }
 
     @Test
@@ -192,7 +188,8 @@ public class TodoServiceTests {
         final String TODO_TITLE = "Daily check 많이 가지고 있는 할 일";
         Todo todo = todoRepository.findByTitle(TODO_TITLE).get(0);
 
-        Assert.assertEquals(25.00, todo.getDoneRate(), 00.01);
+        // 초기값 5개 중에 1개 완료
+        Assert.assertEquals(20.00, todo.getDoneRate(), 00.01);
 
         todoService.setTodoIsDone(todo.getId(), true);
         todoService.updateDoneRate(todo.getId());

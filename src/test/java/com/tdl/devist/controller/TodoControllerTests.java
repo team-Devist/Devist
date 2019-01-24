@@ -11,9 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -28,14 +26,11 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Profile("dev")
-@ContextConfiguration
-@WebAppConfiguration
 public class TodoControllerTests {
     @Autowired
     private UserRepository userRepository;
@@ -71,9 +66,7 @@ public class TodoControllerTests {
     @Test
     @Transactional
     public void testAddTodo() throws Exception {
-        User user = userRepository.getOne("admin");
-        int size = user.getTodoList().size();
-        Assert.assertEquals(0, size);
+        int todoSize = todoRepository.findAll().size();
 
         mockMvc.perform(post("/todo/add")
                 .with(user("admin").password("1234").roles("USER", "ADMIN"))
@@ -83,9 +76,9 @@ public class TodoControllerTests {
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection());
 
-        User afterUser = userRepository.getOne("admin");
-        Assert.assertEquals(size + 1, afterUser.getTodoList().size());
-        Assert.assertEquals("test title", afterUser.getTodoList().get(0).getTitle());
+        Assert.assertEquals(todoSize + 1, todoRepository.findAll().size());
+        Todo todo = todoRepository.findByTitle("test title").get(0);
+        Assert.assertEquals("test description", todo.getDescription());
     }
 
     @Test
