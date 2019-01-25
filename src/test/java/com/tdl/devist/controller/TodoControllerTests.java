@@ -51,14 +51,14 @@ public class TodoControllerTests {
 
     @Test
     public void testGetTodoListPage() throws Exception {
-        mockMvc.perform(get("/todo")
+        mockMvc.perform(get("/todos")
                 .with(user("admin").password("1234").roles("USER", "ADMIN")))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testGetTodoAddForm() throws Exception {
-        mockMvc.perform(get("/todo/add")
+        mockMvc.perform(get("/todos/add")
                 .with(user("admin").password("1234").roles("USER", "ADMIN")))
                 .andExpect(status().isOk());
     }
@@ -68,7 +68,7 @@ public class TodoControllerTests {
     public void testAddTodo() throws Exception {
         int todoSize = todoRepository.findAll().size();
 
-        mockMvc.perform(post("/todo/add")
+        mockMvc.perform(post("/todos/add")
                 .with(user("admin").password("1234").roles("USER", "ADMIN"))
                 .param("title", "test title")
                 .param("description", "test description")
@@ -90,7 +90,7 @@ public class TodoControllerTests {
         Assert.assertNotEquals(0, size);
         int todoId = todoList.get(0).getId();
 
-        mockMvc.perform(post("/todo/" + todoId + "/delete")
+        mockMvc.perform(post("/todos/" + todoId + "/delete")
                 .with(user("cjh5414").password("1234").roles("USER"))
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection());
@@ -108,7 +108,7 @@ public class TodoControllerTests {
         int todoId = todoList.get(0).getId();
 
         String editedTitle = "바뀐 타이틀";
-        mockMvc.perform(post("/todo/" + todoId + "/edit")
+        mockMvc.perform(post("/todos/" + todoId + "/edit")
                 .with(user("cjh5414").password("1234").roles("USER"))
                 .param("title", editedTitle)
                 .with(csrf()))
@@ -126,7 +126,7 @@ public class TodoControllerTests {
         List<Todo> todoList = user.getTodoList();
         int todoId = todoList.get(0).getId();
 
-        MvcResult result = mockMvc.perform(get("/todo/" + todoId + "/edit")
+        MvcResult result = mockMvc.perform(get("/todos/" + todoId + "/edit")
                 .with(user("nesoy").password("1234").roles("USER"))
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection()).andReturn();
@@ -142,7 +142,7 @@ public class TodoControllerTests {
         List<Todo> todoList = user.getTodoList();
         int todoId = todoList.get(0).getId();
 
-        mockMvc.perform(get("/todo/" + todoId + "/edit")
+        mockMvc.perform(get("/todos/" + todoId + "/edit")
                 .with(user(username).password("1234").roles("USER"))
                 .with(csrf()))
                 .andExpect(status().isOk());
