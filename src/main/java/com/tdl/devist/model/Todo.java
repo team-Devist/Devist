@@ -89,8 +89,4 @@ public class Todo {
     public byte getRepeatDay() {
         return ((FixedRepeatDay) repeatDay).getDayOfWeek();
     }
-
-//    public void setTodoInRepeatDay() {
-//        repeatDay.setTodo(this);
-//    }
 }

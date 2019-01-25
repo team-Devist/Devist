@@ -37,7 +37,6 @@ public class TodoService {
         User user = userService.getUserByUserName(username);
         todo.setUser(user);
         todo.setCreatedTime(LocalDateTime.now());
-        // todo.setTodoInRepeatDay();
         todoRepository.save(todo);
         if (todo.isTodaysTodo()) {
             DailyCheck dailyCheck = dailyCheckService.createDailyCheckByTodo(todo);
