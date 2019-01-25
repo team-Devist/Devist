@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -22,8 +23,10 @@ public class Todo {
     private int id;
     private String title;
     private String description;
-    @Column(length = 1)
-    private byte repeatDay = 127;
+    @MapsId
+    @OneToOne
+    @JoinColumn(name = "todo_id")
+    private RepeatDay repeatDay = new FixedRepeatDay();
     private LocalDateTime createdTime;
     private double doneRate = 0.0;
     @OneToOne
@@ -61,20 +64,33 @@ public class Todo {
      * 이슈 #17을 참고할 것.
      */
     public void convertRepeatDayBooleanArrToByte() {
-        repeatDay = 0;
+        byte rd = 0;
         for (int i = repeatCheckbox.length - 1; i >= 0; i--) {
-            repeatDay |= repeatCheckbox[i] ? (byte) (1 << (repeatCheckbox.length - 1) - i) : 0;
+            rd |= repeatCheckbox[i] ? (byte) (1 << (repeatCheckbox.length - 1) - i) : 0;
         }
+        ((FixedRepeatDay) repeatDay).setDayOfWeek(rd);
     }
 
     public void convertRepeatDayByteToBooleanArr() {
         for (int i = 0; i < repeatCheckbox.length; i++) {
-            repeatCheckbox[repeatCheckbox.length - 1 - i] = ((repeatDay >> i) & 1) == 1;
+            repeatCheckbox[repeatCheckbox.length - 1 - i] = ((((FixedRepeatDay) repeatDay).getDayOfWeek() >> i) & 1) == 1;
         }
     }
 
     public boolean isTodaysTodo() {
         int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
-        return (repeatDay & (1 << (dayOfWeek - 1))) > 0;
+        return (((FixedRepeatDay) repeatDay).getDayOfWeek() & (1 << (dayOfWeek - 1))) > 0;
     }
+
+    public void setRepeatDay(byte rd) {
+        ((FixedRepeatDay) repeatDay).setDayOfWeek(rd);
+    }
+
+    public byte getRepeatDay() {
+        return ((FixedRepeatDay) repeatDay).getDayOfWeek();
+    }
+
+//    public void setTodoInRepeatDay() {
+//        repeatDay.setTodo(this);
+//    }
 }

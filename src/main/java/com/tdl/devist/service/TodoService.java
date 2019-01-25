@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -31,10 +32,12 @@ public class TodoService {
         this.dailyCheckService = dailyCheckService;
     }
 
+    @Transactional
     public void addTodo(String username, Todo todo) {
         User user = userService.getUserByUserName(username);
         todo.setUser(user);
         todo.setCreatedTime(LocalDateTime.now());
+        // todo.setTodoInRepeatDay();
         todoRepository.save(todo);
         if (todo.isTodaysTodo()) {
             DailyCheck dailyCheck = dailyCheckService.createDailyCheckByTodo(todo);
