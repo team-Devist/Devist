@@ -15,7 +15,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/todo")
+@RequestMapping("/todos")
 public class TodoController {
     private final static Logger logger = LoggerFactory.getLogger(TodoController.class);
 
@@ -58,7 +58,7 @@ public class TodoController {
         User user = userService.getUserByUserName(principal.getName());
         todoService.deleteTodo(user, id);
 
-        return "redirect:/todo";
+        return "redirect:/todos";
     }
 
     @GetMapping("/{id}/edit")
@@ -78,6 +78,6 @@ public class TodoController {
         todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
         todoService.updateTodo(id, todo);
 
-        return "redirect:/todo";
+        return "redirect:/todos";
     }
 }
