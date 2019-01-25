@@ -58,7 +58,7 @@ public class TodoController {
         User user = userService.getUserByUserName(principal.getName());
         todoService.deleteTodo(user, id);
 
-        return "redirect:/";
+        return "redirect:/todo";
     }
 
     @GetMapping("/{id}/edit")
@@ -78,6 +78,6 @@ public class TodoController {
         todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
         todoService.updateTodo(id, todo);
 
-        return "redirect:/";
+        return "redirect:/todo";
     }
 }
