@@ -32,7 +32,6 @@ public class TodoService {
         this.dailyCheckService = dailyCheckService;
     }
 
-    @Transactional
     public void addTodo(String username, Todo todo) {
         User user = userService.getUserByUserName(username);
         todo.setUser(user);
