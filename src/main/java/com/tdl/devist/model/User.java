@@ -38,10 +38,6 @@ public class User {
         authorities.add(authority);
     }
 
-    public boolean addTodo(Todo todo) {
-        return todoList.add(todo);
-    }
-
     public List<Todo> getTodayTodoList() {
         List<Todo> todayTodoList = new ArrayList<>();
 
@@ -61,15 +57,6 @@ public class User {
 
         return completedTodayTodoList;
     }
-
-    public Todo editTodo(Todo originTodo, Todo editedTodo) {
-        int index = indexOf(originTodo);
-        originTodo.setTitle(editedTodo.getTitle());
-        originTodo.setDescription(editedTodo.getDescription());
-        originTodo.setRepeatDay(editedTodo.getRepeatDay());
-        return todoList.set(index, originTodo);
-    }
-
 
     private int indexOf(Todo todo) {
         return todoList.indexOf(todo);

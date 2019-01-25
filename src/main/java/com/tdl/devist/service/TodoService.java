@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -68,14 +67,6 @@ public class TodoService {
         originTodo.setDescription(editedTodo.getDescription());
         originTodo.setRepeatDay(editedTodo.getRepeatDay());
         todoRepository.save(originTodo);
-    }
-
-    public long count() {
-        return todoRepository.count();
-    }
-
-    public List<Todo> findAll() {
-        return todoRepository.findAll();
     }
 
     public void renewTodos() {
