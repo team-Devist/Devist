@@ -21,7 +21,7 @@ public class FixedRepeatDay extends RepeatDay {
     @Transient
     private boolean[] checkboxs = {true, true, true, true, true, true, true};
     @Transient
-    private static final String[] WEEK_DAY_STR = {"일", "월", "화", "수", "목", "금", "토"};
+    private final String[] WEEK_DAY_STR = {"일", "월", "화", "수", "목", "금", "토"};
 
     public void convertRepeatDayBooleanArrToByte() {
         daysOfWeek = 0;
