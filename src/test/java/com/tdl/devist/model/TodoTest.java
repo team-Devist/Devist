@@ -15,18 +15,12 @@ public class TodoTest {
 
     @Test
     public void 변환테스트_byte에서_booleanArr() {
-        Todo todo = generateTestTodoInstance();
-        todo.setRepeatDay((byte) 65);
-        todo.convertRepeatDayByteToBooleanArr();
-        Assert.assertEquals(Arrays.toString(new boolean[]{true, false, false, false, false, false, true}), Arrays.toString(todo.getRepeatCheckbox()));
+        // TODO: 테스트 코드 작성
     }
 
     @Test
     public void 변환테스트_booleanArr에서_byte() {
-        Todo todo = generateTestTodoInstance();
-        todo.setRepeatCheckbox(new boolean[]{true, false, false, false, false, false, true});
-        todo.convertRepeatDayBooleanArrToByte();
-        Assert.assertEquals(65, todo.getRepeatDay());
+        // TODO: 테스트 코드 작성
     }
 
     private User generateTestUserInstance() {
