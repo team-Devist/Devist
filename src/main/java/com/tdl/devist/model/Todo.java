@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -57,8 +56,11 @@ public class Todo {
         return (((FixedRepeatDay) repeatDay).getDaysOfWeek() & (1 << (dayOfWeek - 1))) > 0;
     }
 
-    public boolean[] getCheckboxs() {
-        System.out.println("@@" + Objects.requireNonNull(repeatDay));
+    public boolean[] getCheckboxsArr() {
         return ((FixedRepeatDay) repeatDay).getCheckboxs();
+    }
+
+    public String[] getWeekString() {
+        return ((FixedRepeatDay) repeatDay).getWEEK_DAY_STR();
     }
 }

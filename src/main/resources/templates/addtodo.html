@@ -25,40 +25,51 @@
                 </div>
             </div>
 
+            <!--<div class="form-group row">
+                <label for="todo_repeat" class="col-sm-4 col-form-label">Type</label>
+                <div class="col-sm-10"> &lt;!&ndash;th:object="${fixedRepeatDay}"&ndash;&gt;
+                    <label th:text="Fix"></label>
+                    <input type="radio" name="repeat_type" value="fixed" checked>
+                    <label th:text="Flexible"></label>
+                    <input type="radio" name="repeat_type" value="flexible">
+                </div>
+            </div>-->
+
             <div class="form-group row">
                 <label for="todo_repeat" class="col-sm-4 col-form-label">Repeat days</label>
-                <div class="col-sm-10" id="todo_repeat" th:object="${fixedRepeatDay}"> <!--th:each="rd, index: ${fixedRepeatDay.checkboxs}"-->
+                <div class="col-sm-10" id="todo_repeat" th:object="${fixedRepeatDay}">
+                    <!--th:each="rd, index: ${fixedRepeatDay.checkboxs}"-->
                     <!--<input th:type="checkbox" th:checked="${rd} ? 'checked'"-->
-                           <!--th:value="${rd}" th:field="*{checkboxs}"/>-->
+                    <!--th:value="${rd}" th:field="*{checkboxs}"/>-->
                     <!--<label th:text="${fixedRepeatDay.WEEK_DAY_STR[index.index]}"></label>-->
 
                     <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[0]} ? 'checked'"
                            th:value="${fixedRepeatDay.checkboxs[0]}" th:field="*{checkboxs[0]}"/>
-                    <label th:text="MON"></label>
+                    <label th:text="SUN"></label>
 
                     <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[1]} ? 'checked'"
                            th:value="${fixedRepeatDay.checkboxs[1]}" th:field="*{checkboxs[1]}"/>
-                    <label th:text="TUE"></label>
+                    <label th:text="MON"></label>
 
                     <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[2]} ? 'checked'"
                            th:value="${fixedRepeatDay.checkboxs[2]}" th:field="*{checkboxs[2]}"/>
-                    <label th:text="WED"></label>
+                    <label th:text="TUE"></label>
 
                     <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[3]} ? 'checked'"
                            th:value="${fixedRepeatDay.checkboxs[3]}" th:field="*{checkboxs[3]}"/>
-                    <label th:text="THU"></label>
+                    <label th:text="WED"></label>
 
                     <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[4]} ? 'checked'"
                            th:value="${fixedRepeatDay.checkboxs[4]}" th:field="*{checkboxs[4]}"/>
-                    <label th:text="FRI"></label>
+                    <label th:text="THU"></label>
 
                     <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[5]} ? 'checked'"
                            th:value="${fixedRepeatDay.checkboxs[5]}" th:field="*{checkboxs[5]}"/>
-                    <label th:text="SAT"></label>
+                    <label th:text="FRI"></label>
 
                     <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[6]} ? 'checked'"
                            th:value="${fixedRepeatDay.checkboxs[6]}" th:field="*{checkboxs[6]}"/>
-                    <label th:text="SUN"></label>
+                    <label th:text="SAT"></label>
                 </div>
             </div>
 

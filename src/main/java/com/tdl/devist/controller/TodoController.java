@@ -35,7 +35,9 @@ public class TodoController {
     public String getTodoList(Principal principal, Model model) {
         User user = userService.getUserByUserName(principal.getName());
         List<Todo> todoList = user.getTodoList();
-
+        for (Todo t : todoList) {
+            ((FixedRepeatDay) t.getRepeatDay()).convertRepeatDayByteToBooleanArr();
+        }
         model.addAttribute("todo_list", todoList);
 
         return "todo_list";
@@ -43,30 +45,18 @@ public class TodoController {
 
     @GetMapping("/add")
     public String addForm(Model model) {
-        Todo todo = new Todo();
-        FixedRepeatDay fixedRepeatDay = new FixedRepeatDay();
-        todo.setRepeatDay(fixedRepeatDay);
-        model.addAttribute("todo", todo);
-        model.addAttribute("fixedRepeatDay", fixedRepeatDay);
-        // model.addAttribute("FlexibleRepeatDay", new FlexibleRepeatDay());
-
+        model.addAttribute("todo", new Todo());
+        model.addAttribute("fixedRepeatDay", new FixedRepeatDay());
+        model.addAttribute("FlexibleRepeatDay", new FlexibleRepeatDay());
         return "addtodo";
     }
 
     @PostMapping("/add")
     public String add(final Principal principal, Todo todo, final FixedRepeatDay fixedRepeatDay, final FlexibleRepeatDay flexibleRepeatDay) {
-        System.out.println("@@ zz");
-//        System.out.println("@@" + Objects.requireNonNull(todo.getRepeatDay()));
-//        FixedRepeatDay fixedRepeatDay = (FixedRepeatDay)todo.getRepeatDay();
-        System.out.println(fixedRepeatDay);
-        System.out.println(flexibleRepeatDay);
+
         fixedRepeatDay.convertRepeatDayBooleanArrToByte();
-        if (fixedRepeatDay != null) {
-            fixedRepeatDay.convertRepeatDayBooleanArrToByte();
-            todo.setRepeatDay(fixedRepeatDay);
-        } else {
-            todo.setRepeatDay(flexibleRepeatDay);
-        }
+        todo.setRepeatDay(fixedRepeatDay);
+
         todoService.addTodo(principal.getName(), todo);
 
         return "redirect:/";
