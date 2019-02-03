@@ -32,12 +32,4 @@ public class FixedRepeatDay extends RepeatDay {
             checkboxs[checkboxs.length - 1 - i] = ((daysOfWeek >> i) & 1) == 1;
         }
     }
-
-//    public void convertRepeatDayBooleanArrToByte() {
-//        daysOfWeek = checkbox.getByte();
-//    }
-//
-//    public void convertRepeatDayByteToBooleanArr() {
-//        checkbox.setCheckboxs(daysOfWeek);
-//    }
 }

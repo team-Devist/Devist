@@ -8,7 +8,8 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "todos")
 @Getter
@@ -23,7 +24,7 @@ public class Todo {
     private String title;
     private String description;
     @MapsId
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "todo_id")
     private RepeatDay repeatDay;
     private LocalDateTime createdTime;

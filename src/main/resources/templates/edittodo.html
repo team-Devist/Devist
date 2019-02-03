@@ -31,31 +31,31 @@
                 <div class="col-sm-10" id="todo_repeat" th:object="${fixedRepeatDay}">
                     <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[0]} ? 'checked'"
                            th:value="${fixedRepeatDay.checkboxs[0]}" th:field="*{checkboxs[0]}"/>
-                    <label th:text="MON"></label>
+                    <label th:text="SUN"></label>
 
                     <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[1]} ? 'checked'"
                            th:value="${fixedRepeatDay.checkboxs[1]}" th:field="*{checkboxs[1]}"/>
-                    <label th:text="TUE"></label>
+                    <label th:text="MON"></label>
 
                     <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[2]} ? 'checked'"
                            th:value="${fixedRepeatDay.checkboxs[2]}" th:field="*{checkboxs[2]}"/>
-                    <label th:text="WED"></label>
+                    <label th:text="TUE"></label>
 
                     <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[3]} ? 'checked'"
                            th:value="${fixedRepeatDay.checkboxs[3]}" th:field="*{checkboxs[3]}"/>
-                    <label th:text="THU"></label>
+                    <label th:text="WED"></label>
 
                     <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[4]} ? 'checked'"
                            th:value="${fixedRepeatDay.checkboxs[4]}" th:field="*{checkboxs[4]}"/>
-                    <label th:text="FRI"></label>
+                    <label th:text="THU"></label>
 
                     <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[5]} ? 'checked'"
                            th:value="${fixedRepeatDay.checkboxs[5]}" th:field="*{checkboxs[5]}"/>
-                    <label th:text="SAT"></label>
+                    <label th:text="FRI"></label>
 
                     <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[6]} ? 'checked'"
                            th:value="${fixedRepeatDay.checkboxs[6]}" th:field="*{checkboxs[6]}"/>
-                    <label th:text="SUN"></label>
+                    <label th:text="SAT"></label>
                 </div>
             </div>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>

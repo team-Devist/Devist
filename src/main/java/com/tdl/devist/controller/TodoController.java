@@ -76,22 +76,24 @@ public class TodoController {
         if (userService.hasAuthorization(principal.getName(), todo)) {
             return "redirect:/denied";
         }
+
+        model.addAttribute("todo", todo);
+
         if (todo.getRepeatDay() instanceof FixedRepeatDay) {
             ((FixedRepeatDay) todo.getRepeatDay()).convertRepeatDayByteToBooleanArr();
+            model.addAttribute("fixedRepeatDay", (FixedRepeatDay) todo.getRepeatDay());
+        } else {
+            model.addAttribute("FlexibleRepeatDay", (FlexibleRepeatDay) todo.getRepeatDay());
         }
-        model.addAttribute("todo", todo);
 
         return "edittodo";
     }
 
     @PostMapping("/{id}/edit")
     public String edit(Todo todo, @PathVariable int id, FixedRepeatDay fixedRepeatDay, FlexibleRepeatDay flexibleRepeatDay) {
-        if (fixedRepeatDay != null) {
-            fixedRepeatDay.convertRepeatDayBooleanArrToByte();
-            todo.setRepeatDay(fixedRepeatDay);
-        } else {
-            todo.setRepeatDay(flexibleRepeatDay);
-        }
+        fixedRepeatDay.convertRepeatDayBooleanArrToByte();
+        todo.setRepeatDay(fixedRepeatDay);
+
         todoService.updateTodo(id, todo);
 
         return "redirect:/";
