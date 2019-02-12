@@ -14,4 +14,9 @@ abstract class RepeatDay {
     @Id
     @GeneratedValue
     private int id;
+
+    @MapsId
+    @OneToOne(mappedBy = "repeatDay")
+    @JoinColumn(name = "todo_id")
+    private Todo todo;
 }

@@ -23,9 +23,8 @@ public class Todo {
     private int id;
     private String title;
     private String description;
-    @MapsId
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "todo_id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private RepeatDay repeatDay;
     private LocalDateTime createdTime;
     private double doneRate = 0.0;

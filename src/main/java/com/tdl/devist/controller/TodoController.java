@@ -53,9 +53,9 @@ public class TodoController {
 
     @PostMapping("/add")
     public String add(final Principal principal, Todo todo, final FixedRepeatDay fixedRepeatDay, final FlexibleRepeatDay flexibleRepeatDay) {
-
         fixedRepeatDay.convertRepeatDayBooleanArrToByte();
         todo.setRepeatDay(fixedRepeatDay);
+        fixedRepeatDay.setTodo(todo);
 
         todoService.addTodo(principal.getName(), todo);
 
