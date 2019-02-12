@@ -22,12 +22,13 @@
         <tr th:each="todo: ${todo_list}">
             <td><span th:text="${todo.title}"></span></td>
             <td><span th:text="${todo.description}"></span></td>
-            <td><span th:each="dw, index : ${todo.repeatCheckbox}">
-                <a th:if="${dw}" th:with="wstr=${todo.WEEK_DAY[index.index]}" th:switch="${wstr}">
-                    <a th:case="'토'" style="color: blue" th:text="${wstr}"></a>
-                    <a th:case="'일'" style="color: red;" th:text="${wstr}"></a>
-                    <a th:case="*" th:text="${wstr}"></a>
-                </a>
+            <td><span th:each="dw, index : ${todo.getCheckboxsArr()}">
+                    <a th:if="${dw}" th:with="wstr=${todo.getWeekString()[index.index]}" th:switch="${wstr}">
+                        <a th:case="'토'" style="color: blue" th:text="${wstr}"></a>
+                        <a th:case="'일'" style="color: red;" th:text="${wstr}"></a>
+                        <a th:case="*" th:text="${wstr}"></a>
+                    </a>
+                </div>
             </span></td>
             <td>
                 <div class="progress">

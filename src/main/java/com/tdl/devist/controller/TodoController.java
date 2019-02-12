@@ -1,7 +1,6 @@
 package com.tdl.devist.controller;
 
-import com.tdl.devist.model.Todo;
-import com.tdl.devist.model.User;
+import com.tdl.devist.model.*;
 import com.tdl.devist.service.TodoService;
 import com.tdl.devist.service.UserService;
 import org.slf4j.Logger;
@@ -10,9 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.ObjectUtils;
 
+import java.lang.annotation.Repeatable;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/todos")
@@ -32,7 +35,9 @@ public class TodoController {
     public String getTodoList(Principal principal, Model model) {
         User user = userService.getUserByUserName(principal.getName());
         List<Todo> todoList = user.getTodoList();
-
+        for (Todo t : todoList) {
+            ((FixedRepeatDay) t.getRepeatDay()).convertRepeatDayByteToBooleanArr();
+        }
         model.addAttribute("todo_list", todoList);
 
         return "todo_list";
@@ -41,13 +46,17 @@ public class TodoController {
     @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("todo", new Todo());
-
+        model.addAttribute("fixedRepeatDay", new FixedRepeatDay());
+        model.addAttribute("FlexibleRepeatDay", new FlexibleRepeatDay());
         return "addtodo";
     }
 
     @PostMapping("/add")
-    public String add(final Principal principal, Todo todo) {
-        todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
+    public String add(final Principal principal, Todo todo, final FixedRepeatDay fixedRepeatDay, final FlexibleRepeatDay flexibleRepeatDay) {
+
+        fixedRepeatDay.convertRepeatDayBooleanArrToByte();
+        todo.setRepeatDay(fixedRepeatDay);
+
         todoService.addTodo(principal.getName(), todo);
 
         return "redirect:/";
@@ -64,18 +73,27 @@ public class TodoController {
     @GetMapping("/{id}/edit")
     public String editForm(Model model, @PathVariable int id, final Principal principal) {
         Todo todo = todoService.findTodoById(id);
-        if(userService.hasAuthorization(principal.getName(), todo )) {
+        if (userService.hasAuthorization(principal.getName(), todo)) {
             return "redirect:/denied";
         }
-        todo.convertRepeatDayByteToBooleanArr();
+
         model.addAttribute("todo", todo);
+
+        if (todo.getRepeatDay() instanceof FixedRepeatDay) {
+            ((FixedRepeatDay) todo.getRepeatDay()).convertRepeatDayByteToBooleanArr();
+            model.addAttribute("fixedRepeatDay", (FixedRepeatDay) todo.getRepeatDay());
+        } else {
+            model.addAttribute("FlexibleRepeatDay", (FlexibleRepeatDay) todo.getRepeatDay());
+        }
 
         return "edittodo";
     }
 
     @PostMapping("/{id}/edit")
-    public String edit(Todo todo, @PathVariable int id) {
-        todo.convertRepeatDayBooleanArrToByte(); // todo: 이슈 #17 참고
+    public String edit(Todo todo, @PathVariable int id, FixedRepeatDay fixedRepeatDay, FlexibleRepeatDay flexibleRepeatDay) {
+        fixedRepeatDay.convertRepeatDayBooleanArrToByte();
+        todo.setRepeatDay(fixedRepeatDay);
+
         todoService.updateTodo(id, todo);
 
         return "redirect:/todos";

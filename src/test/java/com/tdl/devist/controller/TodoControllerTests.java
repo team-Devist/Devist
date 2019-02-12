@@ -72,7 +72,7 @@ public class TodoControllerTests {
                 .with(user("admin").password("1234").roles("USER", "ADMIN"))
                 .param("title", "test title")
                 .param("description", "test description")
-                .param("repeatDay", "1")
+                .param("daysOfWeek", "1")
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection());
 
