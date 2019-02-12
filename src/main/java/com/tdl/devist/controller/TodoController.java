@@ -9,13 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.util.ObjectUtils;
 
-import java.lang.annotation.Repeatable;
 import java.security.Principal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/todos")
@@ -64,6 +60,8 @@ public class TodoController {
 
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable int id, final Principal principal) {
+        logger.info("[Delete Todo] ID : {}, Todo Id : {}", principal.getName(), id);
+
         User user = userService.getUserByUserName(principal.getName());
         todoService.deleteTodo(user, id);
 
