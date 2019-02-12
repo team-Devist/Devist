@@ -2,6 +2,7 @@ package com.tdl.devist.service;
 
 
 import com.tdl.devist.model.DailyCheck;
+import com.tdl.devist.model.FixedRepeatDay;
 import com.tdl.devist.model.Todo;
 import com.tdl.devist.model.User;
 import com.tdl.devist.repository.DailyCheckRepository;
@@ -86,7 +87,8 @@ public class TodoServiceTests {
 
         String editedTitle = "변경된 타이틀";
         todo.setTitle(editedTitle);
-        todo.setRepeatCheckbox(new boolean[]{true, false, false, false, false, false, false});
+        FixedRepeatDay fixedRepeatDay = (FixedRepeatDay) todo.getRepeatDay();
+        fixedRepeatDay.setCheckboxs(new boolean[]{true, false, false, false, false, false, false});
 
         todoService.updateTodo(todoId, todo);
 
@@ -94,7 +96,8 @@ public class TodoServiceTests {
         List<Todo> todoList = afterUser.getTodoList();
 
         Todo afterTodo = todoList.get(0);
-        afterTodo.convertRepeatDayBooleanArrToByte();
+        fixedRepeatDay = (FixedRepeatDay) afterTodo.getRepeatDay();
+        fixedRepeatDay.convertRepeatDayBooleanArrToByte();
         Assert.assertEquals(editedTitle, afterTodo.getTitle());
         Assert.assertEquals(64, afterTodo.getRepeatDay());
     }
@@ -103,7 +106,8 @@ public class TodoServiceTests {
         Todo todo = new Todo();
         User user = userService.getUserByUserName(username);
         todo.setTitle(TEST_TODO_TITLE);
-        todo.setRepeatCheckbox(new boolean[]{true, true, true, true, true, true, true});
+        FixedRepeatDay fixedRepeatDay = (FixedRepeatDay) todo.getRepeatDay();
+        fixedRepeatDay.setCheckboxs(new boolean[]{true, true, true, true, true, true, true});
         todoService.addTodo(user.getUsername(), todo);
         userService.updateUser(user);
         return todo;
@@ -118,6 +122,7 @@ public class TodoServiceTests {
 
         Todo todo = new Todo();
         todo.setTitle(TODO_TITLE);
+        todo.setRepeatDay(new FixedRepeatDay());
         User user = userService.getUserByUserName("cjh5414");
         todoService.addTodo(user.getUsername(), todo);
 

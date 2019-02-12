@@ -7,10 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableBatchProcessing
 @SpringBootApplication
 public class DevistApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(DevistApplication.class, args);
     }
-
 }
 
