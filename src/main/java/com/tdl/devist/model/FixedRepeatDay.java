@@ -25,7 +25,6 @@ public class FixedRepeatDay extends RepeatDay {
         for (int i = checkboxs.length - 1; i >= 0; i--) {
             daysOfWeek |= checkboxs[i] ? (byte) (1 << (checkboxs.length - 1) - i) : 0;
         }
-        System.out.println("dow = " + daysOfWeek);
     }
 
     public void convertRepeatDayByteToBooleanArr() {

@@ -21,4 +21,4 @@ insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values 
 insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (1, '2018-12-20', 0, 4);
 insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (2, '2018-12-21', 0, 4);
 insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (3, '2018-12-22', 1, 4);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (4, '2018-12-23', 0, 4);
+insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (4, '2018-12-24', 0, 4);
