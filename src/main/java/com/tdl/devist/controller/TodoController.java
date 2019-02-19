@@ -49,9 +49,16 @@ public class TodoController {
 
     @PostMapping("/add")
     public String add(final Principal principal, Todo todo, final FixedRepeatDay fixedRepeatDay, final FlexibleRepeatDay flexibleRepeatDay) {
-        fixedRepeatDay.convertRepeatDayBooleanArrToByte();
-        todo.setRepeatDay(fixedRepeatDay);
-        fixedRepeatDay.setTodo(todo);
+        RepeatDay repeatDay;
+        if(true) {
+            fixedRepeatDay.convertRepeatDayBooleanArrToByte();
+            repeatDay = fixedRepeatDay;
+        } else {
+            repeatDay = flexibleRepeatDay;
+        }
+
+        todo.setRepeatDay(repeatDay);
+        repeatDay.setTodo(todo);
 
         todoService.addTodo(principal.getName(), todo);
 
@@ -89,8 +96,15 @@ public class TodoController {
 
     @PostMapping("/{id}/edit")
     public String edit(Todo todo, @PathVariable int id, FixedRepeatDay fixedRepeatDay, FlexibleRepeatDay flexibleRepeatDay) {
-        fixedRepeatDay.convertRepeatDayBooleanArrToByte();
-        todo.setRepeatDay(fixedRepeatDay);
+        RepeatDay repeatDay;
+        if(true) {
+            fixedRepeatDay.convertRepeatDayBooleanArrToByte();
+            repeatDay = fixedRepeatDay;
+        } else {
+            repeatDay = flexibleRepeatDay;
+        }
+
+        todo.setRepeatDay(repeatDay);
 
         todoService.updateTodo(id, todo);
 

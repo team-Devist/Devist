@@ -10,4 +10,13 @@ import javax.persistence.Entity;
 public class FlexibleRepeatDay extends RepeatDay {
     private int doingCount;
     private int weeksCount;
+
+    @Override
+    public boolean isTodaysTodo() {
+        return weeksCount > doingCount;
+    }
+
+    public void toTodo() {
+        doingCount++;
+    }
 }

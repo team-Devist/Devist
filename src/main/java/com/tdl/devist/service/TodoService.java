@@ -93,6 +93,7 @@ public class TodoService {
         if (!todo.isTodaysTodo()) return; // Todo: Error 처리
         DailyCheck latestDailyCheck = todo.getLatestDailyCheck();
         latestDailyCheck.setDone(isDone);
+        todo.doTodo();
         dailyCheckRepository.save(latestDailyCheck);
     }
 
