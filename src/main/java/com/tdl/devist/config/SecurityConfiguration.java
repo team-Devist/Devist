@@ -47,15 +47,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/resources/**", "/webjars/**", "/static/**", "/signup", "/").permitAll()
                     .antMatchers("/h2-console/**").access("hasRole('ADMIN') and hasRole('DBA')")
                     .anyRequest().authenticated()
-                .and()
+                    .and()
                 .formLogin()
-                .loginPage("/login").permitAll()
-                .and()
+                    .loginPage("/login").permitAll()
+                    .and()
                 .logout()
-                .and()
+                    .logoutSuccessUrl("/login")
+                    .and()
                 .csrf()
                     .ignoringAntMatchers("/h2-console/**")
-                .and()
+                    .and()
                 .headers().frameOptions().disable();
     }
 }
