@@ -39,4 +39,16 @@ public class FixedRepeatDay extends RepeatDay {
         int today = LocalDate.now().getDayOfWeek().getValue();
         return (daysOfWeek & (1 << (today - 1))) > 0;
     }
+
+    @Override
+    public boolean isInitDay() {
+        return false;
+    }
+
+    @Override
+    public boolean initRepeatDay() {
+        return false;
+    }
+
+
 }

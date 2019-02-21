@@ -17,8 +17,8 @@ insert into repeat_day (repeat_type, todo_id, days_of_week) values ('FixedRepeat
 insert into repeat_day (repeat_type, todo_id, days_of_week) values ('FixedRepeatDay', 3, 127);
 insert into repeat_day (repeat_type, todo_id, days_of_week) values ('FixedRepeatDay', 4, 127);
 insert into repeat_day (repeat_type, todo_id, days_of_week) values ('FixedRepeatDay', 5, 127);
-insert into repeat_day (repeat_type, todo_id, doing_count, weeks_count) values ('FlexibleRepeatDay', 6, 3, 4);
-insert into repeat_day (repeat_type, todo_id, doing_count, weeks_count) values ('FlexibleRepeatDay', 7, 7, 4);
+insert into repeat_day (repeat_type, todo_id, doing_count, weeks_count, init_day) values ('FlexibleRepeatDay', 6, 3, 4, 1);
+insert into repeat_day (repeat_type, todo_id, doing_count, weeks_count, init_day) values ('FlexibleRepeatDay', 7, 7, 4, 1);
 
 insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (1, '2018-12-22', 1, 3);
 insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (2, '2018-12-20', 0, 4);

@@ -21,4 +21,6 @@ public abstract class RepeatDay {
     private Todo todo;
 
     public abstract boolean isTodaysTodo();
+    public abstract boolean isInitDay();
+    public abstract boolean initRepeatDay();
 }

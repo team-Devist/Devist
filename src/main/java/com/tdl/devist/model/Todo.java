@@ -68,4 +68,12 @@ public class Todo {
             ((FlexibleRepeatDay) repeatDay).toTodo();
         }
     }
+
+    public boolean isInitDay() {
+        return repeatDay.isInitDay();
+    }
+
+    public boolean initRepeatDay() {
+        return repeatDay.initRepeatDay();
+    }
 }
