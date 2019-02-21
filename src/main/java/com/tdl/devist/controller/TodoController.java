@@ -43,14 +43,14 @@ public class TodoController {
     public String addForm(Model model) {
         model.addAttribute("todo", new Todo());
         model.addAttribute("fixedRepeatDay", new FixedRepeatDay());
-        model.addAttribute("FlexibleRepeatDay", new FlexibleRepeatDay());
+        model.addAttribute("flexibleRepeatDay", new FlexibleRepeatDay());
         return "addtodo";
     }
 
     @PostMapping("/add")
     public String add(final Principal principal, Todo todo, final FixedRepeatDay fixedRepeatDay, final FlexibleRepeatDay flexibleRepeatDay) {
         RepeatDay repeatDay;
-        if(true) {
+        if(flexibleRepeatDay.getDoingCount() != 0) {
             fixedRepeatDay.convertRepeatDayBooleanArrToByte();
             repeatDay = fixedRepeatDay;
         } else {
@@ -97,7 +97,7 @@ public class TodoController {
     @PostMapping("/{id}/edit")
     public String edit(Todo todo, @PathVariable int id, FixedRepeatDay fixedRepeatDay, FlexibleRepeatDay flexibleRepeatDay) {
         RepeatDay repeatDay;
-        if(true) {
+        if(flexibleRepeatDay.getWeeksCount() != 0) {
             fixedRepeatDay.convertRepeatDayBooleanArrToByte();
             repeatDay = fixedRepeatDay;
         } else {
