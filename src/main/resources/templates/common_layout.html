@@ -10,7 +10,7 @@
     <!-- default header name is X-CSRF-TOKEN -->
     <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
 
-    <title layout:title-pattern="$CONTENT_TITLE :: $DECORATOR_TITLE">Devist</title>
+    <title layout:title-pattern="$CONTENT_TITLE :: $LAYOUT_TITLE">Devist</title>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}" rel="stylesheet">
@@ -66,10 +66,10 @@
 
 <!-- Header -->
 <!--<header layout:fragment="header" class="bg-primary text-white">-->
-    <!--<div class="container text-center">-->
-        <!--<h1>Welcome to Scrolling Nav</h1>-->
-        <!--<p class="lead">A landing page template freshly redesigned for Bootstrap 4</p>-->
-    <!--</div>-->
+<!--<div class="container text-center">-->
+<!--<h1>Welcome to Scrolling Nav</h1>-->
+<!--<p class="lead">A landing page template freshly redesigned for Bootstrap 4</p>-->
+<!--</div>-->
 <!--</header>-->
 
 <!-- Content -->
