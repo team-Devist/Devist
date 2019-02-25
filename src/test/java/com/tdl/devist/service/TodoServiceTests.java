@@ -1,10 +1,7 @@
 package com.tdl.devist.service;
 
 
-import com.tdl.devist.model.DailyCheck;
-import com.tdl.devist.model.FixedRepeatDay;
-import com.tdl.devist.model.Todo;
-import com.tdl.devist.model.User;
+import com.tdl.devist.model.*;
 import com.tdl.devist.repository.DailyCheckRepository;
 import com.tdl.devist.repository.TodoRepository;
 import org.junit.Assert;
@@ -18,6 +15,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
+import java.lang.annotation.Repeatable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -106,7 +104,7 @@ public class TodoServiceTests {
         Todo todo = new Todo();
         User user = userService.getUserByUserName(username);
         todo.setTitle(TEST_TODO_TITLE);
-        FixedRepeatDay fixedRepeatDay = (FixedRepeatDay) todo.getRepeatDay();
+        FixedRepeatDay fixedRepeatDay = new FixedRepeatDay();
         fixedRepeatDay.setCheckboxs(new boolean[]{true, true, true, true, true, true, true});
         todoService.addTodo(user.getUsername(), todo);
         userService.updateUser(user);
@@ -122,7 +120,9 @@ public class TodoServiceTests {
 
         Todo todo = new Todo();
         todo.setTitle(TODO_TITLE);
-        todo.setRepeatDay(new FixedRepeatDay());
+        FixedRepeatDay fixedRepeatDay = new FixedRepeatDay();
+        fixedRepeatDay.setTodo(todo);
+        todo.setRepeatDay(fixedRepeatDay);
         User user = userService.getUserByUserName("cjh5414");
         todoService.addTodo(user.getUsername(), todo);
 
