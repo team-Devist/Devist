@@ -54,7 +54,7 @@ public class TodoServiceTests {
         Assert.assertEquals(1, entitySize);
         Todo todo = todoList.get(0);
         Assert.assertEquals(TEST_TODO_TITLE, todo.getTitle());
-        Assert.assertEquals(127, todo.getRepeatDay());
+        Assert.assertEquals(127, ((FixedRepeatDay) todo.getRepeatDay()).getDaysOfWeek());
     }
 
     @Test
@@ -97,7 +97,7 @@ public class TodoServiceTests {
         fixedRepeatDay = (FixedRepeatDay) afterTodo.getRepeatDay();
         fixedRepeatDay.convertRepeatDayBooleanArrToByte();
         Assert.assertEquals(editedTitle, afterTodo.getTitle());
-        Assert.assertEquals(64, afterTodo.getRepeatDay());
+        Assert.assertEquals(64, ((FixedRepeatDay) afterTodo.getRepeatDay()).getDaysOfWeek());
     }
 
     private Todo generateAndSaveTestTodoInstance(String username) {
@@ -106,6 +106,8 @@ public class TodoServiceTests {
         todo.setTitle(TEST_TODO_TITLE);
         FixedRepeatDay fixedRepeatDay = new FixedRepeatDay();
         fixedRepeatDay.setCheckboxs(new boolean[]{true, true, true, true, true, true, true});
+        fixedRepeatDay.setTodo(todo);
+        todo.setRepeatDay(fixedRepeatDay);
         todoService.addTodo(user.getUsername(), todo);
         userService.updateUser(user);
         return todo;
