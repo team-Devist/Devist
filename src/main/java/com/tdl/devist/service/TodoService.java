@@ -1,6 +1,7 @@
 package com.tdl.devist.service;
 
 import com.tdl.devist.model.DailyCheck;
+import com.tdl.devist.model.FlexibleRepeatDay;
 import com.tdl.devist.model.Todo;
 import com.tdl.devist.model.User;
 import com.tdl.devist.repository.DailyCheckRepository;
@@ -82,6 +83,9 @@ public class TodoService {
                 updateDoneRate(todo.getId());
                 userSet.add(todo.getUser());
             }
+            if (todo.isInitDay()) {
+                todo.initRepeatDay();
+            }
         }
 
         for (User user: userSet)
@@ -93,6 +97,7 @@ public class TodoService {
         if (!todo.isTodaysTodo()) return; // Todo: Error 처리
         DailyCheck latestDailyCheck = todo.getLatestDailyCheck();
         latestDailyCheck.setDone(isDone);
+        todo.doTodo();
         dailyCheckRepository.save(latestDailyCheck);
     }
 
@@ -107,6 +112,5 @@ public class TodoService {
 
         todo.setDoneRate((double)doneCount / totalCount * 100.00);
         todoRepository.save(todo);
-
     }
 }

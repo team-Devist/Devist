@@ -32,7 +32,9 @@ public class TodoController {
         User user = userService.getUserByUserName(principal.getName());
         List<Todo> todoList = user.getTodoList();
         for (Todo t : todoList) {
-            ((FixedRepeatDay) t.getRepeatDay()).convertRepeatDayByteToBooleanArr();
+            if (t.getRepeatDay() instanceof FixedRepeatDay) {
+                ((FixedRepeatDay) t.getRepeatDay()).convertRepeatDayByteToBooleanArr();
+            }
         }
         model.addAttribute("todo_list", todoList);
 
@@ -43,15 +45,16 @@ public class TodoController {
     public String addForm(Model model) {
         model.addAttribute("todo", new Todo());
         model.addAttribute("fixedRepeatDay", new FixedRepeatDay());
-        model.addAttribute("FlexibleRepeatDay", new FlexibleRepeatDay());
+        model.addAttribute("flexibleRepeatDay", new FlexibleRepeatDay());
         return "addtodo";
     }
 
     @PostMapping("/add")
     public String add(final Principal principal, Todo todo, final FixedRepeatDay fixedRepeatDay, final FlexibleRepeatDay flexibleRepeatDay) {
-        fixedRepeatDay.convertRepeatDayBooleanArrToByte();
-        todo.setRepeatDay(fixedRepeatDay);
-        fixedRepeatDay.setTodo(todo);
+        RepeatDay repeatDay = selectRepeatDay(fixedRepeatDay, flexibleRepeatDay);
+        todo.setRepeatDay(repeatDay);
+
+        repeatDay.setTodo(todo);
 
         todoService.addTodo(principal.getName(), todo);
 
@@ -77,11 +80,14 @@ public class TodoController {
 
         model.addAttribute("todo", todo);
 
+        /* Todo: 프론트에서 분기를 나눠서 보여주는 방식을 처리 또는 아예 따로 불러오는 것을 고려 */
         if (todo.getRepeatDay() instanceof FixedRepeatDay) {
             ((FixedRepeatDay) todo.getRepeatDay()).convertRepeatDayByteToBooleanArr();
-            model.addAttribute("fixedRepeatDay", (FixedRepeatDay) todo.getRepeatDay());
+            model.addAttribute("fixedRepeatDay", todo.getRepeatDay());
+            model.addAttribute("flexibleRepeatDay", new FlexibleRepeatDay());
         } else {
-            model.addAttribute("FlexibleRepeatDay", (FlexibleRepeatDay) todo.getRepeatDay());
+            model.addAttribute("fixedRepeatDay", new FixedRepeatDay());
+            model.addAttribute("flexibleRepeatDay", todo.getRepeatDay());
         }
 
         return "edittodo";
@@ -89,11 +95,22 @@ public class TodoController {
 
     @PostMapping("/{id}/edit")
     public String edit(Todo todo, @PathVariable int id, FixedRepeatDay fixedRepeatDay, FlexibleRepeatDay flexibleRepeatDay) {
-        fixedRepeatDay.convertRepeatDayBooleanArrToByte();
-        todo.setRepeatDay(fixedRepeatDay);
+        RepeatDay repeatDay = selectRepeatDay(fixedRepeatDay, flexibleRepeatDay);
+        todo.setRepeatDay(repeatDay);
 
         todoService.updateTodo(id, todo);
 
         return "redirect:/todos";
+    }
+
+    public RepeatDay selectRepeatDay(FixedRepeatDay fixedRepeatDay, FlexibleRepeatDay flexibleRepeatDay) {
+        RepeatDay repeatDay;
+        if (flexibleRepeatDay.getWeeksCount() == 0) {
+            fixedRepeatDay.convertRepeatDayBooleanArrToByte();
+            repeatDay = fixedRepeatDay;
+        } else {
+            repeatDay = flexibleRepeatDay;
+        }
+        return repeatDay;
     }
 }
