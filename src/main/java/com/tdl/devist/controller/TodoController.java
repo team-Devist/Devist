@@ -43,15 +43,22 @@ public class TodoController {
     public String addForm(Model model) {
         model.addAttribute("todo", new Todo());
         model.addAttribute("fixedRepeatDay", new FixedRepeatDay());
-        model.addAttribute("FlexibleRepeatDay", new FlexibleRepeatDay());
+        model.addAttribute("flexibleRepeatDay", new FlexibleRepeatDay());
+        model.addAttribute("fixedOrFlexible", "fixed");
         return "addtodo";
     }
 
     @PostMapping("/add")
-    public String add(final Principal principal, Todo todo, final FixedRepeatDay fixedRepeatDay, final FlexibleRepeatDay flexibleRepeatDay) {
-        fixedRepeatDay.convertRepeatDayBooleanArrToByte();
-        todo.setRepeatDay(fixedRepeatDay);
-        fixedRepeatDay.setTodo(todo);
+    public String add(final Principal principal, Todo todo, final FixedRepeatDay fixedRepeatDay, final FlexibleRepeatDay flexibleRepeatDay, final String fixedOrFlexible) {
+        if (fixedOrFlexible.equals("flexible")) {
+            // Todo: dealing flexible repeatday
+        }
+        else if (fixedOrFlexible.equals("fixed")) {
+            fixedRepeatDay.convertRepeatDayBooleanArrToByte();
+            todo.setRepeatDay(fixedRepeatDay);
+            fixedRepeatDay.setTodo(todo);
+
+        }
 
         todoService.addTodo(principal.getName(), todo);
 
