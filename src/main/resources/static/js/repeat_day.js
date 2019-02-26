@@ -1,14 +1,11 @@
 $(document).ready(function () {
     var checkedId = $("#id-fixed-or-flexible").val();
-    console.log(checkedId);
     toggleRepeatDay(checkedId);
-    if (checkedId === "fixed") {
-        $("#div-fixedrepeatday").parent().addClass('active');
-    }
-    else if (checkedId === "flexible") {
-        $("#div-flexiblerepeatday").parent().addClass('active');
-        console.log($("#div-flexiblerepeatday").parent());
-    }
+
+    if (checkedId === "fixed")
+        $("#btn-fixed").addClass('active');
+    else if (checkedId === "flexible")
+        $("#btn-flexible").addClass('active');
 });
 
 $("input[name=repeat-day]").change(function () {

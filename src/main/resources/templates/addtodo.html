@@ -30,15 +30,15 @@
                 <input type="hidden" id="id-fixed-or-flexible" th:name="fixedOrFlexible" th:value="${fixedOrFlexible}" />
 
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-secondary">
+                    <label id="btn-fixed" class="btn btn-secondary">
                         <input type="radio" name="repeat-day" value="fixed" autocomplete="off" checked> Fixed
                     </label>
-                    <label class="btn btn-secondary">
+                    <label id="btn-flexible" class="btn btn-secondary">
                         <input type="radio" name="repeat-day" value="flexible" autocomplete="off"> Flexible
                     </label>
                 </div>
 
-                <div id="div-fixedrepeatday" class="form-group row">
+                <div id="div-fixedrepeatday" class="form-group row" style="display: none;">
                     <label for="todo_fixed_repeat" class="col-sm-4 col-form-label">Fixed Repeat days</label>
                     <div class="col-sm-10" id="todo_fixed_repeat" th:object="${fixedRepeatDay}">
 
@@ -64,9 +64,7 @@
                         <label th:text="SAT"></label>
                     </div>
                 </div>
-
-
-                <div id="div-flexiblerepeatday" class="form-group row">
+                <div id="div-flexiblerepeatday" class="form-group row" style="display: none;">
                     <label for="todo_flexible_repeat" class="col-sm-4 col-form-label">Flexible Repeat days</label>
                     <div class="col-sm-10">
                         <input th:type="number" class="form-control" id="todo_flexible_repeat" placeholder="1"
