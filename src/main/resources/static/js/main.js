@@ -75,15 +75,3 @@ function renewUserHomeData(){
     });
 }
 
-$("input[name=repeat-day]").change(function () {
-    var checkedId = $(this).val();
-    $("#id-fixed-or-flexible").val(checkedId);
-    if (checkedId === "fixed") {
-        $("#div-fixedrepeatday").show();
-        $("#div-flexiblerepeatday").hide();
-    }
-    else if (checkedId === "flexible") {
-        $("#div-fixedrepeatday").hide();
-        $("#div-flexiblerepeatday").show();
-    }
-});

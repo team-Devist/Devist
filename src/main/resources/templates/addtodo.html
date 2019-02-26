@@ -66,7 +66,7 @@
                 </div>
 
 
-                <div id="div-flexiblerepeatday" class="form-group row">  <!--style="display: none;"-->
+                <div id="div-flexiblerepeatday" class="form-group row">
                     <label for="todo_flexible_repeat" class="col-sm-4 col-form-label">Flexible Repeat days</label>
                     <div class="col-sm-10">
                         <input th:type="number" class="form-control" id="todo_flexible_repeat" placeholder="1"
@@ -79,9 +79,13 @@
                 <button type="submit" class="btn btn-primary">Add</button>
                 <button type="submit" class="btn btn-primary" onclick="location.href='todolist'">Cancel</button>
             </div>
-
         </form>
     </div>
 </section>
-</body>
-</html>
+
+
+<th:block layout:fragment="custom_script">
+    <script th:src="@{/static/js/repeat_day.js}"></script>
+</th:block>
+
+

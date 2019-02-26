@@ -93,10 +93,11 @@ public class TodoController {
             ((FixedRepeatDay) todo.getRepeatDay()).convertRepeatDayByteToBooleanArr();
             model.addAttribute("fixedRepeatDay", todo.getRepeatDay());
             model.addAttribute("flexibleRepeatDay", new FlexibleRepeatDay());
-            // model.addAttribute()
+            model.addAttribute("fixedOrFlexible", "fixed");
         } else {
             model.addAttribute("fixedRepeatDay", new FixedRepeatDay());
             model.addAttribute("flexibleRepeatDay", todo.getRepeatDay());
+            model.addAttribute("fixedOrFlexible", "flexible");
         }
 
         return "edittodo";
