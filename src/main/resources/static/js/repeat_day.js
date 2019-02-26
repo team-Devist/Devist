@@ -2,6 +2,10 @@ $(document).ready(function () {
     var checkedId = $("#id-fixed-or-flexible").val();
 
     toggleRepeatDay(checkedId);
+    if (checkedId === "fixed")
+        $("#div-fixedrepeatday").parent().addClass('active');
+    else if (checkedId === "flexible")
+        $("#div-flexiblerepeatday").parent().addClass('active');
 });
 
 $("input[name=repeat-day]").change(function () {
