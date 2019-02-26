@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/todos")
@@ -46,16 +47,24 @@ public class TodoController {
         model.addAttribute("todo", new Todo());
         model.addAttribute("fixedRepeatDay", new FixedRepeatDay());
         model.addAttribute("flexibleRepeatDay", new FlexibleRepeatDay());
+
+        model.addAttribute("fixedOrFlexible", "fixed");
         return "addtodo";
     }
 
     @PostMapping("/add")
-    public String add(final Principal principal, Todo todo, final FixedRepeatDay fixedRepeatDay, final FlexibleRepeatDay flexibleRepeatDay) {
-        RepeatDay repeatDay = selectRepeatDay(fixedRepeatDay, flexibleRepeatDay);
-        todo.setRepeatDay(repeatDay);
-
+    public String add(final Principal principal, Todo todo, final FixedRepeatDay fixedRepeatDay, final FlexibleRepeatDay flexibleRepeatDay, final String fixedOrFlexible) {
+        RepeatDay repeatDay = null;
+        if (fixedOrFlexible.equals("flexible")) {
+            repeatDay = flexibleRepeatDay;
+        }
+        else if (fixedOrFlexible.equals("fixed")) {
+            fixedRepeatDay.convertRepeatDayBooleanArrToByte();
+            repeatDay = fixedRepeatDay;
+        }
+        Objects.requireNonNull(repeatDay);
         repeatDay.setTodo(todo);
-
+        todo.setRepeatDay(repeatDay);
         todoService.addTodo(principal.getName(), todo);
 
         return "redirect:/";
@@ -80,11 +89,11 @@ public class TodoController {
 
         model.addAttribute("todo", todo);
 
-        /* Todo: 프론트에서 분기를 나눠서 보여주는 방식을 처리 또는 아예 따로 불러오는 것을 고려 */
         if (todo.getRepeatDay() instanceof FixedRepeatDay) {
             ((FixedRepeatDay) todo.getRepeatDay()).convertRepeatDayByteToBooleanArr();
             model.addAttribute("fixedRepeatDay", todo.getRepeatDay());
             model.addAttribute("flexibleRepeatDay", new FlexibleRepeatDay());
+            // model.addAttribute()
         } else {
             model.addAttribute("fixedRepeatDay", new FixedRepeatDay());
             model.addAttribute("flexibleRepeatDay", todo.getRepeatDay());

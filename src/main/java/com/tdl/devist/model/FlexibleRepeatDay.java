@@ -13,8 +13,8 @@ import java.time.LocalDate;
 @Setter
 @Getter
 public class FlexibleRepeatDay extends RepeatDay {
-    private int doingCount;
-    private int weeksCount;
+    private int doingCount = 1;
+    private int weeksCount = 1;
     private int initDay = 1;
 
     @Override
@@ -37,4 +37,5 @@ public class FlexibleRepeatDay extends RepeatDay {
     public void toTodo() {
         doingCount++;
     }
+
 }
