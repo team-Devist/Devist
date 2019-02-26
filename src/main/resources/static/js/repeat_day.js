@@ -3,9 +3,9 @@ $(document).ready(function () {
 
     toggleRepeatDay(checkedId);
     if (checkedId === "fixed")
-        $("#div-fixedrepeatday").parent().addClass('active');
+        $("#btn-fixed").addClass('active');
     else if (checkedId === "flexible")
-        $("#div-flexiblerepeatday").parent().addClass('active');
+        $("#btn-flexible").addClass('active');
 });
 
 $("input[name=repeat-day]").change(function () {
