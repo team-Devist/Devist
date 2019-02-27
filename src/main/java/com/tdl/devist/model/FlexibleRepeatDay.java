@@ -22,22 +22,17 @@ public class FlexibleRepeatDay extends RepeatDay {
 
     @Override
     public boolean isTodaysTodo() {
-        System.out.println("@@ doingCount:" + doingCount);
-        System.out.println("@@ weeksCount:" + weeksCount);
         List<DailyCheck> list = todo.getDailyChecks();
-        System.out.println("@@ listsize" + list.size());
         int doneCount = 0;
         int latestIdx = list.size() - 1;
-        int cntIdx = latestIdx - weeksCount * Calendar.DAY_OF_WEEK;
-
-        for (int i = latestIdx - 1; i >= cntIdx; i--) {
+        int cntIdx = latestIdx - LocalDateTime.now().getDayOfWeek().getValue() - initDay + 1;
+        for (int i = latestIdx - 1; i > cntIdx; i--) {
             try {
                 doneCount += list.get(i).isDone() ? 1 : 0;
             } catch (IndexOutOfBoundsException e) {
                 break;
             }
         }
-        System.out.println("@@ donecount:" + doneCount);
         return doneCount < doingCount;
     }
 
