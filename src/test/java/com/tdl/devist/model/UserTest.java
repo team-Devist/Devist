@@ -71,7 +71,6 @@ public class UserTest {
                 todoSize = 4;
                 break;
         }
-
         Assert.assertEquals(todoSize, todoList.size());
     }
 

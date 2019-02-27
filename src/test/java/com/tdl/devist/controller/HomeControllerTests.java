@@ -74,17 +74,15 @@ public class HomeControllerTests {
         // NOTE: 이하의 검증은 import.sql에 종속된다
 
         ModelAndView mav = result.getModelAndView();
-        Assert.assertNotNull(mav);
-
-        List todaysTodoList = (List) mav.getModel().get("todo_list");
-        Assert.assertNotNull(todaysTodoList);
-        Assert.assertEquals(6, todaysTodoList.size());
-
+        Assert.assertEquals(6, getSizeOfModel(mav, "todo_list"));
     }
 
     @Test
     @Transactional
     public void 오늘_완료된_일을_정상적으로_가져온다() throws Exception {
+
+        // NOTE: 이하의 검증은 import.sql에 종속된다
+
         mockMvc.perform(post("/api/todos/1/do")
                 .with(user(USER_A[NAME]).password(USER_A[PWD]).roles("USER"))
                 .with(csrf())
@@ -94,7 +92,6 @@ public class HomeControllerTests {
         MvcResult result = mockMvc.perform(get("/")
                 .with(user(USER_A[NAME]).password(USER_A[PWD]).roles("USER"))).andReturn();
 
-        // NOTE: 이하의 검증은 import.sql에 종속된다
         ModelAndView mav = result.getModelAndView();
         Assert.assertEquals(1, getSizeOfModel(mav, "completed_todo_list"));
     }
