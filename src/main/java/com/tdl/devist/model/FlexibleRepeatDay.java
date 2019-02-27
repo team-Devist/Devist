@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.Entity;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @ToString
@@ -19,7 +20,20 @@ public class FlexibleRepeatDay extends RepeatDay {
 
     @Override
     public boolean isTodaysTodo() {
-        return weeksCount > doingCount;
+        List<DailyCheck> list = todo.getDailyChecks();
+        int doneCount = 0;
+        int latestIdx = list.size() - 1;
+        int cntIdx = latestIdx - weeksCount * 7;
+
+        for (int i = latestIdx; i >= cntIdx; i--) {
+            try {
+                doneCount += list.get(i).isDone() ? 1 : 0;
+            } catch (IndexOutOfBoundsException e) {
+                break;
+            }
+        }
+
+        return doneCount < doingCount;
     }
 
     @Override
@@ -33,9 +47,4 @@ public class FlexibleRepeatDay extends RepeatDay {
         initDay = 1;
         return true;
     }
-
-    public void toTodo() {
-        doingCount++;
-    }
-
 }

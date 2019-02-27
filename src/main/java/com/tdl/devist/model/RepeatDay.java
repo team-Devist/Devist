@@ -18,7 +18,7 @@ public abstract class RepeatDay {
     @MapsId
     @OneToOne(mappedBy = "repeatDay")
     @JoinColumn(name = "todo_id")
-    private Todo todo;
+    protected Todo todo;
 
     public abstract boolean isTodaysTodo();
     public abstract boolean isInitDay();

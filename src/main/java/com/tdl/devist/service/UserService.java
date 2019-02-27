@@ -50,5 +50,4 @@ public class UserService {
     public boolean hasAuthorization(String userName, Todo todo) {
         return !todo.getUser().getUsername().equals(userName);
     }
-
 }
