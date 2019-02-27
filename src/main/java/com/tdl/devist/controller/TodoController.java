@@ -8,11 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Objects;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/todos")
@@ -54,15 +57,7 @@ public class TodoController {
 
     @PostMapping("/add")
     public String add(final Principal principal, Todo todo, final FixedRepeatDay fixedRepeatDay, final FlexibleRepeatDay flexibleRepeatDay, final String fixedOrFlexible) {
-        RepeatDay repeatDay = null;
-        if (fixedOrFlexible.equals("flexible")) {
-            repeatDay = flexibleRepeatDay;
-        }
-        else if (fixedOrFlexible.equals("fixed")) {
-            fixedRepeatDay.convertRepeatDayBooleanArrToByte();
-            repeatDay = fixedRepeatDay;
-        }
-        Objects.requireNonNull(repeatDay);
+        RepeatDay repeatDay = selectRepeatDay(fixedRepeatDay, flexibleRepeatDay, fixedOrFlexible);
         repeatDay.setTodo(todo);
         todo.setRepeatDay(repeatDay);
         todoService.addTodo(principal.getName(), todo);
@@ -104,23 +99,20 @@ public class TodoController {
     }
 
     @PostMapping("/{id}/edit")
-    public String edit(Todo todo, @PathVariable int id, FixedRepeatDay fixedRepeatDay, FlexibleRepeatDay flexibleRepeatDay) {
-        RepeatDay repeatDay = selectRepeatDay(fixedRepeatDay, flexibleRepeatDay);
+    public String edit(Todo todo, @PathVariable int id, FixedRepeatDay fixedRepeatDay, FlexibleRepeatDay flexibleRepeatDay, final String fixedOrFlexible) {
+        RepeatDay repeatDay = selectRepeatDay(fixedRepeatDay, flexibleRepeatDay, fixedOrFlexible);
         todo.setRepeatDay(repeatDay);
-
         todoService.updateTodo(id, todo);
 
         return "redirect:/todos";
     }
 
-    public RepeatDay selectRepeatDay(FixedRepeatDay fixedRepeatDay, FlexibleRepeatDay flexibleRepeatDay) {
-        RepeatDay repeatDay;
-        if (flexibleRepeatDay.getWeeksCount() == 0) {
-            fixedRepeatDay.convertRepeatDayBooleanArrToByte();
-            repeatDay = fixedRepeatDay;
-        } else {
-            repeatDay = flexibleRepeatDay;
+
+    public RepeatDay selectRepeatDay(FixedRepeatDay fixedRepeatDay, FlexibleRepeatDay flexibleRepeatDay, String flag) {
+        switch (flag) {
+            case "fixed": return fixedRepeatDay;
+            case "flexible": return flexibleRepeatDay;
         }
-        return repeatDay;
+        throw new NoSuchElementException();
     }
 }

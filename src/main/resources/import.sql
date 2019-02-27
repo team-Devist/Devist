@@ -12,6 +12,7 @@ insert into todos (todo_id, title, description, created_time, done_rate, usernam
 insert into todos (todo_id, title, description, created_time, done_rate, username) values (6, '주4회 중 3회 완료', '주4회 중 3회 완료.', '2018-01-02 11:20:14.000', 25.00, 'cjh5414');
 insert into todos (todo_id, title, description, created_time, done_rate, username) values (7, '주4회 중 4회 완료', '주4회 중 4회 완료.', '2018-01-03 11:10:14.000', 0.00, 'cjh5414');
 
+
 insert into repeat_day (repeat_type, todo_id, days_of_week) values ('FixedRepeatDay', 1, 127);
 insert into repeat_day (repeat_type, todo_id, days_of_week) values ('FixedRepeatDay', 2, 127);
 insert into repeat_day (repeat_type, todo_id, days_of_week) values ('FixedRepeatDay', 3, 127);

@@ -45,8 +45,10 @@ public class TodoServiceTests {
 
     @Test
     @Transactional
-    public void 서비스_레이어에서_Todo_추가_테스트() {
-        generateAndSaveTestTodoInstance(TEST_USER_NAME);
+    public void 요일고정_설정_Todo_추가에_성공한다() {
+        FixedRepeatDay fixedRepeatDay = new FixedRepeatDay();
+        fixedRepeatDay.setCheckboxs(new boolean[]{true, true, true, true, true, true, true});
+        generateAndSaveTestTodoInstance(TEST_USER_NAME, fixedRepeatDay);
 
         User targetUser = userService.getUserByUserName(TEST_USER_NAME);
         List<Todo> todoList = targetUser.getTodoList();
@@ -59,8 +61,28 @@ public class TodoServiceTests {
 
     @Test
     @Transactional
+    public void 요일유동_설정_Todo_추가에_성공한다() {
+        FlexibleRepeatDay flexibleRepeatDay = new FlexibleRepeatDay();
+        int doingCount = 5;
+        int weeksCount = 1;
+        flexibleRepeatDay.setDoingCount(doingCount);
+        flexibleRepeatDay.setWeeksCount(weeksCount);
+        generateAndSaveTestTodoInstance(TEST_USER_NAME, flexibleRepeatDay);
+
+        User targetUser = userService.getUserByUserName(TEST_USER_NAME);
+        List<Todo> todoList = targetUser.getTodoList();
+        entitySize = todoList.size();
+        Assert.assertEquals(1, entitySize);
+        Todo todo = todoList.get(0);
+        Assert.assertEquals(TEST_TODO_TITLE, todo.getTitle());
+        Assert.assertEquals(doingCount, ((FlexibleRepeatDay) todo.getRepeatDay()).getDoingCount());
+        Assert.assertEquals(weeksCount, ((FlexibleRepeatDay) todo.getRepeatDay()).getWeeksCount());
+    }
+
+    @Test
+    @Transactional
     public void 서비스_레이어에서_Todo_삭제_테스트() {
-        generateAndSaveTestTodoInstance(TEST_USER_NAME);
+        generateAndSaveTestTodoInstance(TEST_USER_NAME, new FixedRepeatDay());
         User user = userService.getUserByUserName(TEST_USER_NAME);
 
         List<Todo> todoList = user.getTodoList();
@@ -78,7 +100,7 @@ public class TodoServiceTests {
     @Test
     @Transactional
     public void 서비스_레이어에서_Todo_수정_테스트() {
-        Todo todo = generateAndSaveTestTodoInstance(TEST_USER_NAME);
+        Todo todo = generateAndSaveTestTodoInstance(TEST_USER_NAME, new FixedRepeatDay());
         User user = userService.getUserByUserName(TEST_USER_NAME);
         Assert.assertEquals(1, user.getTodoList().size());
         int todoId = user.getTodoList().get(0).getId();
@@ -100,14 +122,12 @@ public class TodoServiceTests {
         Assert.assertEquals(64, ((FixedRepeatDay) afterTodo.getRepeatDay()).getDaysOfWeek());
     }
 
-    private Todo generateAndSaveTestTodoInstance(String username) {
+    private Todo generateAndSaveTestTodoInstance(String username, RepeatDay repeatDay) {
         Todo todo = new Todo();
         User user = userService.getUserByUserName(username);
         todo.setTitle(TEST_TODO_TITLE);
-        FixedRepeatDay fixedRepeatDay = new FixedRepeatDay();
-        fixedRepeatDay.setCheckboxs(new boolean[]{true, true, true, true, true, true, true});
-        fixedRepeatDay.setTodo(todo);
-        todo.setRepeatDay(fixedRepeatDay);
+        repeatDay.setTodo(todo);
+        todo.setRepeatDay(repeatDay);
         todoService.addTodo(user.getUsername(), todo);
         userService.updateUser(user);
         return todo;

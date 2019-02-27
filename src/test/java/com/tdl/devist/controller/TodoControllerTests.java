@@ -2,9 +2,9 @@ package com.tdl.devist.controller;
 
 import com.tdl.devist.model.Todo;
 import com.tdl.devist.model.User;
+import com.tdl.devist.repository.TodoRepository;
 import com.tdl.devist.repository.UserRepository;
 import org.junit.Assert;
-import com.tdl.devist.repository.TodoRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.transaction.Transactional;
-
 import java.util.List;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -32,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Profile("dev")
 public class TodoControllerTests {
+
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -72,7 +72,7 @@ public class TodoControllerTests {
                 .with(user("admin").password("1234").roles("USER", "ADMIN"))
                 .param("title", "test title")
                 .param("description", "test description")
-                .param("daysOfWeek", "1")
+                .param("fixedOrFlexible", "fixed")
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection());
 
@@ -111,6 +111,7 @@ public class TodoControllerTests {
         mockMvc.perform(post("/todos/" + todoId + "/edit")
                 .with(user("cjh5414").password("1234").roles("USER"))
                 .param("title", editedTitle)
+                .param("fixedOrFlexible", "fixed")
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection());
 
