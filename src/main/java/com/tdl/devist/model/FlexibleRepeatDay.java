@@ -7,6 +7,8 @@ import lombok.ToString;
 
 import javax.persistence.Entity;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.List;
 
 @Entity
@@ -20,19 +22,22 @@ public class FlexibleRepeatDay extends RepeatDay {
 
     @Override
     public boolean isTodaysTodo() {
+        System.out.println("@@ doingCount:" + doingCount);
+        System.out.println("@@ weeksCount:" + weeksCount);
         List<DailyCheck> list = todo.getDailyChecks();
+        System.out.println("@@ listsize" + list.size());
         int doneCount = 0;
         int latestIdx = list.size() - 1;
-        int cntIdx = latestIdx - weeksCount * 7;
+        int cntIdx = latestIdx - weeksCount * Calendar.DAY_OF_WEEK;
 
-        for (int i = latestIdx; i >= cntIdx; i--) {
+        for (int i = latestIdx - 1; i >= cntIdx; i--) {
             try {
                 doneCount += list.get(i).isDone() ? 1 : 0;
             } catch (IndexOutOfBoundsException e) {
                 break;
             }
         }
-
+        System.out.println("@@ donecount:" + doneCount);
         return doneCount < doingCount;
     }
 

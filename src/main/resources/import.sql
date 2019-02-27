@@ -18,8 +18,8 @@ insert into repeat_day (repeat_type, todo_id, days_of_week) values ('FixedRepeat
 insert into repeat_day (repeat_type, todo_id, days_of_week) values ('FixedRepeatDay', 3, 127);
 insert into repeat_day (repeat_type, todo_id, days_of_week) values ('FixedRepeatDay', 4, 127);
 insert into repeat_day (repeat_type, todo_id, days_of_week) values ('FixedRepeatDay', 5, 127);
-insert into repeat_day (repeat_type, todo_id, doing_count, weeks_count, init_day) values ('FlexibleRepeatDay', 6, 6, 2, 1);
-insert into repeat_day (repeat_type, todo_id, doing_count, weeks_count, init_day) values ('FlexibleRepeatDay', 7, 6, 2, 1);
+insert into repeat_day (repeat_type, todo_id, doing_count, weeks_count, init_day) values ('FlexibleRepeatDay', 6, 6, 1, 1);
+insert into repeat_day (repeat_type, todo_id, doing_count, weeks_count, init_day) values ('FlexibleRepeatDay', 7, 1, 1, 1);
 
 insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (1, '2018-12-22', 1, 4);
 insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (2, '2018-12-20', 0, 5);
@@ -33,10 +33,10 @@ insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values 
 insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (8, '2018-12-24', 1,6);
 insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (9, '2018-12-24', 1,6);
 
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (10, '2018-12-24', 1, 7);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (11, '2018-12-24', 1, 7);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (12, '2018-12-24', 1, 7);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (13, '2018-12-24', 1, 7);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (14, '2018-12-24', 1, 7);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (15, '2018-12-24', 1, 7);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (16, '2018-12-24', 1, 7);
+insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (10, '2018-12-24', 0, 7);
+insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (11, '2018-12-24', 0, 7);
+insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (12, '2018-12-24', 0, 7);
+insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (13, '2018-12-24', 0, 7);
+insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (14, '2018-12-24', 0, 7);
+insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (15, '2018-12-24', 0, 7);
+insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (16, '2018-12-24', 0, 7);

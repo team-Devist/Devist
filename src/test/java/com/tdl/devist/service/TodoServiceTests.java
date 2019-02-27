@@ -63,8 +63,8 @@ public class TodoServiceTests {
     @Transactional
     public void 요일유동_설정_Todo_추가에_성공한다() {
         FlexibleRepeatDay flexibleRepeatDay = new FlexibleRepeatDay();
-        int doingCount = 5;
-        int weeksCount = 1;
+        final int doingCount = 5;
+        final int weeksCount = 1;
         flexibleRepeatDay.setDoingCount(doingCount);
         flexibleRepeatDay.setWeeksCount(weeksCount);
         generateAndSaveTestTodoInstance(TEST_USER_NAME, flexibleRepeatDay);

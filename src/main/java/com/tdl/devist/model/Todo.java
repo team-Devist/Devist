@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "todos")
 @Getter
@@ -52,14 +53,6 @@ public class Todo {
 
     public boolean isTodaysTodo() {
         return repeatDay.isTodaysTodo();
-    }
-
-    public boolean[] getCheckboxsArr() {
-        return ((FixedRepeatDay) repeatDay).getCheckboxs();
-    }
-
-    public String[] getWeekString() {
-        return ((FixedRepeatDay) repeatDay).getWEEK_DAY_STR();
     }
 
     public boolean isInitDay() {
