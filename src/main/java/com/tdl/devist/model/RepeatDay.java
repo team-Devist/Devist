@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "repeat_type")
-abstract class RepeatDay {
+public abstract class RepeatDay {
     @Id
     @GeneratedValue
     private int id;
@@ -18,5 +18,9 @@ abstract class RepeatDay {
     @MapsId
     @OneToOne(mappedBy = "repeatDay")
     @JoinColumn(name = "todo_id")
-    private Todo todo;
+    protected Todo todo;
+
+    public abstract boolean isTodaysTodo();
+    public abstract boolean isInitDay();
+    public abstract boolean initRepeatDay();
 }

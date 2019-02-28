@@ -6,6 +6,8 @@ import com.tdl.devist.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 
 @Service
 public class UserService {
@@ -35,6 +37,7 @@ public class UserService {
     public void updateDoneRate(User user) {
         int doneCount = 0;
         int totalCount = 0;
+
         for (Todo todo : user.getTodoList()) {
             int dailyCheckCount = todo.getDailyChecks().size();
             totalCount += dailyCheckCount;
@@ -47,5 +50,4 @@ public class UserService {
     public boolean hasAuthorization(String userName, Todo todo) {
         return !todo.getUser().getUsername().equals(userName);
     }
-
 }

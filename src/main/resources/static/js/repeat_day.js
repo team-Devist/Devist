@@ -1,7 +1,7 @@
 $(document).ready(function () {
     var checkedId = $("#id-fixed-or-flexible").val();
-
     toggleRepeatDay(checkedId);
+
     if (checkedId === "fixed")
         $("#btn-fixed").addClass('active');
     else if (checkedId === "flexible")

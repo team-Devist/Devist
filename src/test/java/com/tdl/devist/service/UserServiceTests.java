@@ -27,18 +27,17 @@ public class UserServiceTests {
 
     @Test
     @Transactional
+    // Note: 이 테스는은 import.sql에 종속된다
     public void TestUpdateDoneRate() {
         User user = userRepository.getOne("cjh5414");
 
-        Assert.assertEquals(25, user.getDoneRate(), 00.01);
+        Assert.assertEquals(18.1, user.getDoneRate(), 00.1);
 
         todoService.setTodoIsDone(3, true);
-        todoService.setTodoIsDone(4, true);
         todoService.updateDoneRate(3);
-        todoService.updateDoneRate(4);
         userService.updateDoneRate("cjh5414");
 
         user = userRepository.getOne("cjh5414");
-        Assert.assertEquals(50, user.getDoneRate(), 00.01);
+        Assert.assertEquals(27.2, user.getDoneRate(), 00.1);
     }
 }

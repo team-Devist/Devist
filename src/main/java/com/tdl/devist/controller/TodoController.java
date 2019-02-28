@@ -8,10 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/todos")
@@ -32,7 +36,9 @@ public class TodoController {
         User user = userService.getUserByUserName(principal.getName());
         List<Todo> todoList = user.getTodoList();
         for (Todo t : todoList) {
-            ((FixedRepeatDay) t.getRepeatDay()).convertRepeatDayByteToBooleanArr();
+            if (t.getRepeatDay() instanceof FixedRepeatDay) {
+                ((FixedRepeatDay) t.getRepeatDay()).convertRepeatDayByteToBooleanArr();
+            }
         }
         model.addAttribute("todo_list", todoList);
 
@@ -44,22 +50,16 @@ public class TodoController {
         model.addAttribute("todo", new Todo());
         model.addAttribute("fixedRepeatDay", new FixedRepeatDay());
         model.addAttribute("flexibleRepeatDay", new FlexibleRepeatDay());
+
         model.addAttribute("fixedOrFlexible", "fixed");
         return "addtodo";
     }
 
     @PostMapping("/add")
     public String add(final Principal principal, Todo todo, final FixedRepeatDay fixedRepeatDay, final FlexibleRepeatDay flexibleRepeatDay, final String fixedOrFlexible) {
-        if (fixedOrFlexible.equals("flexible")) {
-            // Todo: dealing flexible repeatday
-        }
-        else if (fixedOrFlexible.equals("fixed")) {
-            fixedRepeatDay.convertRepeatDayBooleanArrToByte();
-            todo.setRepeatDay(fixedRepeatDay);
-            fixedRepeatDay.setTodo(todo);
-
-        }
-
+        RepeatDay repeatDay = selectRepeatDay(fixedRepeatDay, flexibleRepeatDay, fixedOrFlexible);
+        repeatDay.setTodo(todo);
+        todo.setRepeatDay(repeatDay);
         todoService.addTodo(principal.getName(), todo);
 
         return "redirect:/";
@@ -86,21 +86,33 @@ public class TodoController {
 
         if (todo.getRepeatDay() instanceof FixedRepeatDay) {
             ((FixedRepeatDay) todo.getRepeatDay()).convertRepeatDayByteToBooleanArr();
-            model.addAttribute("fixedRepeatDay", (FixedRepeatDay) todo.getRepeatDay());
+            model.addAttribute("fixedRepeatDay", todo.getRepeatDay());
+            model.addAttribute("flexibleRepeatDay", new FlexibleRepeatDay());
+            model.addAttribute("fixedOrFlexible", "fixed");
         } else {
-            model.addAttribute("FlexibleRepeatDay", (FlexibleRepeatDay) todo.getRepeatDay());
+            model.addAttribute("fixedRepeatDay", new FixedRepeatDay());
+            model.addAttribute("flexibleRepeatDay", todo.getRepeatDay());
+            model.addAttribute("fixedOrFlexible", "flexible");
         }
 
         return "edittodo";
     }
 
     @PostMapping("/{id}/edit")
-    public String edit(Todo todo, @PathVariable int id, FixedRepeatDay fixedRepeatDay, FlexibleRepeatDay flexibleRepeatDay) {
-        fixedRepeatDay.convertRepeatDayBooleanArrToByte();
-        todo.setRepeatDay(fixedRepeatDay);
-
+    public String edit(Todo todo, @PathVariable int id, FixedRepeatDay fixedRepeatDay, FlexibleRepeatDay flexibleRepeatDay, final String fixedOrFlexible) {
+        RepeatDay repeatDay = selectRepeatDay(fixedRepeatDay, flexibleRepeatDay, fixedOrFlexible);
+        todo.setRepeatDay(repeatDay);
         todoService.updateTodo(id, todo);
 
         return "redirect:/todos";
+    }
+
+
+    public RepeatDay selectRepeatDay(FixedRepeatDay fixedRepeatDay, FlexibleRepeatDay flexibleRepeatDay, String flag) {
+        switch (flag) {
+            case "fixed": return fixedRepeatDay;
+            case "flexible": return flexibleRepeatDay;
+        }
+        throw new NoSuchElementException();
     }
 }

@@ -7,6 +7,7 @@ import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -32,4 +33,22 @@ public class FixedRepeatDay extends RepeatDay {
             checkboxs[checkboxs.length - 1 - i] = ((daysOfWeek >> i) & 1) == 1;
         }
     }
+
+    @Override
+    public boolean isTodaysTodo() {
+        int today = LocalDate.now().getDayOfWeek().getValue();
+        return (daysOfWeek & (1 << (today - 1))) > 0;
+    }
+
+    @Override
+    public boolean isInitDay() {
+        return false;
+    }
+
+    @Override
+    public boolean initRepeatDay() {
+        return false;
+    }
+
+
 }

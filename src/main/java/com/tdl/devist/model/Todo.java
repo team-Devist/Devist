@@ -6,10 +6,10 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "todos")
 @Getter
@@ -52,15 +52,14 @@ public class Todo {
     }
 
     public boolean isTodaysTodo() {
-        int dayOfWeek = LocalDate.now().getDayOfWeek().getValue();
-        return (((FixedRepeatDay) repeatDay).getDaysOfWeek() & (1 << (dayOfWeek - 1))) > 0;
+        return repeatDay.isTodaysTodo();
     }
 
-    public boolean[] getCheckboxsArr() {
-        return ((FixedRepeatDay) repeatDay).getCheckboxs();
+    public boolean isInitDay() {
+        return repeatDay.isInitDay();
     }
 
-    public String[] getWeekString() {
-        return ((FixedRepeatDay) repeatDay).getWEEK_DAY_STR();
+    public boolean initRepeatDay() {
+        return repeatDay.initRepeatDay();
     }
 }
