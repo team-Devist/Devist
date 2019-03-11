@@ -1,6 +1,5 @@
 package com.tdl.devist.model;
 
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,7 +7,6 @@ import lombok.ToString;
 import javax.persistence.Entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.List;
 
 @Entity
@@ -25,8 +23,13 @@ public class FlexibleRepeatDay extends RepeatDay {
         List<DailyCheck> list = todo.getDailyChecks();
         int doneCount = 0;
         int latestIdx = list.size() - 1;
-        int cntIdx = latestIdx - LocalDateTime.now().getDayOfWeek().getValue() - initDay + 1;
-        for (int i = latestIdx - 1; i > cntIdx; i--) {
+        int cntIdx = latestIdx - (LocalDateTime.now().getDayOfWeek().getValue() - initDay);
+
+        if(latestIdx - cntIdx < doneCount) {
+            return true;
+        }
+
+        for (int i = latestIdx - 1; i >= cntIdx; i--) {
             try {
                 doneCount += list.get(i).isDone() ? 1 : 0;
             } catch (IndexOutOfBoundsException e) {
