@@ -1,6 +1,8 @@
 package com.tdl.devist.controller;
 
 
+import com.tdl.devist.repository.TodoRepository;
+import com.tdl.devist.service.TodoService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,6 +42,9 @@ public class HomeControllerTests {
     private WebApplicationContext context;
     private MockMvc mockMvc;
 
+    @Autowired
+    private TodoService todoService;
+
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders
@@ -71,10 +76,7 @@ public class HomeControllerTests {
         MvcResult result = mockMvc.perform(get("/")
                 .with(user(USER_A[NAME]).password(USER_A[PWD]).roles("USER"))).andReturn();
 
-        // NOTE: 이하의 검증은 import.sql에 종속된다
-
-        ModelAndView mav = result.getModelAndView();
-        Assert.assertEquals(6, getSizeOfModel(mav, "todo_list"));
+        Assert.assertTrue(result.getResponse().getContentAsString().contains("매일 하는 일"));
     }
 
     @Test
@@ -92,8 +94,7 @@ public class HomeControllerTests {
         MvcResult result = mockMvc.perform(get("/")
                 .with(user(USER_A[NAME]).password(USER_A[PWD]).roles("USER"))).andReturn();
 
-        ModelAndView mav = result.getModelAndView();
-        Assert.assertEquals(1, getSizeOfModel(mav, "completed_todo_list"));
+        Assert.assertTrue(result.getResponse().getContentAsString().contains("매일 하는 일"));
     }
 
     @Test

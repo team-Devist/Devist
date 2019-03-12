@@ -9,8 +9,8 @@ insert into todos (todo_id, title, description, created_time, done_rate, usernam
 insert into todos (todo_id, title, description, created_time, done_rate, username) values (3, '블로그 쓰기', '수요일 마다', '2019-01-02 11:20:14.000', 0,'cjh5414');
 insert into todos (todo_id, title, description, created_time, done_rate, username) values (4, '완료된 할 일', '매일 하는 일인데 테스트 할라고 완료 시킴', '2019-01-02 11:20:14.000', 0, 'cjh5414');
 insert into todos (todo_id, title, description, created_time, done_rate, username) values (5, 'Daily check 많이 가지고 있는 할 일', 'Daily Check 4에 1개만 완료.', '2018-01-02 11:20:14.000', 25.00, 'cjh5414');
-insert into todos (todo_id, title, description, created_time, done_rate, username) values (6, '주6회 중 5회 완료', '주6회 중 5회 완료.', '2018-01-02 11:20:14.000', 25.00, 'cjh5414');
-insert into todos (todo_id, title, description, created_time, done_rate, username) values (7, '주6회 중 6회 완료', '주6회 중 6회 완료.', '2018-01-03 11:10:14.000', 0.00, 'cjh5414');
+insert into todos (todo_id, title, description, created_time, done_rate, username) values (6, '주6회 중 5회 완료', '주6회 중 5회 완료.', '2018-01-02 11:20:14.000', 0.0, 'cjh5414');
+insert into todos (todo_id, title, description, created_time, done_rate, username) values (7, '주1회 중 1회 완료', '주6회 중 1회 완료.', '2018-01-03 11:10:14.000', 0.0, 'cjh5414');
 
 
 insert into repeat_day (repeat_type, todo_id, days_of_week) values ('FixedRepeatDay', 1, 127);
@@ -22,21 +22,16 @@ insert into repeat_day (repeat_type, todo_id, doing_count, weeks_count, init_day
 insert into repeat_day (repeat_type, todo_id, doing_count, weeks_count, init_day) values ('FlexibleRepeatDay', 7, 1, 1, 1);
 
 insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (1, '2018-12-22', 1, 4);
+
 insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (2, '2018-12-20', 0, 5);
 insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (3, '2018-12-21', 0, 5);
 insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (4, '2018-12-22', 1, 5);
 insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (5, '2018-12-24', 0, 5);
 
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (5, '2018-12-24', 1,6);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (6, '2018-12-24', 1,6);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (7, '2018-12-24', 1,6);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (8, '2018-12-24', 1,6);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (9, '2018-12-24', 1,6);
+insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (6, '2018-12-24', 1, 6);
+insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (7, '2018-12-24', 1, 6);
+insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (8, '2018-12-24', 1, 6);
+insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (9, '2018-12-24', 1, 6);
+insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (10, '2018-12-24', 1, 6);
 
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (10, '2018-12-24', 0, 7);
 insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (11, '2018-12-24', 0, 7);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (12, '2018-12-24', 0, 7);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (13, '2018-12-24', 0, 7);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (14, '2018-12-24', 0, 7);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (15, '2018-12-24', 0, 7);
-insert into daily_checks (daily_check_id, planed_date, is_done, todo_id) values (16, '2018-12-24', 0, 7);

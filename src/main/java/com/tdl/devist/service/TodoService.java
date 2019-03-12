@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -111,5 +113,17 @@ public class TodoService {
 
         todo.setDoneRate((double)doneCount / totalCount * 100.00);
         todoRepository.save(todo);
+    }
+
+    public List<Todo> getTodaysTodoList() {
+        List<Todo> todoList = todoRepository.findAll();
+        List<Todo> todaysTodoList = new ArrayList<>();
+
+        for (Todo todo : todoList) {
+            if (todo.isTodaysTodo())
+                todaysTodoList.add(todo);
+        }
+
+        return todaysTodoList;
     }
 }
