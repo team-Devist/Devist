@@ -42,26 +42,26 @@
                     <label for="todo_fixed_repeat" class="col-sm-4 col-form-label">Fixed Repeat days</label>
                     <div class="col-sm-10" id="todo_fixed_repeat" th:object="${fixedRepeatDay}">
 
-                        <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[0]} ? 'checked'" th:field="*{checkboxs[0]}"/>
-                        <label th:text="SUN"></label>
-
-                        <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[1]} ? 'checked'" th:field="*{checkboxs[1]}"/>
-                        <label th:text="MON"></label>
-
-                        <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[2]} ? 'checked'" th:field="*{checkboxs[2]}"/>
-                        <label th:text="TUE"></label>
-
-                        <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[3]} ? 'checked'" th:field="*{checkboxs[3]}"/>
-                        <label th:text="WED"></label>
-
-                        <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[4]} ? 'checked'" th:field="*{checkboxs[4]}"/>
-                        <label th:text="THU"></label>
+                        <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[6]} ? 'checked'" th:field="*{checkboxs[6]}"/>
+                        <label th:text="월"></label>
 
                         <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[5]} ? 'checked'" th:field="*{checkboxs[5]}"/>
-                        <label th:text="FRI"></label>
+                        <label th:text="화"></label>
 
-                        <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[6]} ? 'checked'" th:field="*{checkboxs[6]}"/>
-                        <label th:text="SAT"></label>
+                        <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[4]} ? 'checked'" th:field="*{checkboxs[4]}"/>
+                        <label th:text="수"></label>
+
+                        <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[3]} ? 'checked'" th:field="*{checkboxs[3]}"/>
+                        <label th:text="목"></label>
+
+                        <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[2]} ? 'checked'" th:field="*{checkboxs[2]}"/>
+                        <label th:text="금"></label>
+
+                        <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[1]} ? 'checked'" th:field="*{checkboxs[1]}"/>
+                        <label th:text="토"></label>
+
+                        <input th:type="checkbox" th:checked="${fixedRepeatDay.checkboxs[0]} ? 'checked'" th:field="*{checkboxs[0]}"/>
+                        <label th:text="일"></label>
                     </div>
                 </div>
                 <div id="div-flexiblerepeatday" class="form-group row" style="display: none;">

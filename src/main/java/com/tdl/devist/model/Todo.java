@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity(name = "todos")
 @Getter
@@ -55,8 +54,8 @@ public class Todo {
         return latestDailyCheck.isDone();
     }
 
-    public boolean isTodaysTodo() {
-        return repeatDay.isTodaysTodo();
+    public boolean isOnToday() {
+        return repeatDay.isOnToday();
     }
 
     public boolean isInitDay() {
