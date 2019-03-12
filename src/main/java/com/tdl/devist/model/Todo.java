@@ -51,7 +51,7 @@ public class Todo {
     }
 
     public boolean isTodaysTodo() {
-        return repeatDay.isTodaysTodo();
+        return repeatDay.isOnToday();
     }
 
     public boolean isInitDay() {

@@ -20,8 +20,8 @@ public abstract class RepeatDay {
     @JoinColumn(name = "todo_id")
     protected Todo todo;
 
-    public abstract boolean isTodaysTodo();
+    public abstract boolean isOnToday();
     public abstract boolean isInitDay();
     public abstract boolean initRepeatDay();
-    public abstract boolean isTodoOn(int dayOfWeek);
+    public abstract boolean isOn(int dayOfWeek);
 }

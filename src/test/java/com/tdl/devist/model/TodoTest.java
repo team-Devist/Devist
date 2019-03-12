@@ -3,7 +3,6 @@ package com.tdl.devist.model;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.annotation.Profile;
 
@@ -38,7 +37,7 @@ public class TodoTest {
         repeatDay.convertRepeatDayBooleanArrToByte();
 
         // then
-        Assert.assertTrue(repeatDay.isTodoOn(DayOfWeek.TUESDAY.getValue()));
+        Assert.assertTrue(repeatDay.isOn(DayOfWeek.TUESDAY.getValue()));
     }
     // 월화수목금토일
     // 0000001
@@ -54,7 +53,7 @@ public class TodoTest {
         System.out.println(repeatDay.getDaysOfWeek());
 
         // then
-        Assert.assertFalse(repeatDay.isTodoOn(DayOfWeek.SATURDAY.getValue()));
+        Assert.assertFalse(repeatDay.isOn(DayOfWeek.SATURDAY.getValue()));
     }
 
     @Test
@@ -72,7 +71,7 @@ public class TodoTest {
         todo.addDailyCheck(generateTestDailyCheck(LocalDate.of(2018, 12, 25), false)); // 오늘
 
         // then
-        Assert.assertTrue(repeatDay.isTodoOn(DayOfWeek.FRIDAY.getValue()));
+        Assert.assertTrue(repeatDay.isOn(DayOfWeek.FRIDAY.getValue()));
     }
 
     @Test
@@ -91,7 +90,7 @@ public class TodoTest {
         todo.addDailyCheck(generateTestDailyCheck(LocalDate.of(2018, 12, 25), false)); // 오늘
 
         // then
-        Assert.assertFalse(repeatDay.isTodoOn(DayOfWeek.FRIDAY.getValue()));
+        Assert.assertFalse(repeatDay.isOn(DayOfWeek.FRIDAY.getValue()));
     }
 
     private DailyCheck generateTestDailyCheck(LocalDate localDate, boolean isDone) {

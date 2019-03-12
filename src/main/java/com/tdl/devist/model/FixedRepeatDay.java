@@ -37,7 +37,7 @@ public class FixedRepeatDay extends RepeatDay {
     }
 
     @Override
-    public boolean isTodaysTodo() {
+    public boolean isOnToday() {
         int today = LocalDate.now().getDayOfWeek().getValue();
         return (daysOfWeek & (1 << (today - 1))) > 0;
 
@@ -54,7 +54,7 @@ public class FixedRepeatDay extends RepeatDay {
     }
 
     @Override
-    public boolean isTodoOn(int w) {
+    public boolean isOn(int w) {
         return (daysOfWeek & (1 << (w - 1))) > 0;
     }
 

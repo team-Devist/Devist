@@ -19,8 +19,8 @@ public class FlexibleRepeatDay extends RepeatDay {
     private int initDay = 1;
 
     @Override
-    public boolean isTodaysTodo() {
-        return isTodoOn(LocalDateTime.now().getDayOfWeek().getValue());
+    public boolean isOnToday() {
+        return isOn(LocalDateTime.now().getDayOfWeek().getValue());
     }
 
     @Override
@@ -36,7 +36,7 @@ public class FlexibleRepeatDay extends RepeatDay {
     }
 
     @Override
-    public boolean isTodoOn(int w) {
+    public boolean isOn(int w) {
         List<DailyCheck> list = todo.getDailyChecks();
         int doneCount = 0;
         int latestIdx = list.size() - 1;
