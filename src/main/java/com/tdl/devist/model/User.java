@@ -42,7 +42,7 @@ public class User {
         List<Todo> todayTodoList = new ArrayList<>();
 
         for (Todo todo: todoList)
-            if (todo.isTodaysTodo() && !todo.isDone())
+            if (todo.isOnToday() && !todo.isDone())
                 todayTodoList.add(todo);
 
         return todayTodoList;
@@ -52,7 +52,7 @@ public class User {
         List<Todo> completedTodayTodoList = new ArrayList<>();
 
         for (Todo todo: todoList)
-            if (todo.isTodaysTodo() && todo.isDone())
+            if (todo.isOnToday() && todo.isDone())
                 completedTodayTodoList.add(todo);
 
         return completedTodayTodoList;

@@ -54,8 +54,8 @@ public class FixedRepeatDay extends RepeatDay {
     }
 
     @Override
-    public boolean isOn(int w) {
-        return (daysOfWeek & (1 << (w - 1))) > 0;
+    public boolean isOn(int dayOfWeek) {
+        return (daysOfWeek & (1 << (dayOfWeek - 1))) > 0;
     }
 
 

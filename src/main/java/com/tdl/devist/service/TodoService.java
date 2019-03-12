@@ -1,7 +1,6 @@
 package com.tdl.devist.service;
 
 import com.tdl.devist.model.DailyCheck;
-import com.tdl.devist.model.FlexibleRepeatDay;
 import com.tdl.devist.model.Todo;
 import com.tdl.devist.model.User;
 import com.tdl.devist.repository.DailyCheckRepository;
@@ -11,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,7 +35,7 @@ public class TodoService {
         todo.setUser(user);
         todo.setCreatedTime(LocalDateTime.now());
         todoRepository.save(todo);
-        if (todo.isTodaysTodo()) {
+        if (todo.isOnToday()) {
             DailyCheck dailyCheck = dailyCheckService.createDailyCheckByTodo(todo);
             todo.setLatestDailyCheck(dailyCheck);
             todo.addDailyCheck(dailyCheck);
@@ -76,7 +74,7 @@ public class TodoService {
         Set<User> userSet = new HashSet<>();
         for (Todo todo: todoRepository.findAll()) {
             // Todo: 같은 날에 두번 실행되지 않도록 하는 예외처리 추가하기.
-            if (todo.isTodaysTodo()) {
+            if (todo.isOnToday()) {
                 DailyCheck dailyCheck = dailyCheckService.createDailyCheckByTodo(todo);
                 todo.setLatestDailyCheck(dailyCheck);
                 todoRepository.save(todo);
@@ -94,7 +92,7 @@ public class TodoService {
 
     public void setTodoIsDone(int todoId, boolean isDone) {
         Todo todo = todoRepository.getOne(todoId);
-        if (!todo.isTodaysTodo()) return; // Todo: Error 처리
+        if (!todo.isOnToday()) return; // Todo: Error 처리
         DailyCheck latestDailyCheck = todo.getLatestDailyCheck();
         latestDailyCheck.setDone(isDone);
         dailyCheckRepository.save(latestDailyCheck);

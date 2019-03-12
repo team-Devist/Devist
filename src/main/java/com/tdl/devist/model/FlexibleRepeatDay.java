@@ -36,11 +36,11 @@ public class FlexibleRepeatDay extends RepeatDay {
     }
 
     @Override
-    public boolean isOn(int w) {
+    public boolean isOn(int dayOfWeek) {
         List<DailyCheck> list = todo.getDailyChecks();
         int doneCount = 0;
         int latestIdx = list.size() - 1;
-        int cntIdx = latestIdx - (w - initDay);
+        int cntIdx = latestIdx - (dayOfWeek - initDay);
 
         if (latestIdx - cntIdx < doneCount) {
             return true;

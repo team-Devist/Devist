@@ -50,7 +50,7 @@ public class Todo {
         return latestDailyCheck.isDone();
     }
 
-    public boolean isTodaysTodo() {
+    public boolean isOnToday() {
         return repeatDay.isOnToday();
     }
 
