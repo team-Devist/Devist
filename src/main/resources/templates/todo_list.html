@@ -19,7 +19,7 @@
         </thead>
 
         <tbody>
-        <tr th:each="todo: ${todo_list}">
+        <tr th:each="todo: ${notdone_today_fixed_todo_list}">
             <td><span th:text="${todo.title}"></span></td>
             <td><span th:text="${todo.description}"></span></td>
             <td>

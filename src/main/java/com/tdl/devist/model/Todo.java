@@ -38,6 +38,10 @@ public class Todo {
     @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
     private List<DailyCheck> dailyChecks = new ArrayList<>();
 
+    public enum Type {
+        FIXED, FLEXIBLE, TYPE_ERROR;
+    }
+
     public boolean addDailyCheck(DailyCheck dailyCheck) {
         return dailyChecks.add(dailyCheck);
     }
@@ -60,5 +64,11 @@ public class Todo {
 
     public boolean initRepeatDay() {
         return repeatDay.initRepeatDay();
+    }
+
+    public Type getType() {
+        if (this.repeatDay instanceof FixedRepeatDay) return Type.FIXED;
+        else if (this.repeatDay instanceof FlexibleRepeatDay) return Type.FLEXIBLE;
+        return Type.TYPE_ERROR;
     }
 }

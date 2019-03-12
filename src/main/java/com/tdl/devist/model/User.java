@@ -1,5 +1,6 @@
 package com.tdl.devist.model;
 
+import com.tdl.devist.dto.TodoListDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,7 +39,8 @@ public class User {
         authorities.add(authority);
     }
 
-    public List<Todo> getTodayTodoList() {
+    public TodoListDto getTodoListDto() {
+        return new TodoListDto(this.todoList);
         List<Todo> todayTodoList = new ArrayList<>();
 
         for (Todo todo: todoList)
@@ -56,9 +58,5 @@ public class User {
                 completedTodayTodoList.add(todo);
 
         return completedTodayTodoList;
-    }
-
-    private int indexOf(Todo todo) {
-        return todoList.indexOf(todo);
     }
 }
