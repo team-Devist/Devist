@@ -1,5 +1,6 @@
 package com.tdl.devist.controller;
 
+import com.tdl.devist.dto.TodoListDto;
 import com.tdl.devist.model.Todo;
 import com.tdl.devist.model.User;
 import com.tdl.devist.service.UserService;
@@ -28,10 +29,16 @@ public class HomeController {
             return "home";
         else {
             User user = userService.getUserByUserName(principal.getName());
-            List<Todo> todoList = user.getTodayTodoList();
-            List<Todo> completedTodoList = user.getCompletedTodayTodoList();
-            model.addAttribute("todo_list", todoList);
-            model.addAttribute("completed_todo_list", completedTodoList);
+            TodoListDto todoListDto = user.getTodoListDto();
+            List<Todo> fixedNotDoneTodoList = todoListDto.getNotDoneTodayFixedTodoList();
+            List<Todo> fixedDoneTodoList = todoListDto.getDoneTodayFixedTodoList();
+            List<Todo> flexibleNotDoneTodoList = todoListDto.getNotDoneTodayFlexibleTodoList();
+            List<Todo> flexibleDoneTodoList = todoListDto.getDoneTodayFlexibleTodoList();
+
+            model.addAttribute("notdone_today_fixed_todo_list", fixedNotDoneTodoList);
+            model.addAttribute("done_today_fixed_todo_list", fixedDoneTodoList);
+            model.addAttribute("notdone_today_flexible_todo_list", flexibleNotDoneTodoList);
+            model.addAttribute("done_today_flexible_todo_list", flexibleDoneTodoList);
             model.addAttribute("user", user);
 
             return "user_home";

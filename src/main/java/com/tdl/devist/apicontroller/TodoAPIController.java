@@ -1,6 +1,7 @@
 package com.tdl.devist.apicontroller;
 
 import com.tdl.devist.apicontroller.json_pojo.UserHomeData;
+import com.tdl.devist.dto.TodoListDto;
 import com.tdl.devist.model.User;
 import com.tdl.devist.service.TodoService;
 import com.tdl.devist.service.UserService;
@@ -29,8 +30,9 @@ public class TodoAPIController {
         }
         else {
             User user = userService.getUserByUserName(principal.getName());
-            int todoSize = user.getTodayTodoList().size();
-            int completedTodoSize = user.getCompletedTodayTodoList().size();
+            TodoListDto todoListDto = user.getTodoListDto();
+            int todoSize = todoListDto.getNotDoneTodayFixedTodoList().size();
+            int completedTodoSize = todoListDto.getDoneTodayFixedTodoList().size();
             double userDoneRate = user.getDoneRate();
 
             return new UserHomeData(todoSize, completedTodoSize, userDoneRate);

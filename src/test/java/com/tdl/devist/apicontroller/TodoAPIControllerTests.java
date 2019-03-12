@@ -52,8 +52,8 @@ public class TodoAPIControllerTests {
     @Transactional
     public void testGetUserHomeData() throws Exception {
         User user = userRepository.getOne("cjh5414");
-        int todoSize = user.getTodayTodoList().size();
-        int completedTodoSize = user.getCompletedTodayTodoList().size();
+        int todoSize = user.getTodoListDto().getNotDoneTodayFixedTodoList().size();
+        int completedTodoSize = user.getTodoListDto().getDoneTodayFixedTodoList().size();
         double userDoneRate = user.getDoneRate();
 
         mockMvc.perform(get("/api/user-home-data")

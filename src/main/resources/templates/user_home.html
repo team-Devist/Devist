@@ -22,16 +22,16 @@
         <div id="todo-list-header" class="text-center">
             <h3>Today's Todo List</h3>
             <div id="todo-list-status">
-                <h3 th:if="${todo_list.isEmpty() and completed_todo_list.isEmpty()}">
+                <h3 th:if="${notdone_today_fixed_todo_list.isEmpty() and done_today_fixed_todo_list.isEmpty()}">
                     할 일을 추가하세요!
                 </h3>
-                <h3 th:if="${todo_list.isEmpty() and !completed_todo_list.isEmpty()}">
+                <h3 th:if="${notdone_today_fixed_todo_list.isEmpty() and !done_today_fixed_todo_list.isEmpty()}">
                     오늘의 할 일 완료!
                 </h3>
             </div>
         </div>
         <div id="todo-list" class="list-group list-group-flush">
-            <a th:each="todo : ${todo_list}" class="list-group-item list-group-item-action" th:href="'#des-'+${todo.id}" data-toggle="collapse" aria-expanded="false" th:aria-controls="'#des-'+${todo.id}">
+            <a th:each="todo : ${notdone_today_fixed_todo_list}" class="list-group-item list-group-item-action" th:href="'#des-'+${todo.id}" data-toggle="collapse" aria-expanded="false" th:aria-controls="'#des-'+${todo.id}">
                 <button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo" th:data-id="${todo.id}"></button>
                 <span th:text="${todo.title}"></span>
                 <div style="float: right">
@@ -46,7 +46,21 @@
         <br/>
         <button type="button" id="btn-showing-completed-todo-list" class="btn btn-sm btn-outline-secondary">완료된 할 일</button>
         <div id="completed-todo-list" class="list-group list-group-flush">
-            <a th:each="todo : ${completed_todo_list}" class="list-group-item list-group-item-action" data-toggle="collapse" th:href="'#des-'+${todo.id}" aria-expanded="false" th:aria-controls="'#des-'+${todo.id}">
+            <a th:each="todo : ${done_today_fixed_todo_list}" class="list-group-item list-group-item-action" data-toggle="collapse" th:href="'#des-'+${todo.id}" aria-expanded="false" th:aria-controls="'#des-'+${todo.id}">
+                <button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo" th:data-id="${todo.id}"></button>
+                <span th:text="${todo.title}"></span>
+                <div style="float: right">
+                    <span th:text="${todo.doneRate}+'%'"></span>
+                </div>
+                <div class="collapse" th:id="'des-'+${todo.id}">
+                    <p th:text="${todo.description}"></p>
+                </div>
+            </a>
+        </div>
+
+        <div id="notdone-flexible-todo-list" class="list-group list-group-flush">
+            <!--수정 필요-->
+            <a th:each="todo : ${notdone_today_flexible_todo_list}" class="list-group-item list-group-item-action" th:href="'#des-'+${todo.id}" data-toggle="collapse" aria-expanded="false" th:aria-controls="'#des-'+${todo.id}">
                 <button type="button" class="btn btn-outline-secondary btn-sm btn-complete-todo" th:data-id="${todo.id}"></button>
                 <span th:text="${todo.title}"></span>
                 <div style="float: right">

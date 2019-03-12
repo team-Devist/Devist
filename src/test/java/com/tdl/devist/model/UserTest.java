@@ -61,7 +61,7 @@ public class UserTest {
     @Transactional
     public void testGetTodayTodoList() {
         User user = userRepository.getOne("cjh5414");
-        List<Todo> todoList = user.getTodayTodoList();
+        List<Todo> todoList = user.getTodoListDto().getNotDoneTodayFixedTodoList();
 
         int todoSize = 3;
         switch (LocalDate.now().getDayOfWeek().getValue()) {
@@ -78,7 +78,7 @@ public class UserTest {
     @Transactional
     public void testGetCompletedTodayTodoList() {
         User user = userRepository.getOne("cjh5414");
-        List<Todo> todoList = user.getCompletedTodayTodoList();
+        List<Todo> todoList = user.getTodoListDto().getDoneTodayFixedTodoList();
 
         Assert.assertEquals(0, todoList.size());
 
@@ -86,7 +86,7 @@ public class UserTest {
         todoService.setTodoIsDone(todo.getId(), true);
 
         user = userRepository.getOne("cjh5414");
-        todoList = user.getCompletedTodayTodoList();
+        todoList = user.getTodoListDto().getDoneTodayFixedTodoList();
 
         Assert.assertEquals(1, todoList.size());
         Assert.assertEquals("완료된 할 일", todoList.get(0).getTitle());
