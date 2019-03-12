@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import java.lang.annotation.Repeatable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -176,7 +175,7 @@ public class TodoServiceTests {
 
         List<Todo> todoList = todoRepository.findAll();
         for (Todo todo : todoList)
-            if (todo.isTodaysTodo())
+            if (todo.isOnToday())
                 Assert.assertFalse(todo.isDone());
     }
 
@@ -200,7 +199,7 @@ public class TodoServiceTests {
         int createdDailyCheckCount = 0;
 
         for (Todo todo : todoList)
-            if (todo.isTodaysTodo())
+            if (todo.isOnToday())
                 createdDailyCheckCount++;
 
         todoService.renewTodos();
