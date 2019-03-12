@@ -23,4 +23,5 @@ public abstract class RepeatDay {
     public abstract boolean isTodaysTodo();
     public abstract boolean isInitDay();
     public abstract boolean initRepeatDay();
+    public abstract boolean isTodoOn(int dayOfWeek);
 }

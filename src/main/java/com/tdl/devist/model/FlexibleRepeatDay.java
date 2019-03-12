@@ -20,23 +20,7 @@ public class FlexibleRepeatDay extends RepeatDay {
 
     @Override
     public boolean isTodaysTodo() {
-        List<DailyCheck> list = todo.getDailyChecks();
-        int doneCount = 0;
-        int latestIdx = list.size() - 1;
-        int cntIdx = latestIdx - (LocalDateTime.now().getDayOfWeek().getValue() - initDay);
-
-        if(latestIdx - cntIdx < doneCount) {
-            return true;
-        }
-
-        for (int i = latestIdx - 1; i >= cntIdx; i--) {
-            try {
-                doneCount += list.get(i).isDone() ? 1 : 0;
-            } catch (IndexOutOfBoundsException e) {
-                break;
-            }
-        }
-        return doneCount < doingCount;
+        return isTodoOn(LocalDateTime.now().getDayOfWeek().getValue());
     }
 
     @Override
@@ -49,5 +33,27 @@ public class FlexibleRepeatDay extends RepeatDay {
     public boolean initRepeatDay() {
         initDay = 1;
         return true;
+    }
+
+    @Override
+    public boolean isTodoOn(int w) {
+        List<DailyCheck> list = todo.getDailyChecks();
+        int doneCount = 0;
+        int latestIdx = list.size() - 1;
+        int cntIdx = latestIdx - (w - initDay);
+
+        if (latestIdx - cntIdx < doneCount) {
+            return true;
+        }
+
+        for (int i = latestIdx - 1; i >= cntIdx; i--) {
+            try {
+                doneCount += list.get(i).isDone() ? 1 : 0;
+                if(doneCount > doingCount) return false;
+            } catch (IndexOutOfBoundsException e) {
+                break;
+            }
+        }
+        return doneCount < doingCount;
     }
 }

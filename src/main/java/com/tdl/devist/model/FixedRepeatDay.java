@@ -7,7 +7,9 @@ import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.WeekFields;
 
 @Setter
 @Getter
@@ -19,17 +21,17 @@ public class FixedRepeatDay extends RepeatDay {
     @Transient
     private boolean[] checkboxs = {true, true, true, true, true, true, true};
     @Transient
-    private final String[] WEEK_DAY_STR = {"일", "월", "화", "수", "목", "금", "토"};
+    private final String[] WEEK_DAY_STR = {"월", "화", "수", "목", "금", "토", "일"};
 
     public void convertRepeatDayBooleanArrToByte() {
         daysOfWeek = 0;
-        for (int i = checkboxs.length - 1; i >= 0; i--) {
+        for (int i = 0; i < checkboxs.length; i++) {
             daysOfWeek |= checkboxs[i] ? (byte) (1 << (checkboxs.length - 1) - i) : 0;
         }
     }
 
     public void convertRepeatDayByteToBooleanArr() {
-        for (int i = 0; i < checkboxs.length; i++) {
+        for (int i = checkboxs.length - 1; i >= 0; i--) {
             checkboxs[checkboxs.length - 1 - i] = ((daysOfWeek >> i) & 1) == 1;
         }
     }
@@ -38,6 +40,7 @@ public class FixedRepeatDay extends RepeatDay {
     public boolean isTodaysTodo() {
         int today = LocalDate.now().getDayOfWeek().getValue();
         return (daysOfWeek & (1 << (today - 1))) > 0;
+
     }
 
     @Override
@@ -48,6 +51,11 @@ public class FixedRepeatDay extends RepeatDay {
     @Override
     public boolean initRepeatDay() {
         return false;
+    }
+
+    @Override
+    public boolean isTodoOn(int w) {
+        return (daysOfWeek & (1 << (w - 1))) > 0;
     }
 
 

@@ -110,7 +110,9 @@ public class TodoController {
 
     public RepeatDay selectRepeatDay(FixedRepeatDay fixedRepeatDay, FlexibleRepeatDay flexibleRepeatDay, String flag) {
         switch (flag) {
-            case "fixed": return fixedRepeatDay;
+            case "fixed":
+                fixedRepeatDay.convertRepeatDayBooleanArrToByte();
+                return fixedRepeatDay;
             case "flexible": return flexibleRepeatDay;
         }
         throw new NoSuchElementException();
