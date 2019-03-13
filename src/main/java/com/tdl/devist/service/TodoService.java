@@ -118,7 +118,7 @@ public class TodoService {
         List<Todo> todaysTodoList = new ArrayList<>();
 
         for (Todo todo : todoList) {
-            if (todo.isTodaysTodo())
+            if (todo.isOnToday())
                 todaysTodoList.add(todo);
         }
 

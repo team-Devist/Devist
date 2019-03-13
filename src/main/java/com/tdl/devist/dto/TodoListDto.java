@@ -27,7 +27,7 @@ public class TodoListDto {
     public List<Todo> getNotDoneTodayFixedTodoList() {
         List<Todo> res = new ArrayList<>();
         for (Todo todo : notDoneFixedTodoList)
-            if (todo.isTodaysTodo())
+            if (todo.isOnToday())
                 res.add(todo);
 
         return res;
@@ -36,7 +36,7 @@ public class TodoListDto {
     public List<Todo> getDoneTodayFixedTodoList() {
         List<Todo> res = new ArrayList<>();
         for (Todo todo : doneFixedTodoList)
-            if (todo.isTodaysTodo())
+            if (todo.isOnToday())
                 res.add(todo);
 
         return res;
@@ -45,7 +45,7 @@ public class TodoListDto {
     public List<Todo> getNotDoneTodayFlexibleTodoList() {
         List<Todo> res = new ArrayList<>();
         for (Todo todo : notDoneFlexibleTodoList)
-            if (todo.isTodaysTodo())
+            if (todo.isOnToday())
                 res.add(todo);
 
         return res;
@@ -54,7 +54,7 @@ public class TodoListDto {
     public List<Todo> getDoneTodayFlexibleTodoList() {
         List<Todo> res = new ArrayList<>();
         for (Todo todo : doneFlexibleTodoList)
-            if (todo.isTodaysTodo())
+            if (todo.isOnToday())
                 res.add(todo);
 
         return res;
