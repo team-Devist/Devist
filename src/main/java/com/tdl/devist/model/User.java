@@ -41,22 +41,5 @@ public class User {
 
     public TodoListDto getTodoListDto() {
         return new TodoListDto(this.todoList);
-        List<Todo> todayTodoList = new ArrayList<>();
-
-        for (Todo todo: todoList)
-            if (todo.isOnToday() && !todo.isDone())
-                todayTodoList.add(todo);
-
-        return todayTodoList;
-    }
-
-    public List<Todo> getCompletedTodayTodoList() {
-        List<Todo> completedTodayTodoList = new ArrayList<>();
-
-        for (Todo todo: todoList)
-            if (todo.isOnToday() && todo.isDone())
-                completedTodayTodoList.add(todo);
-
-        return completedTodayTodoList;
     }
 }

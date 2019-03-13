@@ -63,6 +63,11 @@ public class UserTest {
         User user = userRepository.getOne("cjh5414");
         List<Todo> todoList = user.getTodoListDto().getNotDoneTodayFixedTodoList();
 
+        // Note : import.sql 에 종속.
+        // 매일 하는 일 3개
+        // 화, 일 하는일 1개
+        // 수요일 만 하는일 1개
+
         int todoSize = 3;
         switch (LocalDate.now().getDayOfWeek().getValue()) {
             case 2:
